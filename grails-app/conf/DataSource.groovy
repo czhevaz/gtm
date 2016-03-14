@@ -1,10 +1,10 @@
 dataSource {
     pooled = true
-    driverClassName = 'com.mysql.jdbc.Driver'
-    dialect = org.hibernate.dialect.MySQL5InnoDBDialect
-    url = "jdbc:mysql://localhost/gtm"
-    username = 'root'
-    password = ''
+    driverClassName = 'org.postgresql.Driver'
+    dialect = org.hibernate.dialect.PostgreSQLDialect
+    url = 'jdbc:postgresql://localhost:5432/gtm'
+    username = 'postgres'
+    password = '123456'
 }
 
 hibernate {
@@ -18,31 +18,31 @@ environments {
         dataSource {
             dbCreate = "update"
             //dbCreate = "create-drop"
-            url = "jdbc:mysql://localhost/gtm"
-            driverClassName = 'com.mysql.jdbc.Driver'
-            username = 'root'
-            password = ''
-            dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+            url = "jdbc:postgresql://localhost:5432/gtm"
+            driverClassName = 'org.postgresql.Driver'
+            username = 'postgres'
+            password = '123456'
+            dialect = org.hibernate.dialect.PostgreSQLDialect
         }
     }
     test {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:mysql://localhost/gtm"
-            driverClassName = 'com.mysql.jdbc.Driver'
-            username = 'root'
-            password = ''
-            dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+            url = "jdbc:postgresql://localhost:5432/gtm"
+            driverClassName = 'org.postgresql.Driver'
+            username = 'postgres'
+            password = '123456'
+            dialect = org.hibernate.dialect.PostgreSQLDialect
         }
     }
     production {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:mysql://localhost/gtm"
-            driverClassName = 'com.mysql.jdbc.Driver'
-            username = 'root'
-            password = ''
-            dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+            url = "jdbc:postgresql://localhost:5432/gtm"
+            driverClassName = 'org.postgresql.Driver'
+            username = 'postgres'
+            password = '123456'
+            dialect = org.hibernate.dialect.PostgreSQLDialect
             pooled = true
             properties {
                maxActive = -1

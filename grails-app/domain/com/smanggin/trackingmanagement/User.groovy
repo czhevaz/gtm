@@ -19,6 +19,7 @@ class User {
     static  hasMany = [userPlants:UserPlants]
 
     static  mapping = {
+        table('user_account')
         id name : 'serverId',
             type: 'string',
             generator: 'assigned'
