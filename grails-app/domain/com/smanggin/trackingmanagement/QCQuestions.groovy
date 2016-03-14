@@ -2,18 +2,49 @@ package com.smanggin.trackingmanagement
 
 class QCQuestions {
 
-    Number qcSequence
-    String qcParameterDesc
-    String qcNotes
+    def globalService
+
+    String serverId
+    QCMaster qCMaster
+    Number sequenceNo
+    Number parameterType 
+    String parameterDesc
+    String notes
+
+    String  createdBy
+    String  updatedBy
+    Date    dateCreated
+    Date    lastUpdated
+
+    static  belongsTo   = [ QCMaster]
+
+    static  hasMany = [qCDetails:QCDetail,qCOptions:QCOptions]
+
+    static  mapping = {
+        id name : 'serverId',
+            type: 'string',
+            generator: 'assigned'
+
+        parameterDesc type: 'text'
+        notes type: 'text'    
+
+        version true
+    }
 
     static constraints = {
-        qcSequence nullable: false, unique: true
-        qcParameterDesc blank: true
-        qcNotes blank: true
+        sequenceNo nullable: true
+        parameterDesc blank: true
+        notes blank: true
+        updatedBy nullable:true
     }
 
-    static mapping = {
-        qcParameterDesc type: 'text'
-        qcNotes type: 'text'
+    def beforeValidate(){
+        
+        if(!serverId || serverId ==null){
+            
+            serverId = globalService.UUIDGenerator()
+        }
     }
+
+    
 }
