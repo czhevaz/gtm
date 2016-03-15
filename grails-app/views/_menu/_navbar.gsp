@@ -67,7 +67,7 @@
 					</li>
 					
 					<li class="controller">
-						<g:link controller="ProcessQc">
+						<g:link controller="ProcessQC">
 							Process Qc
 						</g:link>
 					</li>

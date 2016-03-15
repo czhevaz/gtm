@@ -34,6 +34,7 @@ class Line {
         serverId blank: false
         code blank: false, unique: true, nullable: false
         name blank: false, nullable: false
+        plant nullable: true
         updatedBy nullable:true
     }
 

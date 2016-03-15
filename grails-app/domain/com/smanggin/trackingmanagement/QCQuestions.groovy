@@ -16,7 +16,7 @@ class QCQuestions {
     Date    dateCreated
     Date    lastUpdated
 
-    static  belongsTo   = [ QCMaster]
+    static  belongsTo   = [QCMaster]
 
     static  hasMany = [qCDetails:QCDetail,qCOptions:QCOptions]
 
