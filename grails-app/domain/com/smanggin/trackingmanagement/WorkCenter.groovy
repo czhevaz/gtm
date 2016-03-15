@@ -16,6 +16,8 @@ class WorkCenter {
 	Date	dateCreated
 	Date	lastUpdated
 
+	String toString() { return name }
+
 	static	belongsTo	= [ Process, Plant, Line]
 
 	static  hasMany = [qCHeaders:QCHeader]

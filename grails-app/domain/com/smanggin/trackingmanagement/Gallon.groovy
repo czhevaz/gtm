@@ -1,7 +1,7 @@
 package com.smanggin.trackingmanagement
 
 class Gallon {
-	
+
 	def globalService
 
 	String serverId
@@ -12,6 +12,8 @@ class Gallon {
 	String  updatedBy
 	Date	dateCreated
 	Date	lastUpdated
+
+	String toString() { return code } 
 
 	static  hasMany = [productionInDetails:ProductionInDetail, qCHeaders:QCHeader]
 

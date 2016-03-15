@@ -8,10 +8,16 @@ class Line {
     String code
     String name
 
+   	Plant plant
+
     String  createdBy
 	String  updatedBy
 	Date	dateCreated
 	Date	lastUpdated
+
+	String toString() { return name }
+
+	static	belongsTo	= [Plant]
 
 	static  hasMany = [lineBalances:LineBalance, workCenters:WorkCenter]
 

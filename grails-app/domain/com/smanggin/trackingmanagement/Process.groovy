@@ -13,6 +13,8 @@ class Process {
 	Date	dateCreated
 	Date	lastUpdated
 
+	String toString() { return name }
+
 	static  hasMany = [processQCs:ProcessQC, workCenters:WorkCenter]
 
 	static	mapping = {
