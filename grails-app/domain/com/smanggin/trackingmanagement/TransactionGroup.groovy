@@ -6,7 +6,7 @@ class TransactionGroup {
 
 	String serverId
 	String name
-	Number transactionType /* 0 == production in & 1 == QC*/
+	String transactionType /* 0 == production in & 1 == QC*/
 	String prefix
 	String numberingMethod
 	String width
