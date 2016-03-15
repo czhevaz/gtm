@@ -29,7 +29,7 @@
 
 				<g:form method="post" class="form-horizontal" >
 					<div class="box-body">
-						<g:hiddenField name="id" value="${userInstance?.id}" />
+						<g:hiddenField name="id" value="${userInstance?.serverId}" />
 						<g:hiddenField name="version" value="${userInstance?.version}" />
 						
 						<fieldset class="form">

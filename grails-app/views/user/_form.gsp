@@ -13,7 +13,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: userInstance, field: 'password', 'error')} required">
 				<label for="password" class="col-sm-3 control-label"><g:message code="user.password.label" default="Password" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-9">
-					<g:textField name="password" class="form-control" maxlength="15" required="" value="${userInstance?.password}"/>
+					<g:passwordField name="password" class="form-control" maxlength="15" required="" value="${userInstance?.password}"/>
 					<span class="help-inline">${hasErrors(bean: userInstance, field: 'password', 'error')}</span>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: userInstance, field: 'updatedBy', 'error')} ">
 				<label for="updatedBy" class="col-sm-3 control-label"><g:message code="user.updatedBy.label" default="Updated By" /></label>
 				<div class="col-sm-9">
-					<g:textField name="updatedBy" class="form-control" value="${userInstance?.updatedBy}"/>
+					<g:textField name="updatedBy" class="form-control" value="${userInstance?.updatedBy}" readonly="true" />
 					<span class="help-inline">${hasErrors(bean: userInstance, field: 'updatedBy', 'error')}</span>
 				</div>
 			</div>
@@ -53,7 +53,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: userInstance, field: 'createdBy', 'error')} ">
 				<label for="createdBy" class="col-sm-3 control-label"><g:message code="user.createdBy.label" default="Created By" /></label>
 				<div class="col-sm-9">
-					<g:textField name="createdBy" class="form-control" value="${userInstance?.createdBy}"/>
+					<g:textField name="createdBy" class="form-control" value="${userInstance?.createdBy}" readonly="true" />
 					<span class="help-inline">${hasErrors(bean: userInstance, field: 'createdBy', 'error')}</span>
 				</div>
 			</div>
@@ -61,7 +61,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: userInstance, field: 'serverId', 'error')} ">
 				<label for="serverId" class="col-sm-3 control-label"><g:message code="user.serverId.label" default="Server Id" /></label>
 				<div class="col-sm-9">
-					<g:textField name="serverId" class="form-control" value="${userInstance?.serverId}"/>
+					<g:textField name="serverId" class="form-control" value="${userInstance?.serverId}" readonly="true" />
 					<span class="help-inline">${hasErrors(bean: userInstance, field: 'serverId', 'error')}</span>
 				</div>
 			</div>
