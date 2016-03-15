@@ -29,8 +29,14 @@ class WorkCenterController {
     }
 
     def save() {
-        def workCenterInstance = new WorkCenter(params)
-        if (!workCenterInstance.save(flush: true)) {
+        println " Params  " + params
+        def workCenterInstance = new WorkCenter()
+        workCenterInstance.properties = params
+        workCenterInstance.plant = Plant.findByServerId(params.plant?.serverId)
+        workCenterInstance.line = Line.findByServerId(params.line?.serverId)
+        workCenterInstance.process = Process.findByServerId(params.process?.serverId)
+
+        if (!workCenterInstance.save()) {
             render(view: "create", model: [workCenterInstance: workCenterInstance])
             return
         }

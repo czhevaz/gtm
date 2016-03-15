@@ -3,7 +3,7 @@ package com.smanggin.trackingmanagement
 class Plant {
 
     def globalService
-    
+
     String serverId
     String code
     String name
@@ -20,8 +20,10 @@ class Plant {
     Date    dateCreated
     Date    lastUpdated
 
+    String toString() { return name }
 
-    static  hasMany = [lineBalances:LineBalance, productionInHeaders:ProductionInHeader, qCHeaders:QCHeader, userPlants:UserPlants, workCenters:WorkCenter]
+
+    static  hasMany = [lineBalances:LineBalance, productionInHeaders:ProductionInHeader, qCHeaders:QCHeader, userPlants:UserPlants, workCenters:WorkCenter, lines:Line]
 
     static  mapping = {
         id name : 'serverId',

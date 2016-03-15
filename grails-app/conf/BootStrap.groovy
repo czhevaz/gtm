@@ -14,6 +14,10 @@ class BootStrap {
             return true
         }
 
+        /* Set Time Zone Server */
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Jakarta")) 
+
+
     }
     def destroy = {
     }

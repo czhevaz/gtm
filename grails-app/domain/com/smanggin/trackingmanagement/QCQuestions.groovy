@@ -6,8 +6,8 @@ class QCQuestions {
 
     String serverId
     QCMaster qCMaster
-    Number sequenceNo
-    Number parameterType 
+    Long sequenceNo
+    Long parameterType 
     String parameterDesc
     String notes
 
@@ -16,7 +16,7 @@ class QCQuestions {
     Date    dateCreated
     Date    lastUpdated
 
-    static  belongsTo   = [ QCMaster]
+    static  belongsTo   = [QCMaster]
 
     static  hasMany = [qCDetails:QCDetail,qCOptions:QCOptions]
 

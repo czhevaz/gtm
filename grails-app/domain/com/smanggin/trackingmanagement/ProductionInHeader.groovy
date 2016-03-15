@@ -16,6 +16,8 @@ class ProductionInHeader {
 	Date	dateCreated
 	Date	lastUpdated
 
+	String toString() { return number }
+
 	static	belongsTo	= [ Plant, TransactionGroup]
 
 	static  hasMany = [productionInDetails:ProductionInDetail]

@@ -16,6 +16,8 @@ class User {
     Date    dateCreated
     Date    lastUpdated
 
+    String toString() { return name }
+
     static  hasMany = [userPlants:UserPlants]
 
     static  mapping = {

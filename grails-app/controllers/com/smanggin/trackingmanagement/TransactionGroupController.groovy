@@ -29,8 +29,13 @@ class TransactionGroupController {
     }
 
     def save() {
-        println "params " + params
-        def transactionGroupInstance = new TransactionGroup(params)
+        
+        def transactionGroupInstance = new TransactionGroup()
+        transactionGroupInstance.properties = params
+        transactionGroupInstance.plant = Plant.findByServerId(params.plant?.serverId)
+        transactionGroupInstance.transactionType = params.transactionType
+        transactionGroupInstance.createdBy = session.user
+
         if (!transactionGroupInstance.save(flush: true)) {
             render(view: "create", model: [transactionGroupInstance: transactionGroupInstance])
             return

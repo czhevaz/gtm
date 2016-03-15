@@ -12,6 +12,8 @@ class QCActions {
 	Date	dateCreated
 	Date	lastUpdated
 
+	
+
 	static  hasMany = [qCHeaders:QCHeader]
 
 	static	mapping = {

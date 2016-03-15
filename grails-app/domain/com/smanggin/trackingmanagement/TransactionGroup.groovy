@@ -17,6 +17,8 @@ class TransactionGroup {
 	Date	dateCreated
 	Date	lastUpdated
 
+	String toString() { return name }
+
 	static  hasMany = [productionInHeaders:ProductionInHeader, qCHeaders:QCHeader]
 
 	static	mapping = {

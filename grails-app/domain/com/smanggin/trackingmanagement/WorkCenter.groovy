@@ -9,12 +9,14 @@ class WorkCenter {
     Plant plant
     Line line
     Process process
-    Number sequenceNo
+    Long sequenceNo
 
     String  createdBy
 	String  updatedBy
 	Date	dateCreated
 	Date	lastUpdated
+
+	String toString() { return name }
 
 	static	belongsTo	= [ Process, Plant, Line]
 
@@ -31,6 +33,9 @@ class WorkCenter {
     static constraints = {
         name blank: false
         updatedBy nullable:true
+        plant nullable:true
+        line nullable:true
+        process nullable:true
     }
 
     def beforeValidate(){

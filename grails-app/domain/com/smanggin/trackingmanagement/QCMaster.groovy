@@ -16,6 +16,8 @@ class QCMaster {
     Date    dateCreated
     Date    lastUpdated
 
+    String toString() { return name }
+
     static  hasMany = [processQCs:ProcessQC, qCDetails:QCDetail,qCOptions :QCOptions, qCQuestions:QCQuestions]
 
     static  mapping = {
@@ -30,8 +32,8 @@ class QCMaster {
         serverId blank: false
         code blank: false, unique: true, nullable: false
         name blank: false, nullable: false
-        
-        user blank: true
+        dateInActive nullable:true
+        user blank: true ,nullable:true
         updatedBy nullable:true
     }
 

@@ -19,6 +19,9 @@ class QCHeader {
     Date    dateCreated
     Date    lastUpdated
 
+
+    String toString() { return number }
+
     static	belongsTo	= [ Plant, TransactionGroup, WorkCenter, Gallon, QCActions]
 
     static  hasMany = [qCDetails:QCDetail]
