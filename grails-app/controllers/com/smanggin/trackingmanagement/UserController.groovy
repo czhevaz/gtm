@@ -26,13 +26,14 @@ class UserController {
 
     def save() {
         def userInstance = new User(params)
+        userInstance.createdBy = session.user
         if (!userInstance.save(flush: true)) {
             render(view: "create", model: [userInstance: userInstance])
             return
         }
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
-        redirect(action: "show", id: userInstance.id)
+		flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.serverId])
+        redirect(action: "show", id: userInstance.serverId)
     }
 
     def show() {
@@ -77,14 +78,15 @@ class UserController {
         }
 
         userInstance.properties = params
+        userInstance.updatedBy = session.user
 
         if (!userInstance.save(flush: true)) {
             render(view: "edit", model: [userInstance: userInstance])
             return
         }
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
-        redirect(action: "show", id: userInstance.id)
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.serverId])
+        redirect(action: "show", id: userInstance.serverId)
     }
 
     def delete() {

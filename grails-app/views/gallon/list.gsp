@@ -43,7 +43,7 @@
 						<g:each in="${gallonInstanceList}" status="i" var="gallonInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${gallonInstance.id}">${fieldValue(bean: gallonInstance, field: "code")}</g:link></td>
+								<td><g:link action="show" id="${gallonInstance.serverId}">${fieldValue(bean: gallonInstance, field: "code")}</g:link></td>
 							
 								<td><g:formatBoolean boolean="${gallonInstance.writeOff}" /></td>
 							

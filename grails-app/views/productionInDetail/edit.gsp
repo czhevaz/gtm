@@ -1,4 +1,4 @@
-<%@ page import="com.smanggin.trackingmanagement.User" %>
+<%@ page import="com.smanggin.trackingmanagement.ProductionInDetail" %>
 
 
 <!doctype html>
@@ -7,13 +7,13 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
+	<g:set var="entityName" value="${message(code: 'productionInDetail.label', default: 'ProductionInDetail')}" />
 	<title><g:message code="default.edit.label" args="[entityName]" /></title>
 </head>
 
 <body>
 
-<section id="edit-user" class="first">
+<section id="edit-productionInDetail" class="first">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="box box-primary">
@@ -21,16 +21,16 @@
                   <h3 class="box-title"><g:message code="default.edit.label" args="[entityName]" /></h3>
                 </div><!--/.box-header with-border -->	
 
-				<g:hasErrors bean="${userInstance}">
+				<g:hasErrors bean="${productionInDetailInstance}">
 				<div class="alert alert-error">
-					<g:renderErrors bean="${userInstance}" as="list" />
+					<g:renderErrors bean="${productionInDetailInstance}" as="list" />
 				</div>
 				</g:hasErrors>
 
 				<g:form method="post" class="form-horizontal" >
 					<div class="box-body">
-						<g:hiddenField name="id" value="${userInstance?.serverId}" />
-						<g:hiddenField name="version" value="${userInstance?.version}" />
+						<g:hiddenField name="id" value="${productionInDetailInstance?.id}" />
+						<g:hiddenField name="version" value="${productionInDetailInstance?.version}" />
 						
 						<fieldset class="form">
 							<g:render template="form"/>
