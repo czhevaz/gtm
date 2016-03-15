@@ -9,7 +9,7 @@ class WorkCenter {
     Plant plant
     Line line
     Process process
-    Number sequenceNo
+    Long sequenceNo
 
     String  createdBy
 	String  updatedBy
@@ -31,6 +31,9 @@ class WorkCenter {
     static constraints = {
         name blank: false
         updatedBy nullable:true
+        plant nullable:true
+        line nullable:true
+        process nullable:true
     }
 
     def beforeValidate(){

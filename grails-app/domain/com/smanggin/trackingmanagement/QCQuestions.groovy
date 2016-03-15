@@ -6,8 +6,8 @@ class QCQuestions {
 
     String serverId
     QCMaster qCMaster
-    Number sequenceNo
-    Number parameterType 
+    Long sequenceNo
+    Long parameterType 
     String parameterDesc
     String notes
 

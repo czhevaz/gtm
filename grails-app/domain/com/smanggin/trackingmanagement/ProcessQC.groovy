@@ -7,7 +7,7 @@ class ProcessQC {
 	String serverId
 	Process process
 	QCMaster qcMaster
-    Number sequenceNo
+    Long sequenceNo
     Date date1
     Date date2
 
