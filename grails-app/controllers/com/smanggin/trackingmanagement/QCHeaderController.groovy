@@ -274,4 +274,14 @@ class QCHeaderController {
 
 
     }
+
+
+    /**
+    Report  
+    **/
+
+
+
+
+
 }
