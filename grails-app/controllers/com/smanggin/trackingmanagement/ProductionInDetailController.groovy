@@ -141,9 +141,6 @@ class ProductionInDetailController {
         }
                         
         render([success: true] as JSON)*/
-        params.each {
-            println "==> data : "+it
-        }
 
         def productionInDetailInstance = new ProductionInDetail()
 
