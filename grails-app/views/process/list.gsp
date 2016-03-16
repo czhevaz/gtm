@@ -25,8 +25,8 @@
 						<thead>
 							<tr>
 							
-								<g:sortableColumn property="serverId" title="${message(code: 'process.serverId.label', default: 'Server Id')}" />
-							
+								
+						
 								<g:sortableColumn property="code" title="${message(code: 'process.code.label', default: 'Code')}" />
 							
 								<g:sortableColumn property="name" title="${message(code: 'process.name.label', default: 'Name')}" />
@@ -43,9 +43,9 @@
 						<g:each in="${processInstanceList}" status="i" var="processInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${processInstance.id}">${fieldValue(bean: processInstance, field: "serverId")}</g:link></td>
+								
 							
-								<td>${fieldValue(bean: processInstance, field: "code")}</td>
+								<td><g:link action="show" params="[serverId:processInstance.serverId]">${fieldValue(bean: processInstance, field: "code")}</g:link></td>
 							
 								<td>${fieldValue(bean: processInstance, field: "name")}</td>
 							

@@ -35,7 +35,7 @@
 						<g:each in="${transactionGroupInstanceList}" status="i" var="transactionGroupInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${transactionGroupInstance.id}">${fieldValue(bean: transactionGroupInstance, field: "name")}</g:link></td>
+								<td><g:link action="show" params="[serverId:transactionGroupInstance?.serverId]">${fieldValue(bean: transactionGroupInstance, field: "name")}</g:link></td>
 							
 								<td>${fieldValue(bean: transactionGroupInstance, field: "numberingMethod")}</td>
 							

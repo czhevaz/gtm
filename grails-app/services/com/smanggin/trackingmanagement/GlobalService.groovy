@@ -14,6 +14,18 @@ class GlobalService {
 
     	return UUID.randomUUID().toString();	
     }
+
+
+    def valueQCDetail(qcHeader,qcMaster,qcQuestions){
+    	def qcdetail = QCDetail.createCriteria().list(){
+    		eq('qcHeader',qcHeader)
+    		eq('qcMaster',qcMaster)
+    		eq('qcQuestions',qcQuestions)
+    	}
+
+    	return qcdetail[0]?.results
+
+    }
     
     
 }

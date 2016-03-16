@@ -1,4 +1,11 @@
 <%@ page import="com.smanggin.trackingmanagement.QCHeader" %>
+			<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'number', 'error')} ">
+				<label for="number" class="col-sm-3 control-label"><g:message code="QCHeader.number.label" default="Number" /></label>
+				<div class="col-sm-5">
+					<g:textField name="number" class="form-control" value="${QCHeaderInstance?.number}" readonly="true"/>
+					<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'number', 'error')}</span>
+				</div>
+			</div>
 			
 			<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'transactionGroup', 'error')} required">
 				<label for="transactionGroup" class="col-sm-3 control-label"><g:message code="QCHeader.transactionGroup.label" default="Transaction Group" /><span class="required-indicator">*</span></label>
@@ -8,13 +15,6 @@
 				</div>
 			</div>
 
-			<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'number', 'error')} ">
-				<label for="number" class="col-sm-3 control-label"><g:message code="QCHeader.number.label" default="Number" /></label>
-				<div class="col-sm-5">
-					<g:textField name="number" class="form-control" value="${QCHeaderInstance?.number}"/>
-					<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'number', 'error')}</span>
-				</div>
-			</div>
 
 			<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'date', 'error')} required">
 				<label for="date" class="col-sm-3 control-label"><g:message code="QCHeader.date.label" default="Date" /><span class="required-indicator">*</span></label>
@@ -44,7 +44,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'gallon', 'error')} required">
 				<label for="gallon" class="col-sm-3 control-label"><g:message code="QCHeader.gallon.label" default="Gallon" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
-					<g:textField id="gallon" name="gallon?.serverId" class="form-control" value="${QCHeaderInstance?.number}" placeholder="Scan Gallon Barcode..." 
+					<g:textField id="gallon" name="gallon.code" class="form-control" value="${QCHeaderInstance?.gallon?.code}" placeholder="Scan Gallon Barcode..." 
         style="width:98.5%;height:100px;font-size:20pt"/>
 					<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'gallon', 'error')}</span>
 				</div>

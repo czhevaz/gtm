@@ -40,7 +40,7 @@ class LineController {
     }
 
     def show() {
-        def lineInstance = Line.get(params.id)
+        def lineInstance = Line.findByServerId(params.serverId)
         if (!lineInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'line.label', default: 'Line'), params.id])
             redirect(action: "list")

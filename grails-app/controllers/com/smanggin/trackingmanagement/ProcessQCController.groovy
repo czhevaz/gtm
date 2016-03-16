@@ -29,7 +29,12 @@ class ProcessQCController {
     }
 
     def save() {
+        println params
         def processQCInstance = new ProcessQC(params)
+        processQCInstance.createdBy= session.user
+        processQCInstance.process = Process.findByServerId(params.process?.serverId)
+        processQCInstance.qcMaster = QCMaster.findByServerId(params.qcMaster?.serverId)
+
         if (!processQCInstance.save(flush: true)) {
             render(view: "create", model: [processQCInstance: processQCInstance])
             return

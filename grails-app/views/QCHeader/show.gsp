@@ -1,5 +1,9 @@
 
 <%@ page import="com.smanggin.trackingmanagement.QCHeader" %>
+<%@ page import="com.smanggin.trackingmanagement.GlobalService" %>
+<%
+    def myService = grailsApplication.classLoader.loadClass('com.smanggin.trackingmanagement.GlobalService').newInstance()
+%>
 <!doctype html>
 <html>
 
@@ -23,34 +27,19 @@
 					<table class="table table-striped">
 						<tbody>
 						
+					
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCHeader.updatedBy.label" default="Updated By" /></td>
+								<td valign="top" class="name"><g:message code="QCHeader.number.label" default="Number" /></td>
 								
-								<td valign="top" class="value">${fieldValue(bean: QCHeaderInstance, field: "updatedBy")}</td>
+								<td valign="top" class="value">${fieldValue(bean: QCHeaderInstance, field: "number")}</td>
 								
 							</tr>
-						
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCHeader.createdBy.label" default="Created By" /></td>
+								<td valign="top" class="name"><g:message code="QCHeader.transactionGroup.label" default="Transaction Group" /></td>
 								
-								<td valign="top" class="value">${fieldValue(bean: QCHeaderInstance, field: "createdBy")}</td>
+								<td valign="top" class="value"><g:link controller="transactionGroup" action="show" id="${QCHeaderInstance?.transactionGroup?.id}">${QCHeaderInstance?.transactionGroup?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCHeader.date.label" default="Date" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${QCHeaderInstance?.date}" /></td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCHeader.dateCreated.label" default="Date Created" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${QCHeaderInstance?.dateCreated}" /></td>
-								
-							</tr>
-						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="QCHeader.gallon.label" default="Gallon" /></td>
 								
@@ -58,19 +47,15 @@
 								
 							</tr>
 						
+									
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCHeader.lastUpdated.label" default="Last Updated" /></td>
+								<td valign="top" class="name"><g:message code="QCHeader.date.label" default="Date" /></td>
 								
-								<td valign="top" class="value"><g:formatDate date="${QCHeaderInstance?.lastUpdated}" /></td>
+								<td valign="top" class="value"><g:formatDate date="${QCHeaderInstance?.date}" /></td>
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCHeader.number.label" default="Number" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: QCHeaderInstance, field: "number")}</td>
-								
-							</tr>
+						
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="QCHeader.plant.label" default="Plant" /></td>
@@ -78,47 +63,54 @@
 								<td valign="top" class="value"><g:link controller="plant" action="show" id="${QCHeaderInstance?.plant?.id}">${QCHeaderInstance?.plant?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
+							
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCHeader.qCDetails.label" default="QCD etails" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${QCHeaderInstance.qCDetails}" var="q">
-										<li><g:link controller="QCDetail" action="show" id="${q.id}">${q?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCHeader.qcActions.label" default="Qc Actions" /></td>
-								
-								<td valign="top" class="value"><g:link controller="QCActions" action="show" id="${QCHeaderInstance?.qcActions?.id}">${QCHeaderInstance?.qcActions?.encodeAsHTML()}</g:link></td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCHeader.serverId.label" default="Server Id" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: QCHeaderInstance, field: "serverId")}</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCHeader.transactionGroup.label" default="Transaction Group" /></td>
-								
-								<td valign="top" class="value"><g:link controller="transactionGroup" action="show" id="${QCHeaderInstance?.transactionGroup?.id}">${QCHeaderInstance?.transactionGroup?.encodeAsHTML()}</g:link></td>
-								
-							</tr>
-						
+							
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="QCHeader.workCenter.label" default="Work Center" /></td>
 								
 								<td valign="top" class="value"><g:link controller="workCenter" action="show" id="${QCHeaderInstance?.workCenter?.id}">${QCHeaderInstance?.workCenter?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
+
+							
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="QCHeader.createdBy.label" default="Created By" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: QCHeaderInstance, field: "createdBy")}</td>
+								
+							</tr>
+
+								<tr class="prop">
+								<td valign="top" class="name"><g:message code="QCHeader.dateCreated.label" default="Date Created" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${QCHeaderInstance?.dateCreated}" /></td>
+								
+							</tr>
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="QCHeader.updatedBy.label" default="Updated By" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: QCHeaderInstance, field: "updatedBy")}</td>
+								
+							</tr>
+						
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="QCHeader.lastUpdated.label" default="Last Updated" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${QCHeaderInstance?.lastUpdated}" /></td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="QCHeader.qcActions.label" default="Qc Actions" /></td>
+								
+								<td valign="top" class="value"><g:link controller="QCActions" action="show" id="${QCHeaderInstance?.qcActions?.id}">${QCHeaderInstance?.qcActions?.encodeAsHTML()}</g:link></td>
+								
+							</tr>
+
+						
 						
 						</tbody>
 					</table>
@@ -127,10 +119,49 @@
 						
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box-body table-responsive -->
-
-			<g:render template="detail"/> 
 		</div><!--/.box box-primary -->
 	</div><!--/.row -->
+
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+                  <h3 class="box-title">Question</h3>
+                </div><!--/.box-header with-border -->	
+				
+					<div class="box-body">
+						<g:each in="${processQCAll}" status="i" var="processQCInstance">
+							<g:if test="${processQCInstance?.qcMaster?.qCQuestions?.size() > 0}">
+							<table class="table table-bordered margin-top-medium">
+								<thead>
+									<tr>
+										<td>${processQCInstance?.qcMaster?.name}</td>
+									</tr>
+								</thead>
+								<tbody>
+
+									<g:each in="${processQCInstance?.qcMaster?.qCQuestions.sort{it.sequenceNo}}" status="j" var="qcQuestionsInstance">
+										<tr>
+											<td>${j+1}. ${qcQuestionsInstance?.parameterDesc}</td>
+										</tr>
+										<tr>
+											<td> <g:textArea class="form-control" name="${processQCInstance?.qcMaster?.code}_${qcQuestionsInstance?.sequenceNo}" value="${myService?.valueQCDetail(QCHeaderInstance,qcQuestionsInstance?.qCMaster,qcQuestionsInstance)}" rows="5" cols="40" readonly="${actionName=='show'?true:false}"/></td>
+										</tr>
+									</g:each>	
+								</tbody>
+							</table>
+							</g:if>
+						</g:each>			
+					</div><!--/.box-body -->	
+
+					
+				
+			</div><!--/.box box-primary -->	
+		</div><!--/.col-lg-12 -->	
+	</div><!--/.row -->
+
+
 </section>
 
 </body>
