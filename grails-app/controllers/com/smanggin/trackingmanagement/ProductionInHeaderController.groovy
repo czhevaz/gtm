@@ -213,7 +213,7 @@ class ProductionInHeaderController {
         productionInHeaderInstance.date = new Date()
         productionInHeaderInstance.totalGallon = 0.0
         productionInHeaderInstance.number = ''
-        productionInHeaderInstance.transactionGroup = null
+        productionInHeaderInstance.transactionGroup = TransactionGroup.findByTransactionType('0')
         productionInHeaderInstance.plant = Plant.findByServerId(userPlant?.plant?.serverId)
         productionInHeaderInstance.workCenter = null
         if (!productionInHeaderInstance.save(flush: true)) {
@@ -225,14 +225,21 @@ class ProductionInHeaderController {
     }
 
     def insertLineBalance(productionInHeaderInstance){
+        params.order = params.order ?: 'desc' 
+        params.sort = params.sort ?: 'dateCreated' 
+        
+        def last = LineBalance.createCriteria().list(params){
+           maxResults(1)
+        }
+
         def lineBalance = new LineBalance()
         lineBalance.plant = productionInHeaderInstance.plant
         lineBalance.line = productionInHeaderInstance.workCenter.line
         lineBalance.date = new Date()
-        lineBalance.beginQty = 0
+        lineBalance.beginQty = last?.endQty[0]?:0
         lineBalance.inQty = productionInHeaderInstance.totalGallon
         lineBalance.outQty = 0
-        lineBalance.endQty = lineBalance.inQty + lineBalance.outQty
+        lineBalance.endQty = lineBalance.beginQty + lineBalance.inQty 
         lineBalance.createdBy = session.user
         if(!lineBalance.save(flush:true)){
             println "errors " + lineBalance.errors
