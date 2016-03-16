@@ -5,7 +5,7 @@
 			<g:message code="productionInHeader.date.label" default="Date" />
 			<span class="required-indicator">*</span>
 		</label>
-		<div class="col-sm-9">
+		<div class="col-sm-5">
 			<bs:datePicker name="date" precision="day"  value="${productionInHeaderInstance?.date}"  />
 			<span class="help-inline">${hasErrors(bean: productionInHeaderInstance, field: 'date', 'error')}</span>
 		</div>
@@ -15,7 +15,7 @@
 		<label for="number" class="col-sm-3 control-label">
 			<g:message code="productionInHeader.number.label" default="Number" />
 		</label>
-		<div class="col-sm-9">
+		<div class="col-sm-5">
 			<g:textField name="number" class="form-control" value="${productionInHeaderInstance?.number}"/>
 			<span class="help-inline">${hasErrors(bean: productionInHeaderInstance, field: 'number', 'error')}</span>
 		</div>
@@ -26,7 +26,7 @@
 			<g:message code="productionInHeader.plant.label" default="Plant" />
 			<span class="required-indicator">*</span>
 		</label>
-		<div class="col-sm-9">
+		<div class="col-sm-5">
 			<g:select id="plant" name="plant.serverId" from="${com.smanggin.trackingmanagement.Plant.list()}" optionKey="serverId" required="" value="${productionInHeaderInstance?.plant?.serverId}" class="many-to-one form-control chosen-select"/>
 			<span class="help-inline">${hasErrors(bean: productionInHeaderInstance, field: 'plant', 'error')}</span>
 		</div>
@@ -37,7 +37,7 @@
 			<g:message code="productionInHeader.totalGallon.label" default="Total Gallon" />
 			<span class="required-indicator">*</span>
 		</label>
-		<div class="col-sm-9">
+		<div class="col-sm-5">
 			<g:field type="number" name="totalGallon" class="form-control" step="any" required="" value="${productionInHeaderInstance.totalGallon}"/>
 			<span class="help-inline">${hasErrors(bean: productionInHeaderInstance, field: 'totalGallon', 'error')}</span>
 		</div>
@@ -48,7 +48,7 @@
 			<g:message code="productionInHeader.transactionGroup.label" default="Transaction Group" />
 			<span class="required-indicator">*</span>
 		</label>
-		<div class="col-sm-9">
+		<div class="col-sm-5">
 			<g:select id="transactionGroup" name="transactionGroup.serverId" from="${com.smanggin.trackingmanagement.TransactionGroup.list()}" optionKey="serverId" required="" value="${productionInHeaderInstance?.transactionGroup?.serverId}" class="many-to-one form-control chosen-select"/>
 			<span class="help-inline">${hasErrors(bean: productionInHeaderInstance, field: 'transactionGroup', 'error')}</span>
 		</div>

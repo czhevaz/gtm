@@ -111,7 +111,7 @@ class ProductionInDetailController {
     }
 
     def jsave() {
-        def productionInDetailInstance = (params.id) ? ProductionInDetail.get(params.id) : new ProductionInDetail()
+        /*def productionInDetailInstance = (params.id) ? ProductionInDetail.get(params.id) : new ProductionInDetail()
         
         if (!productionInDetailInstance) {                     
             def error = [message: message(code: 'default.not.found.message', args: [message(code: 'productionInDetail.label', default: 'ProductionInDetail'), params.id])]
@@ -140,22 +140,56 @@ class ProductionInDetailController {
             return
         }
                         
-        render([success: true] as JSON)
+        render([success: true] as JSON)*/
+
+        def productionInDetailInstance = new ProductionInDetail()
+
+        if (params.code) {
+
+            def gallonInstance = Gallon.findByCode(params.code)
+
+            if (gallonInstance) {
+
+                productionInDetailInstance.productionInHeader = ProductionInHeader.get('ab45c-any76-dnuk6-pou87')
+                productionInDetailInstance.gallon = Gallon.get(gallonInstance.serverId)
+                productionInDetailInstance.createdBy = session.user
+                productionInDetailInstance.updatedBy = session.user
+
+                if (!productionInDetailInstance.save(flush: true)) {
+                    render([success: false] as JSON)
+                    return
+                }
+
+                render([success: true] as JSON)
+            } else {
+                render([success: false] as JSON)
+            }
+        }
+
     }
 
     def jlist() {
+        def pid = null
+        def results = []
         if(params.masterField){
             def c = ProductionInDetail.createCriteria()
-            def results = c.list {
-                eq(params.masterField.name+'.id',params.masterField.id.toLong())    
+            pid = c.list {
+                productionInHeader {
+                    eq('serverId',params.masterField)
+                }
             }
-            render results as JSON
-
+            pid.each {
+                results << [it.serverId, it.gallon?.code, it.dateCreated]
+            }
+            render([data: results] as JSON)
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
-            render ProductionInDetail.list(params) as JSON           
+            pid = ProductionInDetail.list()
+            pid.each {
+                results << [it.serverId, it.gallon?.code, it.dateCreated]
+            }
+            render([data: results] as JSON)
         }
         
     }   
