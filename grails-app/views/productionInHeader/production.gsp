@@ -171,6 +171,7 @@
                             timernotif = setInterval("checkNotif()", 2000);
                         } else {
                             $("#text").val('').focus();
+                            timernotif = setInterval("checkNotif()", 2000);
                         }
                     }
                 }
