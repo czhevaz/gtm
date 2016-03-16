@@ -164,7 +164,7 @@
 						<ul class="dropdown-menu">
 	                  		
 			                  	<li>
-			                  		<g:link controller="${country?.domainPPP}">
+			                  		<g:link controller="QCHeader" action="report" params="[report:'qcSummary']">
 										QC Summary
 									</g:link>
 								</li>

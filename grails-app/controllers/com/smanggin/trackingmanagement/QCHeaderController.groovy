@@ -11,7 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 
 class QCHeaderController {
-
+    def globalService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -274,4 +274,73 @@ class QCHeaderController {
 
 
     }
+
+
+    /**
+    Report  
+    **/
+    def report(){
+        def view = params.report
+        render(view: "${view}")
+
+        /*if(params.report == qcSummary){
+            println "======= QC summary ======"
+            
+            
+        } else if(params.report == qcAnalysis) {
+            println "======= Qc Annalisys ======"
+            views = params.report
+            
+        } */
+
+
+    }
+
+    /* QC summary */
+    def qcSummary(){
+        println " parameterType Summary " + params
+
+        
+        def startDate = globalService.correctDateTime(params.startDate)
+        def endDate = globalService.correctDateTime(params.endDate)
+        def filterDate = globalService.filterDate(startDate, endDate)
+        def line1 = Line.findByServerId(params.line1ServerId)
+        def line2 = Line.findByServerId(params.line2Code) 
+        def plant = Plant.findByServerId(params.plantServerId)
+
+        def results = QCHeader.createCriteria().list(){
+            workCenter{
+                eq('line',line1)    
+                eq('plant',plant)
+            }
+
+//            le('date',filterDate.start)
+  //          ge('date',filterDate.end)
+
+        }
+
+        println " results" + results
+
+        def list = []
+
+        results.each{
+            def listHasilQCOpt = []
+            //it.
+            def map = [:]
+            map.put('gallonCode',it.gallon?.code)
+            map.put('date',it.date)
+            map.put('hasilQc','')
+            map.put('action',it.qcActions.code)
+            map.put('user Created',it.createdBy)
+            
+            list.push(map)
+        }
+
+
+        render([success: false] as JSON)
+
+    }
+
+
+
 }
