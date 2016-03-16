@@ -36,6 +36,7 @@ class QCHeader {
 
 
     static constraints = {
+    	qcActions nullable:true
     	updatedBy nullable:true
     }
 
@@ -46,4 +47,17 @@ class QCHeader {
             serverId = globalService.UUIDGenerator()
         }
     }
+
+
+    def beforeInsert(){
+		Integer count= QCHeader.countByTransactionGroup(transactionGroup)+1
+		Integer width= transactionGroup.width
+		String  prefix = transactionGroup.prefix
+
+		
+		String c = sprintf("%0${width}d",count)
+		Date now = new Date()
+		number = prefix+'/'+now.format(transactionGroup.numberingMethod)+'/'+c
+	}
+
 }

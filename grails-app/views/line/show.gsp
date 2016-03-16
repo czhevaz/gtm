@@ -23,12 +23,6 @@
 					<table class="table table-striped">
 						<tbody>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="line.serverId.label" default="Server Id" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: lineInstance, field: "serverId")}</td>
-								
-							</tr>
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="line.code.label" default="Code" /></td>
@@ -44,12 +38,6 @@
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="line.updatedBy.label" default="Updated By" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: lineInstance, field: "updatedBy")}</td>
-								
-							</tr>
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="line.createdBy.label" default="Created By" /></td>
@@ -66,38 +54,21 @@
 							</tr>
 						
 							<tr class="prop">
+								<td valign="top" class="name"><g:message code="line.updatedBy.label" default="Updated By" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: lineInstance, field: "updatedBy")}</td>
+								
+							</tr>
+
+
+							<tr class="prop">
 								<td valign="top" class="name"><g:message code="line.lastUpdated.label" default="Last Updated" /></td>
 								
 								<td valign="top" class="value"><g:formatDate date="${lineInstance?.lastUpdated}" /></td>
 								
 							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="line.lineBalances.label" default="Line Balances" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${lineInstance.lineBalances}" var="l">
-										<li><g:link controller="lineBalance" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="line.workCenters.label" default="Work Centers" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${lineInstance.workCenters}" var="w">
-										<li><g:link controller="workCenter" action="show" id="${w.id}">${w?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
+
+
 						</tbody>
 					</table>
 				</div><!--/.row -->

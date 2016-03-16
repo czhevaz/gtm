@@ -29,40 +29,56 @@ class QCHeaderController {
     }
 
     def save() {
+        println "params " + params 
         def QCHeaderInstance = new QCHeader(params)
+        QCHeaderInstance.properties = params
+        QCHeaderInstance.createdBy= session.user
+        QCHeaderInstance.gallon = Gallon.findByCode(params.gallon?.code)
+        QCHeaderInstance.plant = Plant.findByServerId(params.plant?.serverId)
+        QCHeaderInstance.workCenter = WorkCenter.findByServerId(params?.workCenter?.serverId)
+        QCHeaderInstance.transactionGroup =TransactionGroup.findByServerId(params?.transactionGroup?.serverId)
+
+
         if (!QCHeaderInstance.save(flush: true)) {
             render(view: "create", model: [QCHeaderInstance: QCHeaderInstance])
             return
         }
 
 		flash.message = message(code: 'default.created.message', args: [message(code: 'QCHeader.label', default: 'QCHeader'), QCHeaderInstance.id])
-        redirect(action: "show", id: QCHeaderInstance.id)
+        redirect(action: "edit", params: [serverId:QCHeaderInstance?.serverId])
     }
 
     def show() {
-        def QCHeaderInstance = QCHeader.get(params.id)
+        def QCHeaderInstance = QCHeader.findByServerId(params.serverId)
         if (!QCHeaderInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCHeader.label', default: 'QCHeader'), params.id])
             redirect(action: "list")
             return
         }
 
-        [QCHeaderInstance: QCHeaderInstance]
+        def processQC = ProcessQC.findAllByProcess(QCHeaderInstance.workCenter?.process)
+        println " processQC "+ processQC
+
+        [QCHeaderInstance: QCHeaderInstance,processQCAll:processQC]
     }
 
     def edit() {
-        def QCHeaderInstance = QCHeader.get(params.id)
+        def QCHeaderInstance = QCHeader.findByServerId(params.serverId)
         if (!QCHeaderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCHeader.label', default: 'QCHeader'), params.id])
             redirect(action: "list")
             return
         }
 
-        [QCHeaderInstance: QCHeaderInstance]
+        def processQC = ProcessQC.findAllByProcess(QCHeaderInstance.workCenter?.process)
+
+        [QCHeaderInstance: QCHeaderInstance,processQCAll:processQC]
     }
 
     def update() {
-        def QCHeaderInstance = QCHeader.get(params.id)
+        println "update" + params
+        def QCHeaderInstance = QCHeader.findByServerId(params.serverId)
+        println "QCHeaderInstance " + QCHeaderInstance
         if (!QCHeaderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCHeader.label', default: 'QCHeader'), params.id])
             redirect(action: "list")
@@ -82,13 +98,42 @@ class QCHeaderController {
 
         QCHeaderInstance.properties = params
 
+        QCHeaderInstance.updatedBy= session.user
+        QCHeaderInstance.gallon = Gallon.findByCode(params.gallon?.code)
+        QCHeaderInstance.plant = Plant.findByServerId(params.plant?.serverId)
+        QCHeaderInstance.workCenter = WorkCenter.findByServerId(params?.workCenter?.serverId)
+        QCHeaderInstance.transactionGroup =TransactionGroup.findByServerId(params?.transactionGroup?.serverId)
+
+
+        
+
         if (!QCHeaderInstance.save(flush: true)) {
+            println "<<<<<<<<<<<<<<<<<  errors >>>>>>>>>>>>> "
             render(view: "edit", model: [QCHeaderInstance: QCHeaderInstance])
             return
         }
 
+        def processQCAll = ProcessQC.findAllByProcess(QCHeaderInstance.workCenter?.process)
+        println " processQCAll " + processQCAll
+        processQCAll.each{ processQC -> 
+            println " processQC " + processQC
+            processQC?.qcMaster?.qCQuestions.each{
+                def qcDetail = new QCDetail()
+                qcDetail.qcHeader = QCHeaderInstance
+                qcDetail.qcMaster = it.qCMaster
+                qcDetail.qcQuestions = it
+                qcDetail.results = params."${it.qCMaster?.code}_${it.sequenceNo}"
+                qcDetail.createdBy = session.user
+                if(!qcDetail.save(flush:true)){
+                    println "erorr" +qcDetail.errors
+                }
+            }
+        }
+        
+        insertLineBalance(QCHeaderInstance)
+
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'QCHeader.label', default: 'QCHeader'), QCHeaderInstance.id])
-        redirect(action: "show", id: QCHeaderInstance.id)
+        redirect(action: "show", params: [serverId:QCHeaderInstance?.serverId])
     }
 
     def delete() {
@@ -185,5 +230,23 @@ class QCHeaderController {
         else {
             render([QCHeaderInstance : QCHeaderInstance ] as JSON)
         }
+    }
+
+
+    def insertLineBalance(QCHeaderInstance){
+        def lineBalance = new LineBalance()
+        lineBalance.plant = QCHeaderInstance.plant
+        lineBalance.line = QCHeaderInstance.workCenter.line
+        lineBalance.date = new Date()
+        lineBalance.beginQty = 0
+        lineBalance.inQty = lineBalance.inQty?:0
+        lineBalance.outQty = (lineBalance.outQty?:0) + 1
+        lineBalance.endQty = lineBalance.inQty - lineBalance.outQty
+        lineBalance.createdBy =session.user
+        if(!lineBalance.save(flush:true)){
+            println "errors " + lineBalance.errors
+        }
+
+
     }
 }

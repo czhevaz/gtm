@@ -40,7 +40,7 @@ class PlantController {
     }
 
     def show() {
-        def plantInstance = Plant.get(params.id)
+        def plantInstance = Plant.findByServerId(params.serverId)
         if (!plantInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'plant.label', default: 'Plant'), params.id])
             redirect(action: "list")
@@ -51,7 +51,7 @@ class PlantController {
     }
 
     def edit() {
-        def plantInstance = Plant.get(params.id)
+        def plantInstance = Plant.findByServerId(params.serverId)
         if (!plantInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'plant.label', default: 'Plant'), params.id])
             redirect(action: "list")
@@ -62,7 +62,7 @@ class PlantController {
     }
 
     def update() {
-        def plantInstance = Plant.get(params.id)
+        def plantInstance = Plant.findByServerId(params.serverId)
         if (!plantInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'plant.label', default: 'Plant'), params.id])
             redirect(action: "list")

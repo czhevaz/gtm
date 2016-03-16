@@ -9,7 +9,7 @@ class TransactionGroup {
 	String transactionType /* 0 == production in & 1 == QC*/
 	String prefix
 	String numberingMethod
-	String width
+	Integer width
 	Plant plant
 
 	String  createdBy

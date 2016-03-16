@@ -46,7 +46,8 @@ class TransactionGroupController {
     }
 
     def show() {
-        def transactionGroupInstance = TransactionGroup.get(params.id)
+        def transactionGroupInstance = TransactionGroup.findByServerId(params.serverId)
+        println "transactionGroup >>>>>> " +transactionGroupInstance
         if (!transactionGroupInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'transactionGroup.label', default: 'TransactionGroup'), params.id])
             redirect(action: "list")
@@ -57,7 +58,7 @@ class TransactionGroupController {
     }
 
     def edit() {
-        def transactionGroupInstance = TransactionGroup.get(params.id)
+        def transactionGroupInstance = TransactionGroup.findByServerId(params.serverId)
         if (!transactionGroupInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'transactionGroup.label', default: 'TransactionGroup'), params.id])
             redirect(action: "list")
@@ -68,7 +69,7 @@ class TransactionGroupController {
     }
 
     def update() {
-        def transactionGroupInstance = TransactionGroup.get(params.id)
+        def transactionGroupInstance = TransactionGroup.findByServerId(params.serverId)
         if (!transactionGroupInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'transactionGroup.label', default: 'TransactionGroup'), params.id])
             redirect(action: "list")

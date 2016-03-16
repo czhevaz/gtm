@@ -1,5 +1,8 @@
 <%@ page import="com.smanggin.trackingmanagement.QCHeader" %>
-
+<%@ page import="com.smanggin.trackingmanagement.GlobalService" %>
+<%
+    def myService = grailsApplication.classLoader.loadClass('com.smanggin.trackingmanagement.GlobalService').newInstance()
+%>
 
 <!doctype html>
 <html>
@@ -14,6 +17,7 @@
 <body>
 
 <section id="edit-QCHeader" class="first">
+	<g:form method="post" class="form-horizontal" >
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="box box-primary">
@@ -27,9 +31,9 @@
 				</div>
 				</g:hasErrors>
 
-				<g:form method="post" class="form-horizontal" >
+				
 					<div class="box-body">
-						<g:hiddenField name="id" value="${QCHeaderInstance?.id}" />
+						<g:hiddenField name="serverId" value="${QCHeaderInstance?.serverId}" />
 						<g:hiddenField name="version" value="${QCHeaderInstance?.version}" />
 						
 						<fieldset class="form">
@@ -44,12 +48,46 @@
 				            <button class="btn" type="reset"><g:message code="default.button.reset.label" default="Reset" /></button>
 						</div>
 					</div><!--/.box-footer -->	
-				</g:form>
-				<g:render template="detail"/> 	
+				
+				
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->			
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+                  <h3 class="box-title">Question</h3>
+                </div><!--/.box-header with-border -->	
+				
+					<div class="box-body">
+						<g:each in="${processQCAll}" status="i" var="processQCInstance">
+							<g:if test="${processQCInstance?.qcMaster?.qCQuestions?.size() > 0}">
+							<table class="table table-bordered margin-top-medium">
+								<thead>
+									<tr>
+										<td>${processQCInstance?.qcMaster?.name}</td>
+									</tr>
+								</thead>
+								<tbody>
 
+									<g:each in="${processQCInstance?.qcMaster?.qCQuestions.sort{it.sequenceNo}}" status="j" var="qcQuestionsInstance">
+										<tr>
+											<td>${j+1}. ${qcQuestionsInstance?.parameterDesc}</td>
+										</tr>
+										<tr>
+											<td>  <g:textArea class="form-control" name="${processQCInstance?.qcMaster?.code}_${qcQuestionsInstance?.sequenceNo}" value="${myService?.valueQCDetail(QCHeaderInstance,qcQuestionsInstance?.qCMaster,qcQuestionsInstance)}" rows="5" cols="40"/></td>
+										</tr>
+									</g:each>	
+								</tbody>
+							</table>
+							</g:if>
+						</g:each>			
+					</div><!--/.box-body -->	
+			</div><!--/.box box-primary -->	
+		</div><!--/.col-lg-12 -->	
+	</div><!--/.row -->
+	</g:form>
 </section>
 			
 </body>
