@@ -103,7 +103,7 @@ class QCHeaderController {
         QCHeaderInstance.plant = Plant.findByServerId(params.plant?.serverId)
         QCHeaderInstance.workCenter = WorkCenter.findByServerId(params?.workCenter?.serverId)
         QCHeaderInstance.transactionGroup =TransactionGroup.findByServerId(params?.transactionGroup?.serverId)
-
+        QCHeaderInstance.qcActions = QCActions.findByServerId(params.qcActions?.serverId)
 
         
 
@@ -114,19 +114,35 @@ class QCHeaderController {
         }
 
         def processQCAll = ProcessQC.findAllByProcess(QCHeaderInstance.workCenter?.process)
-        println " processQCAll " + processQCAll
+        
         processQCAll.each{ processQC -> 
-            println " processQC " + processQC
+           
             processQC?.qcMaster?.qCQuestions.each{
-                def qcDetail = new QCDetail()
-                qcDetail.qcHeader = QCHeaderInstance
-                qcDetail.qcMaster = it.qCMaster
-                qcDetail.qcQuestions = it
-                qcDetail.results = params."${it.qCMaster?.code}_${it.sequenceNo}"
-                qcDetail.createdBy = session.user
-                if(!qcDetail.save(flush:true)){
-                    println "erorr" +qcDetail.errors
+                if(it.parameterType == 2){
+                    println " >>>>>>>>>>>>>>>>>> parameterType 2"
+                    params."${it.qCMaster?.code}_${it.sequenceNo}".each{ option->
+                        def qcDetail = new QCDetail()
+                        qcDetail.qcHeader = QCHeaderInstance
+                        qcDetail.qcMaster = it.qCMaster
+                        qcDetail.qcQuestions = it
+                        qcDetail.results = option
+                        qcDetail.createdBy = session.user
+                        if(!qcDetail.save(flush:true)){
+                            println "erorr" +qcDetail.errors
+                        }    
+                    }
+                }else{
+                    def qcDetail = new QCDetail()
+                    qcDetail.qcHeader = QCHeaderInstance
+                    qcDetail.qcMaster = it.qCMaster
+                    qcDetail.qcQuestions = it
+                    qcDetail.results = params."${it.qCMaster?.code}_${it.sequenceNo}"
+                    qcDetail.createdBy = session.user
+                    if(!qcDetail.save(flush:true)){
+                        println "erorr" +qcDetail.errors
+                    }
                 }
+                
             }
         }
         
@@ -234,14 +250,23 @@ class QCHeaderController {
 
 
     def insertLineBalance(QCHeaderInstance){
+        params.order = params.order ?: 'desc' 
+        params.sort = params.sort ?: 'dateCreated' 
+        
+        def last = LineBalance.createCriteria().list(params){
+           maxResults(1)
+        }
+
+        
+
         def lineBalance = new LineBalance()
         lineBalance.plant = QCHeaderInstance.plant
         lineBalance.line = QCHeaderInstance.workCenter.line
         lineBalance.date = new Date()
-        lineBalance.beginQty = 0
-        lineBalance.inQty = lineBalance.inQty?:0
-        lineBalance.outQty = (lineBalance.outQty?:0) + 1
-        lineBalance.endQty = lineBalance.inQty - lineBalance.outQty
+        lineBalance.beginQty = last?.endQty[0]?:0
+        lineBalance.inQty = 0
+        lineBalance.outQty = 1
+        lineBalance.endQty = lineBalance.beginQty - 1
         lineBalance.createdBy =session.user
         if(!lineBalance.save(flush:true)){
             println "errors " + lineBalance.errors

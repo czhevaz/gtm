@@ -5,6 +5,7 @@ class QCActions {
 	def globalService
 
     String serverId
+    String code
     String description
 
     String  createdBy
@@ -12,7 +13,7 @@ class QCActions {
 	Date	dateCreated
 	Date	lastUpdated
 
-	
+	String toString() { return code }	
 
 	static  hasMany = [qCHeaders:QCHeader]
 
@@ -26,6 +27,7 @@ class QCActions {
     }
 
     static constraints = {
+        code unique: true,nullable:true
         serverId unique: true, nullable: false
         description nullable: false
         updatedBy nullable:true

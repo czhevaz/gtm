@@ -6,62 +6,18 @@ if(actionName=='edit' || actionName=='show') {
 <div class="easyui-tabs table" style="height:300px">
     
     
-    
-    
-        
-    
-        
-    
-        
+            
         <div title='<g:message code="line.lineBalances.label" default="Line Balances" />' style="padding:10px">
 
             <table id="dg-lineBalances" class="easyui-datagrid" style="height:240px"
             data-options="singleSelect:true, 
             collapsible:true, 
-            onClickRow: lineBalancesOnClickRow,
-            toolbar: '#tb-lineBalances',
-            url:'/${meta(name:'app.name')}/lineBalance/jlist?masterField.name=line&masterField.id=${lineInstance?.id}'">
+           
+            url:'/${meta(name:'app.name')}/lineBalance/jlist?lineServerId=${lineInstance?.serverId}'">
                 <thead>
                     <tr>
                     
-                        
-                        <th data-options="field:'updatedBy',width:200,editor:'text'">Updated By</th>
-                        
-
-                    
-                        
-                        <th data-options="field:'beginQty',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Begin Qty</th>
-                        
-
-                    
-                        
-                        <th data-options="field:'createdBy',width:200,editor:'text'">Created By</th>
-                        
-
-                    
-                        
-                        <th data-options="field:'date',width:200,editor:'text'">Date</th>
-                        
-
-                    
-                        
-                        <th data-options="field:'endQty',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">End Qty</th>
-                        
-
-                    
-                        
-                        <th data-options="field:'inQty',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">In Qty</th>
-                        
-
-                    
-                        <th data-options="field:'lineId',hidden:true">Line</th>
-                                 
-                        
-                        <th data-options="field:'outQty',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Out Qty</th>
-                        
-
-                    
-                        <th data-options="field:'plantId',width:200,
+                        <th data-options="field:'plantServerId',width:200,
                             formatter:function(value,row){
                                 return row.plantName;
                             },
@@ -76,8 +32,19 @@ if(actionName=='edit' || actionName=='show') {
                         }">Plant</th>
                                     
                         
-                        <th data-options="field:'serverId',width:200,editor:'text'">Server Id</th>
+                        <th data-options="field:'beginQty',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Begin Qty</th>
+                                
+                        <th data-options="field:'inQty',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">In Qty</th>
                         
+                                 
+                        <th data-options="field:'outQty',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Out Qty</th>
+                        
+                        <th data-options="field:'endQty',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">End Qty</th>
+        
+                        <th data-options="field:'date',width:200,editor:'text'">Date</th>
+
+                        <th data-options="field:'serverId',hidden:true">Server Id</th>
+                        <th data-options="field:'lineId',hidden:true">Line</th>
 
                     
                     </tr>
@@ -175,15 +142,14 @@ if(actionName=='edit' || actionName=='show') {
 
     
 
-    
-
+    <!--
         <div id="tb-lineBalances" style="height:auto">
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false" onclick="lineBalancesAppend()">Add</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:false" onclick="lineBalancesRemoveit()">Remove</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:false" onclick="lineBalancesAccept()">Save</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:false" onclick="lineBalancesRefresh()">Refresh</a>
         </div>
-            
+    -->        
         <r:script>     
             var editIndex = undefined;
             function lineBalancesEndEditing(){

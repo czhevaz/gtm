@@ -16,6 +16,8 @@ class QCQuestions {
     Date    dateCreated
     Date    lastUpdated
 
+    String toString() { return parameterDesc }
+
     static  belongsTo   = [QCMaster]
 
     static  hasMany = [qCDetails:QCDetail,qCOptions:QCOptions]
@@ -45,6 +47,8 @@ class QCQuestions {
             serverId = globalService.UUIDGenerator()
         }
     }
+
+    
 
     
 }

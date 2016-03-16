@@ -30,6 +30,7 @@ class QCActionsController {
 
     def save() {
         def QCActionsInstance = new QCActions(params)
+        QCActionsInstance.createdBy = session.user
         if (!QCActionsInstance.save(flush: true)) {
             render(view: "create", model: [QCActionsInstance: QCActionsInstance])
             return
@@ -175,7 +176,8 @@ class QCActionsController {
     }
 
     def jshow = {
-        def QCActionsInstance = QCActions.get(params.id)
+        println "jshow >>>>>>>>>>>>>>>> " +params 
+        def QCActionsInstance = QCActions.findByServerId(params.serverId)
         if (!QCActionsInstance) {
             render(
                 message : "QCActions.not.found",

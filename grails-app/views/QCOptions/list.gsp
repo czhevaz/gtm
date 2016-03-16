@@ -35,7 +35,6 @@
 							
 								<g:sortableColumn property="lastUpdated" title="${message(code: 'QCOptions.lastUpdated.label', default: 'Last Updated')}" />
 							
-								<th><g:message code="QCOptions.qCMaster.label" default="QCM aster" /></th>
 							
 							</tr>
 						</thead>
@@ -53,7 +52,7 @@
 							
 								<td><g:formatDate date="${QCOptionsInstance.lastUpdated}" /></td>
 							
-								<td>${fieldValue(bean: QCOptionsInstance, field: "qCMaster")}</td>
+
 							
 							</tr>
 						</g:each>
