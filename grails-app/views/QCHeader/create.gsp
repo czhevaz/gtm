@@ -40,6 +40,11 @@
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->			
+	<r:script>
+	$('#gallon').focus();
+
+</r:script>
+
 </section>
 		
 </body>

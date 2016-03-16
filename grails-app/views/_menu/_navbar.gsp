@@ -12,7 +12,7 @@
 				<i class="icon-dashboard"></i>
 				
 				<!--<img class="logo" src="${resource(plugin: 'kickstart-with-bootstrap', dir:'kickstart/img', file:'grails.png')}" alt="${meta(name:'app.name')}" width="16px" height="16px"/> -->
-				GTM
+				Amatra QC Management
 				<small> v ${meta(name:'app.version')}</small>
 			</a>
 		</div>
@@ -119,6 +119,67 @@
 				</ul>
 			</li>
 
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Report<b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					
+					<li class="dropdown-submenu">
+						<a tabindex="-1" href="#">General</a>
+						<ul class="dropdown-menu">
+	                  		
+			                  	<li>
+			                  		<g:link controller="${country?.domainPPP}">
+										New Gallon
+									</g:link>
+								</li>
+								<li>
+			                  		<g:link controller="${country?.domainPPP}">
+										Line Balance
+									</g:link>
+								</li>
+								<li>
+			                  		<g:link controller="${country?.domainPPP}">
+										Gallon History
+									</g:link>
+								</li>
+			                 
+		                </ul>
+					
+					</li>
+					<li class="dropdown-submenu">
+						<a tabindex="-1" href="#">Production In</a>
+						<ul class="dropdown-menu">
+	                  		
+			                  	<li>
+			                  		<g:link controller="${country?.domainPPP}">
+										Production Report
+									</g:link>
+								</li>
+			                 
+		                </ul>
+					
+					</li>
+					<li class="dropdown-submenu">
+						<a tabindex="-1" href="#">QC</a>
+						<ul class="dropdown-menu">
+	                  		
+			                  	<li>
+			                  		<g:link controller="${country?.domainPPP}">
+										QC Summary
+									</g:link>
+								</li>
+								<li>
+			                  		<g:link controller="${country?.domainPPP}">
+										QC Analysis
+									</g:link>
+								</li>   
+		                </ul>
+					
+					</li>
+              
+				</ul>	
+			</li>
+			
 
 		</ul>
 		<!-- <ul class="nav navbar-nav">

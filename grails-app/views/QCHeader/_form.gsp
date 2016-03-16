@@ -52,9 +52,5 @@
 			
 
 
-<r:script>
-	$('#gallon').focus();
-
-</r:script>
 
 
