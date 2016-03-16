@@ -95,7 +95,9 @@
                     </div>
 
                     <ul id="myTab" class="nav nav-tabs">
-                        <li class="active"><a href="#home" data-toggle="tab"><strong><b>Production In Detail</b></strong></a></li>
+                        <li class="active">
+                            <a href="#home" data-toggle="tab"><strong><b>Production In Detail</b></strong></a>
+                        </li>
                     </ul>
 
                     <div id="myTabContent" class="tab-content" style="padding: 20px">
@@ -127,8 +129,8 @@
             'deferRender': true // Deferred rendering for speed
         });
         setInterval( function () {
-            table.ajax.reload();
-        }, 2000 );
+            table.ajax.reload(null, false); // user paging is not reset on reload
+        }, 3000 );
     });
 
     checkNotif();
@@ -140,16 +142,14 @@
     function checkNotif() {
         var code = $("#text").val();
         if (code) {
-            $("#text").val('');
             $.ajax({
                 url: "/${meta(name:'app.name')}/productionInDetail/jsave",
                 data: {code: code},
                 success: function () {
                     $("#text").val('').focus();
-                    table.ajax.reload( null, false ); // user paging is not reset on reload
                 },
                 error: function(){
-                    alert("SCAN ULANG...");
+                    alert("SCAN ULANG ATAU BELUM TERDAFTAR DI GALON");
                     $("#text").val('').focus();
                 }
             });
