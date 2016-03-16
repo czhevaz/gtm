@@ -136,6 +136,7 @@
         var table = $('#example').DataTable({
             destroy: true,
             'ajax': '/${meta(name:'app.name')}/productionInDetail/jlist?masterField=${productionInHeaderInstance?.serverId}',
+            'order': [[ 2, 'desc' ]],
             "columns": [
                 { "title": "SysNo"},
                 { "title": "Galaon No" },
