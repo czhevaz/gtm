@@ -1,5 +1,13 @@
 <%@ page import="com.smanggin.trackingmanagement.ProductionInHeader" %>
 
+    <div class="form-group fieldcontain ${hasErrors(bean: productionInHeaderInstance, field: 'number', 'error')} ">
+        <label for="number" class="col-sm-3 control-label"><g:message code="productionInHeader.number.label" default="Number" /></label>
+        <div class="col-sm-5">
+            <g:textField name="number" class="form-control" value="${productionInHeaderInstance?.number}" readonly="true"/>
+            <span class="help-inline">${hasErrors(bean: productionInHeaderInstance, field: 'number', 'error')}</span>
+        </div>
+    </div>
+
 	<div class="form-group fieldcontain ${hasErrors(bean: productionInHeaderInstance, field: 'date', 'error')} required">
 		<label for="date" class="col-sm-3 control-label">
 			<g:message code="productionInHeader.date.label" default="Date" />
@@ -8,16 +16,6 @@
 		<div class="col-sm-5">
 			<bs:datePicker name="date" precision="day"  value="${productionInHeaderInstance?.date}"  />
 			<span class="help-inline">${hasErrors(bean: productionInHeaderInstance, field: 'date', 'error')}</span>
-		</div>
-	</div>
-
-	<div class="form-group fieldcontain ${hasErrors(bean: productionInHeaderInstance, field: 'number', 'error')} ">
-		<label for="number" class="col-sm-3 control-label">
-			<g:message code="productionInHeader.number.label" default="Number" />
-		</label>
-		<div class="col-sm-5">
-			<g:textField name="number" class="form-control" value="${productionInHeaderInstance?.number}"/>
-			<span class="help-inline">${hasErrors(bean: productionInHeaderInstance, field: 'number', 'error')}</span>
 		</div>
 	</div>
 

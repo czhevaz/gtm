@@ -6,7 +6,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'productionInHeader.label', default: 'ProductionInHeader')}" />
+	<g:set var="entityName" value="${message(code: 'productionInHeader.label', default: 'Production In Header')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
 </head>
 
@@ -69,19 +69,6 @@
 								<td valign="top" class="name"><g:message code="productionInHeader.plant.label" default="Plant" /></td>
 								
 								<td valign="top" class="value"><g:link controller="plant" action="show" id="${productionInHeaderInstance?.plant?.id}">${productionInHeaderInstance?.plant?.encodeAsHTML()}</g:link></td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="productionInHeader.productionInDetails.label" default="Production In Details" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${productionInHeaderInstance.productionInDetails}" var="p">
-										<li><g:link controller="productionInDetail" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
 								
 							</tr>
 						

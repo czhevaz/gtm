@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'productionInHeader.label', default: 'ProductionInHeader')}" />
+	<g:set var="entityName" value="${message(code: 'productionInHeader.label', default: 'Production In Header')}" />
 	<title><g:message code="default.list.label" args="[entityName]" /></title>
 </head>
 
@@ -43,7 +43,7 @@
 						<g:each in="${productionInHeaderInstanceList}" status="i" var="productionInHeaderInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${productionInHeaderInstance.id}">${fieldValue(bean: productionInHeaderInstance, field: "updatedBy")}</g:link></td>
+								<td><g:link action="show" id="${productionInHeaderInstance.serverId}">${fieldValue(bean: productionInHeaderInstance, field: "updatedBy")}</g:link></td>
 							
 								<td>${fieldValue(bean: productionInHeaderInstance, field: "createdBy")}</td>
 							

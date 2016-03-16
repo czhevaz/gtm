@@ -6,7 +6,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="kickstart" />
-    <g:set var="entityName" value="${message(code: 'production.in.header.label', default: 'Production In')}" />
+    <g:set var="entityName" value="${message(code: 'production.in.header.label', default: 'Production In Header')}" />
     <title><g:message code="default.show.label" args="[entityName]" /></title>
 </head>
 
@@ -25,7 +25,7 @@
                     </div>
                 </g:hasErrors>
 
-                <g:form action="save" class="form-horizontal" >
+                <g:form controller="productionInHeader" action="save" class="form-horizontal" >
                     <div class="box-body">
                         <fieldset class="form">
 
@@ -41,9 +41,22 @@
                             <div class="form-group fieldcontain">
                                 <label for="number" class="col-sm-3 control-label">
                                     <g:message code="productionInHeader.number.label" default="Number" />
+                                    <span class="required-indicator">*</span>
+                                    <input id="serverId" name="serverId" type="hidden" value="${productionInHeaderInstance?.serverId}">
                                 </label>
                                 <div class="col-sm-5">
                                     <g:textField name="number" class="form-control" value="${productionInHeaderInstance?.number}" readonly="true"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group fieldcontain">
+                                <label for="workCenter" class="col-sm-3 control-label">
+                                    <g:message code="productionInHeader.workCenter.label" default="Work Center" />
+                                    <span class="required-indicator">*</span>
+                                </label>
+                                <div class="col-sm-5">
+                                    <g:select id="workCenter" name="workCenter.serverId" from="${com.smanggin.trackingmanagement.WorkCenter.list()}" optionKey="serverId" required="" value="${productionInHeaderInstance?.workCenter?.serverId}" class="many-to-one form-control chosen-select"/>
+                                    <span class="help-inline">${hasErrors(bean: productionInHeaderInstance, field: 'workCenter', 'error')}</span>
                                 </div>
                             </div>
 
@@ -61,7 +74,7 @@
                                     <g:message code="productionInHeader.totalGallon.label" default="Total Gallon" />
                                 </label>
                                 <div class="col-sm-5">
-                                    <g:textField type="number" name="totalGallon" class="form-control" step="any" required="" value="${productionInHeaderInstance.totalGallon}" readonly="true"/>
+                                    <g:textField type="number" name="totalGallon" class="form-control" step="any" required="" value="${productionInHeaderInstance?.totalGallon}" readonly="true"/>
                                 </div>
                             </div>
 
@@ -116,13 +129,15 @@
 
 <script type='text/javascript'>
 
+    var serverId = $('#serverId').val();
+
     $(document).ready(function() {
         $("#text").focus();
         var table = $('#example').DataTable({
             destroy: true,
-            'ajax': '/${meta(name:'app.name')}/productionInDetail/jlist?masterField=ab45c-any76-dnuk6-pou87',
+            'ajax': '/${meta(name:'app.name')}/productionInDetail/jlist?masterField=${productionInHeaderInstance?.serverId}',
             "columns": [
-                { "title": "SysNo" },
+                { "title": "SysNo"},
                 { "title": "Galaon No" },
                 { "title": "Created Time" }
             ],
@@ -144,11 +159,12 @@
         if (code) {
             $.ajax({
                 url: "/${meta(name:'app.name')}/productionInDetail/jsave",
-                data: {code: code},
+                data: {code: code, serverId: serverId},
                 success: function () {
                     $("#text").val('').focus();
                 },
                 error: function(){
+                    clearInterval(timernotif);
                     alert("SCAN ULANG ATAU BELUM TERDAFTAR DI GALON");
                     $("#text").val('').focus();
                 }

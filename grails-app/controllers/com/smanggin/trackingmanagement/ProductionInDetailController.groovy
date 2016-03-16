@@ -35,8 +35,8 @@ class ProductionInDetailController {
             return
         }
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'productionInDetail.label', default: 'ProductionInDetail'), productionInDetailInstance.id])
-        redirect(action: "show", id: productionInDetailInstance.id)
+		flash.message = message(code: 'default.created.message', args: [message(code: 'productionInDetail.label', default: 'ProductionInDetail'), productionInDetailInstance.serverId])
+        redirect(action: "show", id: productionInDetailInstance.serverId)
     }
 
     def show() {
@@ -144,13 +144,13 @@ class ProductionInDetailController {
 
         def productionInDetailInstance = new ProductionInDetail()
 
-        if (params.code) {
+        if (params.code && params.serverId) {
 
             def gallonInstance = Gallon.findByCode(params.code)
 
             if (gallonInstance) {
 
-                productionInDetailInstance.productionInHeader = ProductionInHeader.get('ab45c-any76-dnuk6-pou87')
+                productionInDetailInstance.productionInHeader = ProductionInHeader.get(params.serverId)
                 productionInDetailInstance.gallon = Gallon.get(gallonInstance.serverId)
                 productionInDetailInstance.createdBy = session.user
                 productionInDetailInstance.updatedBy = session.user
