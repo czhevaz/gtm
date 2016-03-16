@@ -298,8 +298,6 @@ class QCHeaderController {
 
     /* QC summary */
     def qcSummary(){
-        println " parameterType Summary " + params
-
         
         def startDate = globalService.correctDateTime(params.startDate)
         def endDate = globalService.correctDateTime(params.endDate)
@@ -330,15 +328,13 @@ class QCHeaderController {
             map.put('gallonCode',it.gallon?.code)
             map.put('date',it.date)
             map.put('hasilQc','')
-            map.put('action',it.qcActions.code)
-            map.put('user Created',it.createdBy)
+            map.put('action',it.qcActions?.code?:'')
+            map.put('userCreated',it.createdBy)
             
             list.push(map)
         }
 
-
-        render([success: false] as JSON)
-
+        render([success: true ,results:list] as JSON)
     }
 
 
