@@ -5,7 +5,7 @@ class QCOptions {
 	def globalService
 
 	String serverId
-	QCMaster qCMaster
+	
 	QCQuestions qCQuestions
     String description
 
@@ -14,7 +14,7 @@ class QCOptions {
 	Date	dateCreated
 	Date	lastUpdated
 
-	static	belongsTo	= [QCMaster, QCQuestions]
+	//static	belongsTo	= [QCMaster, QCQuestions]
 
 	static	mapping = {
     	id name : 'serverId',
@@ -37,5 +37,14 @@ class QCOptions {
             
             serverId = globalService.UUIDGenerator()
         }
+    }
+
+
+    def qcOptionsBy(question){
+    	def qcOptions = QCOptions.createCriteria().list(){
+    		eq('qCQuestions',question)
+    	} 
+
+    	return qcOptions
     }
 }

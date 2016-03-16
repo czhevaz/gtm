@@ -147,14 +147,24 @@ class LineBalanceController {
         if(params.masterField){
             def c = LineBalance.createCriteria()
             def results = c.list {
-                eq(params.masterField.name+'.id',params.masterField.id.toLong())    
+                eq(params.masterField.name+'.serverId',params.masterField.id)    
             }
             render results as JSON
 
+        }else if(params.lineServerId){
+            def c = LineBalance.createCriteria()
+            
+            def results = c.list {
+                line{
+                    eq('serverId',params.lineServerId)
+                }
+            }
+
+            render results as JSON            
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+            //params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render LineBalance.list(params) as JSON           
         }
         

@@ -29,7 +29,10 @@ class QCOptionsController {
     }
 
     def save() {
-        def QCOptionsInstance = new QCOptions(params)
+        def QCOptionsInstance = new QCOptions()
+        QCOptionsInstance.qCQuestions = QCQuestions.findByServerId(params.qCQuestions.serverId)
+        QCOptionsInstance.description = params.description
+        QCOptionsInstance.createdBy = session.user
         if (!QCOptionsInstance.save(flush: true)) {
             render(view: "create", model: [QCOptionsInstance: QCOptionsInstance])
             return

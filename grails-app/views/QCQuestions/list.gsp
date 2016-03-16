@@ -43,9 +43,9 @@
 						<g:each in="${QCQuestionsInstanceList}" status="i" var="QCQuestionsInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${QCQuestionsInstance.id}">${fieldValue(bean: QCQuestionsInstance, field: "sequenceNo")}</g:link></td>
+								<td>${fieldValue(bean: QCQuestionsInstance, field: "sequenceNo")}</td>
 							
-								<td>${fieldValue(bean: QCQuestionsInstance, field: "parameterDesc")}</td>
+								<td><g:link action="show" params="[serverId:QCQuestionsInstance?.serverId]">${fieldValue(bean: QCQuestionsInstance, field: "parameterDesc")}</g:link></td>
 							
 								<td>${fieldValue(bean: QCQuestionsInstance, field: "notes")}</td>
 							

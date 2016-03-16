@@ -26,6 +26,26 @@ class GlobalService {
     	return qcdetail[0]?.results
 
     }
+
+    def valueQCDetail2(qcHeader,qcMaster,qcQuestions){
+    	def qcdetail = QCDetail.createCriteria().list(){
+    		eq('qcHeader',qcHeader)
+    		eq('qcMaster',qcMaster)
+    		eq('qcQuestions',qcQuestions)
+    	}
+
+    	return qcdetail?.results
+
+    }
+
+
+    def qcOptionsBy(question){
+    	def qcOptions = QCOptions.createCriteria().list(){
+    		eq('qCQuestions',question)
+    	} 
+
+    	return qcOptions
+    }
     
     
 }

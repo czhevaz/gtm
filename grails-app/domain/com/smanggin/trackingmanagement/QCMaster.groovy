@@ -18,7 +18,7 @@ class QCMaster {
 
     String toString() { return name }
 
-    static  hasMany = [processQCs:ProcessQC, qCDetails:QCDetail,qCOptions :QCOptions, qCQuestions:QCQuestions]
+    static  hasMany = [processQCs:ProcessQC, qCDetails:QCDetail, qCQuestions:QCQuestions]
 
     static  mapping = {
         id name : 'serverId',

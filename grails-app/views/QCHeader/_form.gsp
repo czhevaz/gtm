@@ -36,7 +36,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'workCenter', 'error')} required">
 				<label for="workCenter" class="col-sm-3 control-label"><g:message code="QCHeader.workCenter.label" default="Work Center" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
-					<g:select id="workCenter" name="workCenter.serverId" from="${com.smanggin.trackingmanagement.WorkCenter.list()}" optionKey="serverId" required="" value="${QCHeaderInstance?.workCenter?.serverId}" class="many-to-one form-control chosen-select"/>
+					<g:select id="workCenter" name="workCenter.serverId" from="${com.smanggin.trackingmanagement.WorkCenter.list()}" optionKey="serverId" required="" value="${QCHeaderInstance?.workCenter?.serverId}" class="many-to-one form-control chosen-select" />
 					<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'workCenter', 'error')}</span>
 				</div>
 			</div>

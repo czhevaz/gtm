@@ -146,7 +146,14 @@
 											<td>${j+1}. ${qcQuestionsInstance?.parameterDesc}</td>
 										</tr>
 										<tr>
-											<td> <g:textArea class="form-control" name="${processQCInstance?.qcMaster?.code}_${qcQuestionsInstance?.sequenceNo}" value="${myService?.valueQCDetail(QCHeaderInstance,qcQuestionsInstance?.qCMaster,qcQuestionsInstance)}" rows="5" cols="40" readonly="${actionName=='show'?true:false}"/></td>
+											<td>
+												<g:if test="${qcQuestionsInstance?.parameterType == 2}"> 
+													<g:textArea class="form-control" name="${processQCInstance?.qcMaster?.code}_${qcQuestionsInstance?.sequenceNo}" value="${myService?.valueQCDetail2(QCHeaderInstance,qcQuestionsInstance?.qCMaster,qcQuestionsInstance).join(',')}" rows="5" cols="40" readonly="${actionName=='show'?true:false}"/>
+												</g:if>
+												<g:else test="${qcQuestionsInstance?.parameterType == 1}"> 
+													<g:textArea class="form-control" name="${processQCInstance?.qcMaster?.code}_${qcQuestionsInstance?.sequenceNo}" value="${myService?.valueQCDetail(QCHeaderInstance,qcQuestionsInstance?.qCMaster,qcQuestionsInstance)}" rows="5" cols="40" readonly="${actionName=='show'?true:false}"/>
+												</g:else>
+											</td>
 										</tr>
 									</g:each>	
 								</tbody>
@@ -161,6 +168,36 @@
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->
 
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+                  <h3 class="box-title">Action</h3>
+                </div><!--/.box-header with-border -->	
+				
+					<table class="table table-bordered margin-top-medium">
+						<thead>
+							<tr>
+								<td>
+								
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+								${qcQuestionsInstance?.qcActions?.code}
+									<g:textArea class="form-control" name="description" value="${QCHeaderInstance?.qcActions?.description}" rows="5" cols="40" readonly="true"/>
+								</td>
+							</tr>
+										
+						</tbody>
+					</table>	
+
+					</div><!--/.box-body -->	
+			</div><!--/.box box-primary -->	
+		</div><!--/.col-lg-12 -->	
+	</div><!--/.row -->
 
 </section>
 

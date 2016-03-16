@@ -42,7 +42,7 @@ class QCQuestionsController {
     }
 
     def show() {
-        def QCQuestionsInstance = QCQuestions.get(params.id)
+        def QCQuestionsInstance = QCQuestions.findByServerId(params.serverId)
         if (!QCQuestionsInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCQuestions.label', default: 'QCQuestions'), params.id])
             redirect(action: "list")
@@ -53,7 +53,7 @@ class QCQuestionsController {
     }
 
     def edit() {
-        def QCQuestionsInstance = QCQuestions.get(params.id)
+        def QCQuestionsInstance = QCQuestions.findByServerId(params.serverId)
         if (!QCQuestionsInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCQuestions.label', default: 'QCQuestions'), params.id])
             redirect(action: "list")
@@ -64,7 +64,7 @@ class QCQuestionsController {
     }
 
     def update() {
-        def QCQuestionsInstance = QCQuestions.get(params.id)
+        def QCQuestionsInstance = QCQuestions.findByServerId(params.serverId)
         if (!QCQuestionsInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCQuestions.label', default: 'QCQuestions'), params.id])
             redirect(action: "list")
