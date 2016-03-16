@@ -86,7 +86,7 @@
 
 <body>
 <div id='login'>
-<div style="margin:0px !important"><h3>Gallon Tracking Management</h3></div>
+<div style="margin:0px !important"><h3>QC Management</h3></div>
 	<div class='inner'>
 
 		<div class='fheader'><g:message code="springSecurity.login.header"/></div>

@@ -53,7 +53,7 @@
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->			
-	<div class="row">
+	<div class="row" id="question">
 		<div class="col-lg-12">
 			<div class="box box-primary">
 				<div class="box-header with-border">
@@ -144,6 +144,15 @@
 	            }
 	        });
 	  			
+		});
+
+		 $(document).ready(function (){
+
+		
+			    $('html, body').animate({
+			        scrollTop: $("#question").offset().top
+			    }, 100);
+		
 		});
 	</r:script>
 </section>
