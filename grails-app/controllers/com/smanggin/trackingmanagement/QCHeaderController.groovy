@@ -263,7 +263,7 @@ class QCHeaderController {
         lineBalance.plant = QCHeaderInstance.plant
         lineBalance.line = QCHeaderInstance.workCenter.line
         lineBalance.date = new Date()
-        lineBalance.beginQty = last?.endQty?:0
+        lineBalance.beginQty = last?.endQty[0]?:0
         lineBalance.inQty = 0
         lineBalance.outQty = 1
         lineBalance.endQty = lineBalance.beginQty - 1
