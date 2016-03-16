@@ -136,9 +136,8 @@
         var table = $('#example').DataTable({
             destroy: true,
             'ajax': '/${meta(name:'app.name')}/productionInDetail/jlist?masterField=${productionInHeaderInstance?.serverId}',
-            'order': [[ 2, 'desc' ]],
+            'order': [[ 1, 'desc' ]],
             "columns": [
-                { "title": "SysNo"},
                 { "title": "Galaon No" },
                 { "title": "Created Time" }
             ],
@@ -166,7 +165,7 @@
                 },
                 error: function(){
                     clearInterval(timernotif);
-                    alert("SCAN ULANG ATAU BELUM TERDAFTAR DI GALON");
+                    alert("SCAN ULANG, HARUS UNIQUE");
                     $("#text").val('').focus();
                 }
             });

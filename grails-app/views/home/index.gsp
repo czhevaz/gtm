@@ -11,9 +11,8 @@
 			<div class="col-lg-3 col-xs-6">
 				<!-- small box -->
 				<div class="small-box bg-aqua">
-					<div class="inner">
-						<h3>150</h3>
-						<p>New Gallon</p>
+					<div class="inner" style="height: 63px">
+
 					</div>
 					<div class="icon">
 						<span class="glyphicon glyphicon-list"></span>

@@ -87,8 +87,8 @@ class ProductionInDetailController {
             return
         }
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'productionInDetail.label', default: 'ProductionInDetail'), productionInDetailInstance.id])
-        redirect(action: "show", id: productionInDetailInstance.id)
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'productionInDetail.label', default: 'ProductionInDetail'), productionInDetailInstance.serverId])
+        redirect(action: "show", id: productionInDetailInstance.serverId)
     }
 
     def delete() {
@@ -149,7 +149,8 @@ class ProductionInDetailController {
             def gallonInstance = Gallon.findByCode(params.code)
 
             if (gallonInstance) {
-
+                render([success: false] as JSON)
+            } else {
                 productionInDetailInstance.productionInHeader = ProductionInHeader.get(params.serverId)
                 productionInDetailInstance.gallon = Gallon.get(gallonInstance.serverId)
                 productionInDetailInstance.createdBy = session.user
@@ -161,8 +162,6 @@ class ProductionInDetailController {
                 }
 
                 render([success: true] as JSON)
-            } else {
-                render([success: false] as JSON)
             }
         }
 
@@ -178,13 +177,13 @@ class ProductionInDetailController {
                 }
             }
             pid.each {
-                results << [it.serverId, it.gallon?.code, it.dateCreated]
+                results << [it.gallon?.code, it.dateCreated]
             }
             render([data: results] as JSON)
         } else {
             pid = ProductionInDetail.list()
             pid.each {
-                results << [it.serverId, it.gallon?.code, it.dateCreated]
+                results << [it.gallon?.code, it.dateCreated]
             }
             render([data: results] as JSON)
         }
