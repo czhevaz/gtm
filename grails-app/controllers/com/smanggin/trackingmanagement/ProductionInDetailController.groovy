@@ -149,19 +149,22 @@ class ProductionInDetailController {
             def gallonInstance = Gallon.findByCode(params.code)
 
             if (gallonInstance) {
-                render([success: false] as JSON)
-            } else {
-                productionInDetailInstance.productionInHeader = ProductionInHeader.get(params.serverId)
-                productionInDetailInstance.gallon = Gallon.get(gallonInstance.serverId)
-                productionInDetailInstance.createdBy = session.user
-                productionInDetailInstance.updatedBy = session.user
-
-                if (!productionInDetailInstance.save(flush: true)) {
+                def production = ProductionInDetail.findByGallon(gallonInstance)
+                if (production) {
                     render([success: false] as JSON)
-                    return
-                }
+                } else {
+                    productionInDetailInstance.productionInHeader = ProductionInHeader.get(params.serverId)
+                    productionInDetailInstance.gallon = Gallon.get(gallonInstance.serverId)
+                    productionInDetailInstance.createdBy = session.user
+                    productionInDetailInstance.updatedBy = session.user
 
-                render([success: true] as JSON)
+                    if (!productionInDetailInstance.save(flush: true)) {
+                        render([success: false] as JSON)
+                        return
+                    }
+
+                    render([success: true] as JSON)
+                }
             }
         }
 
