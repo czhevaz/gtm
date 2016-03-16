@@ -39,9 +39,10 @@
 				</g:form>
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
-	</div><!--/.row -->			
+	</div><!--/.row -->
+
 </section>
-		
+
 </body>
 
 </html>

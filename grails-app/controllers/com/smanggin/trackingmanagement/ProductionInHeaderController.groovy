@@ -186,4 +186,8 @@ class ProductionInHeaderController {
             render([productionInHeaderInstance : productionInHeaderInstance ] as JSON)
         }
     }
+
+    def production() {
+        [productionInHeaderInstance: new ProductionInHeader(params)]
+    }
 }
