@@ -46,8 +46,8 @@ class QCHeader {
             
             serverId = globalService.UUIDGenerator()
         }
-    }
 
+    }
 
     def beforeInsert(){
 		Integer count= QCHeader.countByTransactionGroup(transactionGroup)+1

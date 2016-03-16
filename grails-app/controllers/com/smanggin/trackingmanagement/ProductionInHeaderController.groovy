@@ -29,14 +29,31 @@ class ProductionInHeaderController {
     }
 
     def save() {
-        def productionInHeaderInstance = new ProductionInHeader(params)
+        def productionInHeaderInstance = (params.serverId) ? ProductionInHeader.get(params.serverId) : new ProductionInHeader(params)
+        productionInHeaderInstance.createdBy = session.user
+        productionInHeaderInstance.updatedBy = session.user
+        productionInHeaderInstance.transactionGroup = TransactionGroup.findByServerId(params.transactionGroup.serverId)
+        productionInHeaderInstance.plant = Plant.findByServerId(params.plant.serverId)
+        productionInHeaderInstance.workCenter = WorkCenter.findByServerId(params?.workCenter?.serverId)
+
+        if (params.serverId) {
+            def productionInDetailInstance = ProductionInDetail.createCriteria().list {
+                productionInHeader {
+                    eq('serverId', params.serverId)
+                }
+            }
+            productionInHeaderInstance.totalGallon = productionInDetailInstance?.size().toFloat() // ProductionInHeader.total
+        }
+
         if (!productionInHeaderInstance.save(flush: true)) {
             render(view: "create", model: [productionInHeaderInstance: productionInHeaderInstance])
             return
         }
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'productionInHeader.label', default: 'ProductionInHeader'), productionInHeaderInstance.id])
-        redirect(action: "show", id: productionInHeaderInstance.id)
+        insertLineBalance(productionInHeaderInstance)
+
+		flash.message = message(code: 'default.created.message', args: [message(code: 'productionInHeader.label', default: 'ProductionInHeader'), productionInHeaderInstance.serverId])
+        redirect(action: "show", id: productionInHeaderInstance.serverId)
     }
 
     def show() {
@@ -188,6 +205,37 @@ class ProductionInHeaderController {
     }
 
     def production() {
-        [productionInHeaderInstance: new ProductionInHeader(params)]
+        def userPlant = UserPlants.findByUser(User.findByLogin(session.user))
+
+        def productionInHeaderInstance = new ProductionInHeader(params)
+        productionInHeaderInstance.createdBy = session.user
+        productionInHeaderInstance.updatedBy = session.user
+        productionInHeaderInstance.date = new Date()
+        productionInHeaderInstance.totalGallon = 0.0
+        productionInHeaderInstance.number = ''
+        productionInHeaderInstance.transactionGroup = null
+        productionInHeaderInstance.plant = Plant.findByServerId(userPlant?.plant?.serverId)
+        productionInHeaderInstance.workCenter = null
+        if (!productionInHeaderInstance.save(flush: true)) {
+            render(view: "create", model: [productionInHeaderInstance: productionInHeaderInstance])
+            return
+        }
+
+        [productionInHeaderInstance: productionInHeaderInstance]
+    }
+
+    def insertLineBalance(productionInHeaderInstance){
+        def lineBalance = new LineBalance()
+        lineBalance.plant = productionInHeaderInstance.plant
+        lineBalance.line = productionInHeaderInstance.workCenter.line
+        lineBalance.date = new Date()
+        lineBalance.beginQty = 0
+        lineBalance.inQty = productionInHeaderInstance.totalGallon
+        lineBalance.outQty = 0
+        lineBalance.endQty = lineBalance.inQty + lineBalance.outQty
+        lineBalance.createdBy = session.user
+        if(!lineBalance.save(flush:true)){
+            println "errors " + lineBalance.errors
+        }
     }
 }
