@@ -1,6 +1,6 @@
 package com.smanggin.trackingmanagement
  import java.util.UUID
-
+import java.text.*
 /**
  * GlobalService
  * A service class encapsulates the core business logic of a Grails application
@@ -46,6 +46,32 @@ class GlobalService {
 
     	return qcOptions
     }
+
+    def filterDate(startDate,endDate){
+        def vd= []
+        Calendar cal = Calendar.getInstance();
+           cal.setTime(startDate);
+           cal.set(Calendar.HOUR_OF_DAY, 0);
+           cal.set(Calendar.MINUTE, 0);
+           cal.set(Calendar.SECOND, 0);
+           Date start = cal.getTime();
+
+        Calendar calx = Calendar.getInstance();
+           calx.setTime(endDate);
+           calx.set(Calendar.HOUR_OF_DAY, 23);
+           calx.set(Calendar.MINUTE, 59);
+           calx.set(Calendar.SECOND, 59);
+           Date end = calx.getTime();
+
+        return [start:start,end:end] 
+    }
+
+    static correctDateTime(String input){
+    	DateFormat df = new SimpleDateFormat( 'yyyy-MM-dd HH:mm:ss' )
+        Date d = df.parse(input)
+        return d
+    }
+
     
     
 }
