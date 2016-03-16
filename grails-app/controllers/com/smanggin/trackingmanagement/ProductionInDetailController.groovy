@@ -171,9 +171,8 @@ class ProductionInDetailController {
     def jlist() {
         def pid = null
         def results = []
-        if(params.masterField){
-            def c = ProductionInDetail.createCriteria()
-            pid = c.list {
+        if(params.masterField) {
+            pid = ProductionInDetail.createCriteria().list {
                 productionInHeader {
                     eq('serverId',params.masterField)
                 }
@@ -182,17 +181,15 @@ class ProductionInDetailController {
                 results << [it.serverId, it.gallon?.code, it.dateCreated]
             }
             render([data: results] as JSON)
-        }
-        else
-        {
+        } else {
             pid = ProductionInDetail.list()
             pid.each {
                 results << [it.serverId, it.gallon?.code, it.dateCreated]
             }
             render([data: results] as JSON)
         }
-        
-    }   
+
+    }
 
     def jdelete(Long id) {
         def productionInDetailInstance = ProductionInDetail.get(id)
