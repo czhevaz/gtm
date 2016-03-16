@@ -72,7 +72,7 @@
 
 
 	<div class="row">
-		<table class="table table-bordered table-striped  margin-top-medium">
+		<table id="table-summary" class="table table-bordered table-striped  margin-top-medium">
 			<thead>
 				<tr>
 					<td>No</td>
@@ -111,6 +111,21 @@
 	            data: data,
 	            type: "POST",
 	            success: function (data) {
+	            	console.log(data);
+	            	$("#table-summary tbody").html("");
+	            	$.each(data.results , function(i,item) {
+						var tr ="<tr>";
+							tr += "<td > "+  i +" </td>";
+							tr += "<td > "+  item.gallonCode +" </td>";
+							tr += "<td > "+  item.date +" </td>";
+							tr += "<td >  </td>";
+							tr += "<td > "+  item.action +" </td>";
+							tr += "<td > "+  item.userCreated +" </td>";
+							tr += "</tr>";
+
+						$("#table-summary tbody").append(tr);		
+					});
+
 	            	
 	            },
 	            error: function (xhr, status, error) {
