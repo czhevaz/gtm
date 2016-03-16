@@ -138,7 +138,7 @@
             'ajax': '/${meta(name:'app.name')}/productionInDetail/jlist?masterField=${productionInHeaderInstance?.serverId}',
             'order': [[ 1, 'desc' ]],
             "columns": [
-                { "title": "Galaon No" },
+                { "title": "Galon No" },
                 { "title": "Created Time" }
             ],
             'deferRender': true // Deferred rendering for speed
@@ -160,13 +160,19 @@
             $.ajax({
                 url: "/${meta(name:'app.name')}/productionInDetail/jsave",
                 data: {code: code, serverId: serverId},
-                success: function () {
-                    $("#text").val('').focus();
-                },
-                error: function(){
-                    clearInterval(timernotif);
-                    alert("SCAN ULANG, HARUS UNIQUE");
-                    $("#text").val('').focus();
+                success: function (d) {
+                    if (d.success) {
+                        $("#text").val('').focus();
+                    } else {
+                        clearInterval(timernotif);
+                        var r = confirm("SCAN ULANG, HARUS UNIQUE");
+                        if (r == true) {
+                            $("#text").val('').focus();
+                            timernotif = setInterval("checkNotif()", 2000);
+                        } else {
+                            $("#text").val('').focus();
+                        }
+                    }
                 }
             });
         }
