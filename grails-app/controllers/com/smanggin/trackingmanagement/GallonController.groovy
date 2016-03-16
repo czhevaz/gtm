@@ -186,4 +186,8 @@ class GallonController {
             render([gallonInstance : gallonInstance ] as JSON)
         }
     }
+
+    def newGallon() {
+        return ''
+    }
 }
