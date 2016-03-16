@@ -25,17 +25,17 @@
 						<thead>
 							<tr>
 							
-								<g:sortableColumn property="updatedBy" title="${message(code: 'QCHeader.updatedBy.label', default: 'Updated By')}" />
-							
-								<g:sortableColumn property="createdBy" title="${message(code: 'QCHeader.createdBy.label', default: 'Created By')}" />
-							
+								<th><g:message code="QCHeader.number.label" default="Number" /></th>
+								
+								<th><g:message code="QCHeader.transactionGroup.label" default="TransactionGroup" /></th>
+
+								<th><g:message code="QCHeader.plant.label" default="Plant" /></th>
+
+								<th><g:message code="QCHeader.workCenter.label" default="Work Center" /></th>
+
 								<g:sortableColumn property="date" title="${message(code: 'QCHeader.date.label', default: 'Date')}" />
 							
-								<g:sortableColumn property="dateCreated" title="${message(code: 'QCHeader.dateCreated.label', default: 'Date Created')}" />
-							
 								<th><g:message code="QCHeader.gallon.label" default="Gallon" /></th>
-							
-								<g:sortableColumn property="lastUpdated" title="${message(code: 'QCHeader.lastUpdated.label', default: 'Last Updated')}" />
 							
 							</tr>
 						</thead>
@@ -43,17 +43,19 @@
 						<g:each in="${QCHeaderInstanceList}" status="i" var="QCHeaderInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${QCHeaderInstance.id}">${fieldValue(bean: QCHeaderInstance, field: "updatedBy")}</g:link></td>
-							
-								<td>${fieldValue(bean: QCHeaderInstance, field: "createdBy")}</td>
-							
+								<td> <g:link action="show" params="[serverId:QCHeaderInstance?.serverId]">${fieldValue(bean: QCHeaderInstance, field: "number")}</g:link></td>
+
+								<td>${fieldValue(bean: QCHeaderInstance, field: "transactionGroup")}</td>
+
+								<td>${fieldValue(bean: QCHeaderInstance, field: "plant")}</td>
+
+								<td>${fieldValue(bean: QCHeaderInstance, field: "workCenter")}</td>
+
 								<td><g:formatDate date="${QCHeaderInstance.date}" /></td>
-							
-								<td><g:formatDate date="${QCHeaderInstance.dateCreated}" /></td>
 							
 								<td>${fieldValue(bean: QCHeaderInstance, field: "gallon")}</td>
 							
-								<td><g:formatDate date="${QCHeaderInstance.lastUpdated}" /></td>
+							
 							
 							</tr>
 						</g:each>

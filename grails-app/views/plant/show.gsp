@@ -86,12 +86,6 @@
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="plant.updatedBy.label" default="Updated By" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: plantInstance, field: "updatedBy")}</td>
-								
-							</tr>
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="plant.createdBy.label" default="Created By" /></td>
@@ -106,6 +100,13 @@
 								<td valign="top" class="value"><g:formatDate date="${plantInstance?.dateCreated}" /></td>
 								
 							</tr>
+							
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="plant.updatedBy.label" default="Updated By" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: plantInstance, field: "updatedBy")}</td>
+								
+							</tr>
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="plant.lastUpdated.label" default="Last Updated" /></td>
@@ -114,78 +115,7 @@
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="plant.lineBalances.label" default="Line Balances" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${plantInstance.lineBalances}" var="l">
-										<li><g:link controller="lineBalance" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="plant.productionInHeaders.label" default="Production In Headers" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${plantInstance.productionInHeaders}" var="p">
-										<li><g:link controller="productionInHeader" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="plant.qCHeaders.label" default="QCH eaders" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${plantInstance.qCHeaders}" var="q">
-										<li><g:link controller="QCHeader" action="show" id="${q.id}">${q?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="plant.serverId.label" default="Server Id" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: plantInstance, field: "serverId")}</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="plant.userPlants.label" default="User Plants" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${plantInstance.userPlants}" var="u">
-										<li><g:link controller="userPlants" action="show" id="${u.id}">${u?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="plant.workCenters.label" default="Work Centers" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${plantInstance.workCenters}" var="w">
-										<li><g:link controller="workCenter" action="show" id="${w.id}">${w?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
+							
 						</tbody>
 					</table>
 				</div><!--/.row -->

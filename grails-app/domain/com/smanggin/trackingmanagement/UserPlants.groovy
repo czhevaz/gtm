@@ -7,7 +7,7 @@ class UserPlants {
 	String serverId
 	User user 
 	Plant plant
-	Boolean isNumber
+	Boolean isDefault
 
 	String  createdBy
 	String  updatedBy
