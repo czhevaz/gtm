@@ -128,7 +128,7 @@
 						<ul class="dropdown-menu">
 	                  		
 			                  	<li>
-			                  		<g:link controller="${country?.domainPPP}">
+			                  		<g:link controller="Gallon" action="newGallon">
 										New Gallon
 									</g:link>
 								</li>
