@@ -113,12 +113,28 @@
 	            success: function (data) {
 	            	console.log(data);
 	            	$("#table-summary tbody").html("");
+
 	            	$.each(data.results , function(i,item) {
+	            		var detail ="";
+	            		$.each(item.hasilQc , function(j,hcq) {
+	            			
+
+	            			detail += hcq.name + "<br/>";
+	            			
+	            			$.each(hcq.value , function(k,hcr) {
+	            			console.log(hcr.name);
+	            				detail  += (k+1)+"."+hcr.name+"<br/>" 
+	            				detail  += "&nbsp;&nbsp;&nbsp;     "+hcr.value+"<br/>" 
+	            			});
+
+	            		});
+
+	            		
 						var tr ="<tr>";
 							tr += "<td > "+  i +" </td>";
 							tr += "<td > "+  item.gallonCode +" </td>";
 							tr += "<td > "+  item.date +" </td>";
-							tr += "<td >  </td>";
+							tr += "<td > "+ detail+"</td>";
 							tr += "<td > "+  item.action +" </td>";
 							tr += "<td > "+  item.userCreated +" </td>";
 							tr += "</tr>";
