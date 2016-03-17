@@ -111,19 +111,23 @@
 			}
 
 			$.ajax({
-	            url: "/${meta(name:'app.name')}/QCHeader/qcSummary",
+	            url: "/${meta(name:'app.name')}/gallon/gallonHistory",
 	            data: data,
 	            type: "POST",
 	            success: function (data) {
 	            	console.log(data);
 	            	$("#table-summary tbody").html("");
-	            	$.each(data.results , function(i,item) {
+	            	$.each(data.results , function(i, gh) {
 						var tr ="<tr>";
-    tr += "<td > "+  i +" </td>";
-    tr += "<td > "+  item.barcode +" </td>";
-    tr += "<td > "+  item.date +" </td>";
-    tr += "<td > "+  item.userCreated +" </td>";
-    tr += "</tr>";
+                            tr += "<td > "+  i +" </td>";
+                            tr += "<td > "+  gh.date +" </td>";
+                            tr += "<td > "+  gh.plant +" </td>";
+                            tr += "<td > "+  gh.line +" </td>";
+                            tr += "<td > "+  gh.workcenter +" </td>";
+                            tr += "<td > "+  gh.in +" </td>";
+                            tr += "<td > "+  gh.out +" </td>";
+                            tr += "<td > "+  gh.cycletime +" </td>";
+                            tr += "</tr>";
 
 						$("#table-summary tbody").append(tr);
 					});
