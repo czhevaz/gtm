@@ -128,17 +128,17 @@
 						<ul class="dropdown-menu">
 	                  		
 			                  	<li>
-			                  		<g:link controller="Gallon" action="newGallon">
+			                  		<g:link controller="Gallon" action="report" params="[newGallon:true]">
 										New Gallon
 									</g:link>
 								</li>
 								<li>
-			                  		<g:link controller="${country?.domainPPP}">
+			                  		<g:link controller="Gallon" action="report" params="[lineBalance:true]">
 										Line Balance
 									</g:link>
 								</li>
 								<li>
-			                  		<g:link controller="${country?.domainPPP}">
+			                  		<g:link controller="Gallon" action="report" params="[gallonHistory:true]">
 										Gallon History
 									</g:link>
 								</li>
@@ -151,7 +151,7 @@
 						<ul class="dropdown-menu">
 	                  		
 			                  	<li>
-			                  		<g:link controller="${country?.domainPPP}">
+			                  		<g:link controller="productionInHeader" action="report" params="[productionIn:true]">
 										Production Report
 									</g:link>
 								</li>

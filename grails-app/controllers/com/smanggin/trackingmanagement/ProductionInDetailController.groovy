@@ -12,6 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class ProductionInDetailController {
 
+    def globalService
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -218,5 +220,33 @@ class ProductionInDetailController {
         else {
             render([productionInDetailInstance : productionInDetailInstance ] as JSON)
         }
+    }
+
+    def reportProductionIn() {
+        def startDate = globalService.correctDateTime(params.startDate)
+        def endDate = globalService.correctDateTime(params.endDate)
+        // def filterDate = globalService.filterDate(startDate, endDate)
+        def line1 = Line.findByServerId(params.line1ServerId)
+        // def line2 = Line.findByServerId(params.line2Code)
+        def plant = Plant.findByServerId(params.plantServerId)
+
+        def results = ProductionInHeader.createCriteria().list {
+            workCenter {
+                eq('line', line1)
+            }
+        }
+
+        println " results" + results
+
+        def list = []
+
+        results.each{
+            def map = [:]
+            map.put('gallonCode', it.productionInDetails?.gallon?.code)
+            map.put('date', it.date)
+            list.push(map)
+        }
+
+        render([success: true, results: list] as JSON)
     }
 }

@@ -245,4 +245,8 @@ class ProductionInHeaderController {
             println "errors " + lineBalance.errors
         }
     }
+
+    def productionIn() {
+        return ''
+    }
 }
