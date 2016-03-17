@@ -187,6 +187,21 @@ class GallonController {
         }
     }
 
+    def report(){
+        def view
+
+        if(params.newGallon){
+            view = "newGallon"
+            render(view: "${view}")
+        } else if(params.gallonHistory) {
+            view = "gallonHistory"
+            render(view: "${view}")
+        } else if (params.lineBalance) {
+            view = "lineBalance"
+            render(view: "${view}")
+        }
+    }
+
     def newGallon() {
         return ''
     }

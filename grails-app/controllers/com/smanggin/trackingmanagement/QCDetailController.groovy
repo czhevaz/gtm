@@ -12,6 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class QCDetailController {
 
+    def globalService
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -185,5 +187,36 @@ class QCDetailController {
         else {
             render([QCDetailInstance : QCDetailInstance ] as JSON)
         }
+    }
+
+    def lineBalance() {
+        def startDate = globalService.correctDateTime(params.startDate)
+        def endDate = globalService.correctDateTime(params.endDate)
+        // def filterDate = globalService.filterDate(startDate, endDate)
+        def line1 = Line.findByServerId(params.line1ServerId)
+        // def line2 = Line.findByServerId(params.line2Code)
+        def plant1 = Plant.findByServerId(params.plantServerId)
+
+        def results = LineBalance.createCriteria().list {
+            eq('line', line1)
+            eq('plant', plant1)
+        }
+
+        println " results" + results
+
+        def list = []
+
+        results.each{
+            def map = [:]
+            map.put('date', it.date)
+            map.put('gallonCode', '')
+            map.put('begin', it.beginQty)
+            map.put('in', it.inQty)
+            map.put('out', it.outQty)
+            map.put('ending', it.endQty)
+            list.push(map)
+        }
+
+        render([success: true, results: list] as JSON)
     }
 }
