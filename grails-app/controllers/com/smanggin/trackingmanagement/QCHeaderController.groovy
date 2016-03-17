@@ -322,19 +322,63 @@ class QCHeaderController {
         def list = []
 
         results.each{
-            def listHasilQCOpt = []
+            
+            def hasilQc = hasilQc(it)
+            println " hasilQc " + hasilQc
             //it.
             def map = [:]
             map.put('gallonCode',it.gallon?.code)
             map.put('date',it.date)
-            map.put('hasilQc','')
-            map.put('action',it.qcActions?.code?:'')
+            map.put('hasilQc',hasilQc)
+            map.put('action',it.qcActions?.description?:'')
             map.put('userCreated',it.createdBy)
             
             list.push(map)
         }
 
         render([success: true ,results:list] as JSON)
+    }
+
+
+    def hasilQc(QCHeaderInstance){
+        
+        def processQCAll = ProcessQC.findAllByProcess(QCHeaderInstance.workCenter?.process)   
+        def listMaster= []
+        processQCAll.each{
+
+            def listQuestion = []
+            def qcMasters=it.qcMaster
+            
+            def mapMaster=[:]
+            mapMaster.put('name',it.qcMaster?.name)
+
+            
+            qcMasters?.qCQuestions?.each{ question ->
+                def mapQuestion=[:]
+                mapQuestion.put('name',question.parameterDesc)
+                
+                def results = QCDetail.createCriteria().list(){
+                    eq('qcHeader',QCHeaderInstance)
+                    eq('qcMaster',qcMasters)
+                    eq('qcQuestions',question)
+                }
+
+                mapQuestion.put('value',results.results)
+
+                if(results){
+                    listQuestion.push(mapQuestion)
+                }
+            }
+
+            mapMaster.put('value',listQuestion)
+
+            if(listQuestion.size() > 0){
+                listMaster.push(mapMaster)    
+            }
+            
+        }
+
+        return listMaster     
     }
 
 
