@@ -100,23 +100,23 @@
                 <table class="table">
                     <tr>
                         <th style="width:50%">Begin:</th>
-                        <td>0</td>
+                        <td><span id="begin">0</span></td>
                     </tr>
                     <tr>
                         <th>In:</th>
-                        <td>0</td>
+                        <td><span id="in">0</span></td>
                     </tr>
                     <tr>
                         <th>Out:</th>
-                        <td>0</td>
+                        <td><span id="out">0</span></td>
                     </tr>
                     <tr>
                         <th>Ending:</th>
-                        <td>0</td>
+                        <td><span id="ending">0</span></td>
                     </tr>
                     <tr>
                         <th>Total:</th>
-                        <td>0</td>
+                        <td><span id="total"></span>0</td>
                     </tr>
                 </table>
             </div>
@@ -156,7 +156,7 @@
 	            data: data,
 	            type: "POST",
 	            success: function (data) {
-	            	console.log(data);
+	            	// console.log(data);
 	            	$("#table-summary tbody").html("");
 	            	$.each(data.results , function(i, lb) {
 						var tr ="<tr>";
@@ -169,6 +169,11 @@
                             tr += "</tr>";
 						$("#table-summary tbody").append(tr);
 					});
+					$("#begin").text(data.begin);
+					$("#in").text(data.in2);
+					$("#out").text(data.out);
+					$("#ending").text(data.ending);
+					$("#total").text(data.total);
 	            },
 	            error: function (xhr, status, error) {
 	                alert("fail");
