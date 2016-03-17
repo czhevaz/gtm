@@ -80,7 +80,6 @@
                 <tr>
                     <td>No</td>
                     <td>Date</td>
-                    <td>GallonID</td>
                     <td>Begin </td>
                     <td>In </td>
                     <td>Out</td>
@@ -163,7 +162,6 @@
 						var tr ="<tr>";
                             tr += "<td > "+  i +" </td>";
                             tr += "<td > "+  lb.date +" </td>";
-                            tr += "<td > "+  lb.gallonCode +" </td>";
                             tr += "<td > "+  lb.begin +" </td>";
                             tr += "<td > "+  lb.in +" </td>";
                             tr += "<td > "+  lb.out +" </td>";

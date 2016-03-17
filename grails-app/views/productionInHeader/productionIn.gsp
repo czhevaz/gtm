@@ -94,7 +94,7 @@
                 <table class="table">
                     <tr>
                         <th style="width:50%">Total Galon Per Line:</th>
-                        <td>0</td>
+                        <td><span id="totalgalon">0</span></td>
                     </tr>
                     <tr>
                         <th>Total Galon Per Plant:</th>
@@ -138,7 +138,8 @@
 	            data: data,
 	            type: "POST",
 	            success: function (data) {
-	            	console.log(data);
+	            	// console.log(data);
+	            	var total = data.totalGalon;
 	            	$("#table-summary tbody").html("");
 	            	$.each(data.results , function(i, prod) {
 						var tr ="<tr>";
@@ -149,8 +150,7 @@
 
 						$("#table-summary tbody").append(tr);
 					});
-
-
+					$("#totalgalon").text(data.totalGalon);
 	            },
 	            error: function (xhr, status, error) {
 	                alert("fail");

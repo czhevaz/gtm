@@ -151,7 +151,7 @@
 						<ul class="dropdown-menu">
 	                  		
 			                  	<li>
-			                  		<g:link controller="productionInHeader" action="productionIn">
+			                  		<g:link controller="productionInHeader" action="report" params="[productionIn:true]">
 										Production Report
 									</g:link>
 								</li>
