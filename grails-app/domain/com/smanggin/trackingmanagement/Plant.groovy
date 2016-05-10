@@ -53,4 +53,12 @@ class Plant {
         email blank: true, email: true
         updatedBy nullable:true
     }
+
+    def beforeValidate(){
+        
+        if(!serverId || serverId ==null){
+            
+            serverId = globalService.UUIDGenerator()
+        }
+    }
 }
