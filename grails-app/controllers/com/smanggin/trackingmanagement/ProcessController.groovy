@@ -30,6 +30,7 @@ class ProcessController {
 
     def save() {
         def processInstance = new Process(params)
+        processInstance.createdBy =session.user
         if (!processInstance.save(flush: true)) {
             render(view: "create", model: [processInstance: processInstance])
             return
