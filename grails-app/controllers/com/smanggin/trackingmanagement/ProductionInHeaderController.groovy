@@ -263,4 +263,45 @@ class ProductionInHeaderController {
 
         return res
     }
+
+    /**
+    Report  
+    **/
+    def report(){
+        def view = params.report
+        render(view: "${view}")
+
+        /*if(params.report == qcSummary){
+            println "======= QC summary ======"
+            
+            
+        } else if(params.report == qcAnalysis) {
+            println "======= Qc Annalisys ======"
+            views = params.report
+            
+        } */
+
+
+    }
+
+    def productionAnalysis(){
+        def startDate = globalService.correctDateTime(params.startDate)
+        def endDate = globalService.correctDateTime(params.endDate)
+        def filterDate = globalService.filterDate(startDate, endDate)
+        def process = Process.findByServerId(params.processServerId)
+        def line1 = Line.findByServerId(params.line1ServerId)
+        def plant = Plant.findByServerId(params.plantServerId)
+
+
+        def productionInHeader = ProductionInHeader.createCriteria().list(){
+            workCenter{
+                eq('line',line)    
+                eq('plant',plant)
+                eq('process',process)
+            }
+        }
+
+        render([success: true ,results:listQc] as JSON)        
+
+    }
 }

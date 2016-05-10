@@ -30,6 +30,8 @@ class LineController {
 
     def save() {
         def lineInstance = new Line(params)
+        lineInstance.createdBy = session.user
+        lineInstance.plant = Plant.findByServerId(params.plant?.serverId)
         if (!lineInstance.save(flush: true)) {
             render(view: "create", model: [lineInstance: lineInstance])
             return

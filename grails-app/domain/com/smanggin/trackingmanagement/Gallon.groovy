@@ -30,7 +30,7 @@ class Gallon {
     }
 
     static constraints = {
-        code blank: false
+        code blank: false,unique:true
         writeOff nullable: false
         updatedBy nullable:true
         item nullable:true

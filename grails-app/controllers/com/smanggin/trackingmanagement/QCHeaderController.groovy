@@ -421,7 +421,7 @@ class QCHeaderController {
             listQc.push(mapqc)
         }
 
-        println listQc
+        
         render([success: true ,results:listQc] as JSON)        
     }
 

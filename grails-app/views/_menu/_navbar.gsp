@@ -171,13 +171,13 @@
 		                </ul>
 					
 					</li>
-					<!--
+					
 					<li class="dropdown-submenu">
-						<a tabindex="-1" href="#">Production In</a>
+						<a tabindex="-1" href="#">Production</a>
 						<ul class="dropdown-menu">
 	                  		
 			                  	<li>
-			                  		<g:link controller="productionInHeader" action="report" params="[productionIn:true]">
+			                  		<g:link controller="productionInHeader" action="report" params="[report:'productionAnalysis']">
 										Production Report
 									</g:link>
 								</li>
@@ -185,7 +185,7 @@
 		                </ul>
 					
 					</li>
-					-->
+					
 					<li class="dropdown-submenu">
 						<a tabindex="-1" href="#">QC</a>
 						<ul class="dropdown-menu">
