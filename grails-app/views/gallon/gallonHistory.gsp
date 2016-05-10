@@ -128,6 +128,23 @@
 	            success: function (d) {
                     console.log(d);
                     $("#table-summary tbody").html("");
+	            url: "/${meta(name:'app.name')}/gallon/gallonHistory",
+	            data: data,
+	            type: "POST",
+	            success: function (data) {
+	            	console.log(data);
+	            	$("#table-summary tbody").html("");
+	            	$.each(data.results , function(i, gh) {
+						var tr ="<tr>";
+                            tr += "<td > "+  i +" </td>";
+                            tr += "<td > "+  gh.date +" </td>";
+                            tr += "<td > "+  gh.plant +" </td>";
+                            tr += "<td > "+  gh.line +" </td>";
+                            tr += "<td > "+  gh.workcenter +" </td>";
+                            tr += "<td > "+  gh.in +" </td>";
+                            tr += "<td > "+  gh.out +" </td>";
+                            tr += "<td > "+  gh.cycletime +" </td>";
+                            tr += "</tr>";
 
                     $.each(d.results.listDetail , function(i,k) {
                     console.log(d.results.listDetail[i]);
