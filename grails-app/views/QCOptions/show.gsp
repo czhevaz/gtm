@@ -58,12 +58,6 @@
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCOptions.qCMaster.label" default="QCM aster" /></td>
-								
-								<td valign="top" class="value"><g:link controller="QCMaster" action="show" id="${QCOptionsInstance?.qCMaster?.id}">${QCOptionsInstance?.qCMaster?.encodeAsHTML()}</g:link></td>
-								
-							</tr>
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="QCOptions.qCQuestions.label" default="QCQ uestions" /></td>
@@ -72,12 +66,7 @@
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCOptions.serverId.label" default="Server Id" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: QCOptionsInstance, field: "serverId")}</td>
-								
-							</tr>
+							
 						
 						</tbody>
 					</table>

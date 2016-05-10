@@ -11,7 +11,17 @@
 <body>
 
 <section id="show-QCHeader" class="first">
-
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group ">
+                <label for="item" class="col-sm-3 control-label"><g:message code="QCHeader.plant.label" default="Tracked Item" /><span class="required-indicator">*</span></label>
+                <div class="col-sm-5">
+                    <g:select id="item" name="item.serverId" from="${com.smanggin.trackingmanagement.Item.list()}" optionKey="serverId" value="${params?.item?.serverId}" class="many-to-one form-control chosen-select"/>
+                    
+                </div>
+            </div>
+        </div>
+    </div>        
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group fieldcontain">
@@ -20,13 +30,23 @@
                     <span class="required-indicator">*</span>
                 </label>
                 <div class="col-sm-3">
-                    <g:select id="plant" name="plant.serverId" from="${com.smanggin.trackingmanagement.Plant.list()}" optionKey="serverId" required="" value="${QCHeaderInstance?.plant?.serverId}" class="many-to-one form-control chosen-select"/>
-                    <span class="help-inline">
-                        ${hasErrors(bean: gallonInstance, field: 'plant', 'error')}
-                    </span>
+                    <g:field type="text" name="gallon1" step="any"  class="form-control" value="${params.gallon1}" />
                 </div>
             </div>
         </div>
+        <!--
+        <div class="col-sm-6">
+            <div class="form-group fieldcontain">
+                <label for="plant" class="col-sm-3 control-label">
+                    <g:message code="gallon.plant.label" default="GallonID" />
+                    <span class="required-indicator">*</span>
+                </label>
+                <div class="col-sm-3">
+                    <g:field type="text" name="gallon2" step="any"  class="form-control" value="${params.gallon2}" />
+                </div>
+            </div>
+        </div>
+    -->
     </div>
 
     <div class="row">
@@ -84,16 +104,7 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <button class="btn btn-success pull-right">
-                <span class="glyphicon .glyphicon-save"></span> Generate XLS
-            </button>
-            <button class="btn btn-success pull-right" style="margin-right: 5px;">
-                <span class="glyphicon .glyphicon-open"></span> Generate PDF
-            </button>
-        </div>
-    </div>
+    
 
 
     <r:script>
@@ -102,31 +113,46 @@
 
 			var startDate = $('#starDate_year').val() + "-" + $('#starDate_month').val() + "-" + $('#starDate_day').val()+ " 00:00:00";
 			var endDate = $('#endDate_year').val() + "-" + $('#endDate_month').val() + "-" + $('#endDate_day').val()+ " 23:59:59";
-			var plantServerId = $("#plant").val();
+			var gallonCode = $("#gallon1").val();
 
 			var data = {
 				startDate:startDate,
 				endDate:endDate ,
-				plantServerId:plantServerId
+				gallonCode:gallonCode,
 			}
 
 			$.ajax({
-	            url: "/${meta(name:'app.name')}/QCHeader/qcSummary",
-	            data: data,
-	            type: "POST",
-	            success: function (data) {
-	            	console.log(data);
-	            	$("#table-summary tbody").html("");
-	            	$.each(data.results , function(i,item) {
-						var tr ="<tr>";
-    tr += "<td > "+  i +" </td>";
-    tr += "<td > "+  item.barcode +" </td>";
-    tr += "<td > "+  item.date +" </td>";
-    tr += "<td > "+  item.userCreated +" </td>";
-    tr += "</tr>";
+	            url: "/${meta(name:'app.name')}/gallon/gallonHistory",
+	            data:data,
+	            type:"POST",
+	            success: function (d) {
+                    console.log(d);
+                    $("#table-summary tbody").html("");
 
-						$("#table-summary tbody").append(tr);
-					});
+                    $.each(d.results.listDetail , function(i,k) {
+                    console.log(d.results.listDetail[i]);
+                    if(i>0){
+                        var date1 = d.results.listDetail[i-1].date;
+                        var date2 = d.results.listDetail[i].date;
+                        var diff = Math.abs(date2 - date1);
+                        console.log(diff);
+                    }
+                    
+                        var tr ="<tr>";
+                            tr += "<td > "+  (i*1+1) +" </td>";
+                            tr += "<td > "+  k.date +" </td>";
+                            tr += "<td > "+  k.plant +" </td>";
+                            tr += "<td > "+  k.line +" </td>";
+                            tr += "<td > "+  k.workcenter +" </td>";
+                            tr += "<td > "+  k.in +" </td>";
+                            tr += "<td > "+  k.out +" </td>";
+                            tr += "<td > "+  k.duration +"</td>";
+                            
+                            tr += "</tr>";
+
+                        $("#table-summary tbody").append(tr);        
+                    });
+	            	
 	            },
 	            error: function (xhr, status, error) {
 	                alert("fail");
@@ -134,6 +160,40 @@
         	});
 		});
     </r:script>
+
+    <script type="text/javascript">
+        //autocomplete PPP
+    $("#gallon1").autocomplete({
+        source: function(request, response){
+            console.log(request);
+            request.itemId=$('#item').val();
+            $.ajax({
+                url: "${createLink(controller:'gallon', action:'gallonAutoComplete')}", // remote datasource
+                data: request,
+                success: function(data){
+                    if(data.length > 0){
+                        console.log('testing')
+                        response(data); // set the response
+                    } else {
+                        alert("item code  not found. Try type another Item Code.");
+                    }
+                },
+                error: function(){ // handle server errors
+                    /*$.jGrowl("Unable to retrieve Companies", {
+                        theme: 'ui-state-error ui-corner-all'   
+                    });*/
+                },
+            });
+        },
+        minLength: 2, // triggered only after minimum 2 characters have been entered.
+        select: function(event, ui) { // event handler when user selects a field from the list.
+           // $("#partnerID").val(ui.item.id); // update the hidden field.
+        },
+    });
+
+
+</script>
+
 </section>
 
 </body>

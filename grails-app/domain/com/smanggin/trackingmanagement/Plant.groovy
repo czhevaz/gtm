@@ -23,7 +23,13 @@ class Plant {
     String toString() { return name }
 
 
-    static  hasMany = [lineBalances:LineBalance, productionInHeaders:ProductionInHeader, qCHeaders:QCHeader, userPlants:UserPlants, workCenters:WorkCenter, lines:Line]
+    static  hasMany = [lineBalances:LineBalance, productionInHeaders:ProductionInHeader, 
+    qCHeaders:QCHeader, 
+    userPlants:UserPlants, 
+    workCenters:WorkCenter, 
+    lines:Line,
+    shifts:Shift,
+    ]
 
     static  mapping = {
         id name : 'serverId',

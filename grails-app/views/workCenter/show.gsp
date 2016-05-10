@@ -30,33 +30,6 @@
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="workCenter.updatedBy.label" default="Updated By" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: workCenterInstance, field: "updatedBy")}</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="workCenter.createdBy.label" default="Created By" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: workCenterInstance, field: "createdBy")}</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="workCenter.dateCreated.label" default="Date Created" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${workCenterInstance?.dateCreated}" /></td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="workCenter.lastUpdated.label" default="Last Updated" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${workCenterInstance?.lastUpdated}" /></td>
-								
-							</tr>
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="workCenter.line.label" default="Line" /></td>
@@ -80,19 +53,6 @@
 							</tr>
 						
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="workCenter.qCHeaders.label" default="QCH eaders" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${workCenterInstance.qCHeaders}" var="q">
-										<li><g:link controller="QCHeader" action="show" id="${q.id}">${q?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
 								<td valign="top" class="name"><g:message code="workCenter.sequenceNo.label" default="Sequence No" /></td>
 								
 								<td valign="top" class="value">${fieldValue(bean: workCenterInstance, field: "sequenceNo")}</td>
@@ -100,11 +60,33 @@
 							</tr>
 						
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="workCenter.serverId.label" default="Server Id" /></td>
+								<td valign="top" class="name"><g:message code="workCenter.createdBy.label" default="Created By" /></td>
 								
-								<td valign="top" class="value">${fieldValue(bean: workCenterInstance, field: "serverId")}</td>
+								<td valign="top" class="value">${fieldValue(bean: workCenterInstance, field: "createdBy")}</td>
 								
 							</tr>
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="workCenter.dateCreated.label" default="Date Created" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${workCenterInstance?.dateCreated}" /></td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="workCenter.updatedBy.label" default="Updated By" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: workCenterInstance, field: "updatedBy")}</td>
+								
+							</tr>
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="workCenter.lastUpdated.label" default="Last Updated" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${workCenterInstance?.lastUpdated}" /></td>
+								
+							</tr>
+						
 						
 						</tbody>
 					</table>

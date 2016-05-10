@@ -23,13 +23,7 @@
 					<table class="table table-striped">
 						<tbody>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="process.serverId.label" default="Server Id" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: processInstance, field: "serverId")}</td>
-								
-							</tr>
-						
+							
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="process.code.label" default="Code" /></td>
 								
@@ -72,31 +66,7 @@
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="process.processQCs.label" default="Process QC s" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${processInstance.processQCs}" var="p">
-										<li><g:link controller="processQC" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="process.workCenters.label" default="Work Centers" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${processInstance.workCenters}" var="w">
-										<li><g:link controller="workCenter" action="show" id="${w.id}">${w?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
+							
 						
 						</tbody>
 					</table>

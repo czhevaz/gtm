@@ -131,7 +131,7 @@
 
 	            		
 						var tr ="<tr>";
-							tr += "<td > "+  i +" </td>";
+							tr += "<td > "+  (i*1+1) +" </td>";
 							tr += "<td > "+  item.gallonCode +" </td>";
 							tr += "<td > "+  item.date +" </td>";
 							tr += "<td > "+ detail+"</td>";

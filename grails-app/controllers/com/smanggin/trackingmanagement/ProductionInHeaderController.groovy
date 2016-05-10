@@ -216,6 +216,8 @@ class ProductionInHeaderController {
         productionInHeaderInstance.transactionGroup = TransactionGroup.findByTransactionType('0')
         productionInHeaderInstance.plant = Plant.findByServerId(userPlant?.plant?.serverId)
         productionInHeaderInstance.workCenter = null
+        productionInHeaderInstance.item = Item.findByServerId(params.itemId)
+        productionInHeaderInstance.shift = checkShift()
         if (!productionInHeaderInstance.save(flush: true)) {
             render(view: "create", model: [productionInHeaderInstance: productionInHeaderInstance])
             return
@@ -241,6 +243,7 @@ class ProductionInHeaderController {
         lineBalance.outQty = 0
         lineBalance.endQty = lineBalance.beginQty + lineBalance.inQty 
         lineBalance.createdBy = session.user
+        lineBalance.shift = productionInHeaderInstance.shift
         if(!lineBalance.save(flush:true)){
             println "errors " + lineBalance.errors
         }
@@ -248,5 +251,16 @@ class ProductionInHeaderController {
 
     def productionIn() {
         return ''
+    }
+
+    def checkShift(){
+        def now = new Date()
+        def shift = Shift.createCriteria().list(){
+            //le('endDate',now)
+            //ge('startDate',now)
+        }
+        def res= shift?shift[0]:null
+
+        return res
     }
 }

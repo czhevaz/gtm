@@ -18,9 +18,12 @@ class ProductionInHeader {
 	Date	dateCreated
 	Date	lastUpdated
 
+	Shift  shift
+	Item   item
+
 	String toString() { return number }
 
-	static	belongsTo	= [ Plant, TransactionGroup, WorkCenter]
+	static	belongsTo	= [ Plant, TransactionGroup, WorkCenter, Shift, Item]
 
 	static  hasMany = [productionInDetails:ProductionInDetail]
 
@@ -36,6 +39,8 @@ class ProductionInHeader {
         transactionGroup nullable: true
         workCenter nullable: true
     	updatedBy nullable:true
+    	shift nullable:true
+    	item nullable:true
     }
 
     def beforeValidate(){

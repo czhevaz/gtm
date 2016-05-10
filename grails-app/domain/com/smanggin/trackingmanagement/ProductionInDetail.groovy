@@ -24,7 +24,7 @@ class ProductionInDetail {
     }
 
     static constraints = {
-		gallon unique: true
+		
     	updatedBy nullable:true
     }
 

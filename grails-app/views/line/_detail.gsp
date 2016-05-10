@@ -30,6 +30,9 @@ if(actionName=='edit' || actionName=='show') {
                                     required:true,
                                 }
                         }">Plant</th>
+                        
+
+                        <th data-options="field:'shiftName',width:200">Shift</th>
                                     
                         
                         <th data-options="field:'beginQty',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Begin Qty</th>

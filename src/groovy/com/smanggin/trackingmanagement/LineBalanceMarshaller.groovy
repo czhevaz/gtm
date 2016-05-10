@@ -22,7 +22,7 @@ class LineBalanceMarshaller {
                 inQty:it.inQty,
                 outQty:it.outQty,
                 endQty:it.endQty,
-
+                shiftName:it.shift.name,
 
 				version     : it.version?:0,
 			]

@@ -19,10 +19,13 @@ class QCHeader {
     Date    dateCreated
     Date    lastUpdated
 
+    Shift  shift
+    Item   item
+
 
     String toString() { return number }
 
-    static	belongsTo	= [ Plant, TransactionGroup, WorkCenter, Gallon, QCActions]
+    static	belongsTo	= [ Plant, TransactionGroup, WorkCenter, Gallon, QCActions, Shift, Item]
 
     static  hasMany = [qCDetails:QCDetail]
 
@@ -38,10 +41,12 @@ class QCHeader {
     static constraints = {
     	qcActions nullable:true
     	updatedBy nullable:true
+        shift nullable:true
+        item nullable:true
     }
 
     def beforeValidate(){
-        
+            
         if(!serverId || serverId ==null){
             
             serverId = globalService.UUIDGenerator()

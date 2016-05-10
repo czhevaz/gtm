@@ -41,7 +41,7 @@ class QCMasterController {
     }
 
     def show() {
-        def QCMasterInstance = QCMaster.get(params.id)
+        def QCMasterInstance = QCMaster.findByServerId(params.serverId)
         if (!QCMasterInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCMaster.label', default: 'QCMaster'), params.id])
             redirect(action: "list")
@@ -52,7 +52,8 @@ class QCMasterController {
     }
 
     def edit() {
-        def QCMasterInstance = QCMaster.get(params.id)
+        
+        def QCMasterInstance = QCMaster.findByServerId(params.serverId)
         if (!QCMasterInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCMaster.label', default: 'QCMaster'), params.id])
             redirect(action: "list")
@@ -63,7 +64,7 @@ class QCMasterController {
     }
 
     def update() {
-        def QCMasterInstance = QCMaster.get(params.id)
+        def QCMasterInstance = QCMaster.findByServerId(params.serverId)
         if (!QCMasterInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCMaster.label', default: 'QCMaster'), params.id])
             redirect(action: "list")

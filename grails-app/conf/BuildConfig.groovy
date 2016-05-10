@@ -34,6 +34,8 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
         //runtime 'postgresql:postgresql-9.4-1206-jdbc41'
+        compile 'joda-time:joda-time:2.4'
+        compile 'joda-time:joda-time-hibernate-1.3'
     }
 
     plugins {

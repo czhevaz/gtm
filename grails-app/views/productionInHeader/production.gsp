@@ -49,6 +49,16 @@
                                 </div>
                             </div>
 
+                             <div class="form-group fieldcontain">
+                                <label for="plant" class="col-sm-3 control-label">
+                                    <g:message code="productionInHeader.plant.label" default="Plant" />
+                                </label>
+                                <div class="col-sm-5">
+                                    <g:select id="plant" name="plant.serverId" readonly="true" from="${com.smanggin.trackingmanagement.Plant.list()}" optionKey="serverId" required="" value="${productionInHeaderInstance?.plant?.serverId}" class="many-to-one form-control chosen-select"/>
+                                </div>
+                            </div>
+
+
                             <div class="form-group fieldcontain">
                                 <label for="workCenter" class="col-sm-3 control-label">
                                     <g:message code="productionInHeader.workCenter.label" default="Work Center" />
@@ -61,13 +71,23 @@
                             </div>
 
                             <div class="form-group fieldcontain">
-                                <label for="plant" class="col-sm-3 control-label">
-                                    <g:message code="productionInHeader.plant.label" default="Plant" />
+                                <label for="shift" class="col-sm-3 control-label">
+                                    <g:message code="productionInHeader.shift.label" default="Shift" />
                                 </label>
                                 <div class="col-sm-5">
-                                    <g:select id="plant" name="plant.serverId" readonly="true" from="${com.smanggin.trackingmanagement.Plant.list()}" optionKey="serverId" required="" value="${productionInHeaderInstance?.plant?.serverId}" class="many-to-one form-control chosen-select"/>
+                                    <g:select id="shift" name="shift.serverId" readonly="true" from="${com.smanggin.trackingmanagement.Shift.list()}" optionKey="serverId" required="" value="${productionInHeaderInstance?.shift?.serverId}" class="many-to-one form-control chosen-select"/>
                                 </div>
                             </div>
+
+                            <div class="form-group fieldcontain">
+                                <label for="item" class="col-sm-3 control-label">
+                                    <g:message code="productionInHeader.item.label" default="Item" />
+                                </label>
+                                <div class="col-sm-5">
+                                    <g:select id="item" name="item.serverId" readonly="true" from="${com.smanggin.trackingmanagement.Item.list()}" optionKey="serverId" required="" value="${productionInHeaderInstance?.item?.serverId}" class="many-to-one form-control chosen-select"/>
+                                </div>
+                            </div>
+
 
                             <div class="form-group fieldcontain">
                                 <label for="totalGallon" class="col-sm-3 control-label">
@@ -161,8 +181,10 @@
                 url: "/${meta(name:'app.name')}/productionInDetail/jsave",
                 data: {code: code, serverId: serverId},
                 success: function (d) {
+                    console.log(d);
                     if (d.success) {
                         $("#text").val('').focus();
+                        $("#totalGallon").val(d.count);
                     } else {
                         clearInterval(timernotif);
                         var r = confirm("SCAN ULANG, HARUS UNIQUE");

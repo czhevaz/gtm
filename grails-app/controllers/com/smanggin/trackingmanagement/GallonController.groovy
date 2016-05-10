@@ -4,14 +4,14 @@ package com.smanggin.trackingmanagement
 
 import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
-
+import groovy.time.*
 /**
  * GallonController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
 
 class GallonController {
-
+    def globalService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -19,8 +19,18 @@ class GallonController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def results = Gallon.createCriteria().list(params){}
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        if(params.itemId){
+            def item = Item.findByServerId(params.itemId)
+            session.trackedItem=item.name
+        }
+        def results = Gallon.createCriteria().list(params){
+            if(params.itemId){
+                def item1 = Item.findByServerId(params.itemId)
+                eq('item',item1)
+            }
+            
+        }
         [gallonInstanceList: results, gallonInstanceTotal: results.totalCount]
     }
 
@@ -30,6 +40,8 @@ class GallonController {
 
     def save() {
         def gallonInstance = new Gallon(params)
+        gallonInstance.createdBy = session.user
+        gallonInstance.item=Item.findByServerId(params.item?.serverId)
         if (!gallonInstance.save(flush: true)) {
             render(view: "create", model: [gallonInstance: gallonInstance])
             return
@@ -204,5 +216,122 @@ class GallonController {
 
     def newGallon() {
         return ''
+    }
+
+    def gallonHistory(){
+        println " params " +params
+        def startDate = globalService.correctDateTime(params.startDate)
+        def endDate = globalService.correctDateTime(params.endDate)
+        def filterDate = globalService.filterDate(startDate, endDate)
+
+        def gallon = Gallon.findByCode(params.gallonCode)
+        def productionin = ProductionInDetail.createCriteria().list(){
+            eq('gallon',gallon)
+            /*productionInHeader{
+                le('date',filterDate.start)
+                ge('date',filterDate.end)
+            }*/
+        }        
+
+        def gallonMap =[:]
+        def list=[]
+        productionin.each{
+            def map = [:]
+            map.put('date',it.dateCreated)
+            map.put('plant',it.productionInHeader?.plant?.name)
+            map.put('line',it.productionInHeader?.workCenter?.line?.name)
+            map.put('workcenter',it.productionInHeader?.workCenter?.name)
+            map.put('in',1)
+            map.put('out',0)
+            def duration = TimeCategory.minus(it.dateCreated,gallon.dateCreated)
+            println " duration" +duration
+            map.put('duration',duration.toString())
+           // map.put('cycletime',)
+           list.push(map)
+        }
+
+        def qCHeader = QCHeader.createCriteria().list(){
+            eq('gallon',gallon)
+            /*le('date',filterDate.start)
+            ge('date',filterDate.end)*/
+        }
+
+        qCHeader.each{
+            def map = [:]
+            map.put('date',it.dateCreated)
+            map.put('plant',it.plant?.name)
+            map.put('line',it.workCenter?.line?.name)
+            map.put('workcenter',it?.workCenter?.name)
+            map.put('in',0)
+            map.put('out',1)
+            def duration = TimeCategory.minus(it.dateCreated,gallon.dateCreated)
+            map.put('duration',duration.toString())
+            list.push(map)
+        }
+
+        def res= list.sort { 
+            it.date
+        }
+        def listres=[]
+        def i=0;
+        res.each{
+            def mapres = [:]
+            mapres.put('date',it.date)
+            mapres.put('plant',it.plant)
+            mapres.put('line',it.line)
+            mapres.put('workcenter',it.workcenter)
+            mapres.put('in',it.in)
+            mapres.put('out',it.out)
+            def duration = TimeCategory.minus(res[i].date,res[i-1].date)
+            if(i>0){
+                mapres.put('duration',duration.toString())    
+            }else{
+                mapres.put('duration','0')    
+            }
+            listres.push(mapres)
+            i++
+        }
+
+        gallonMap.put('gallon',gallon)
+        gallonMap.put('listDetail',listres)
+        def listGalon=[]
+        listGalon.push(gallonMap)
+
+        
+        
+        render([success: true ,results:gallonMap] as JSON)
+    }
+
+    def gallonAutoComplete(){
+        println "params" +params
+        def query = {
+            or {
+                like("code", "%${params.term}%") // term is the parameter send by jQuery autocomplete
+            }
+
+            item{
+                eq('serverId',params.itemId)
+            }
+        }
+
+        
+        
+        def clist = Gallon.createCriteria().list(query) // execute  to the get the list of companies
+        def custList = [] // to add each company details
+
+        clist.each {
+            def customer = [:] // add to map. jQuery autocomplete expects the JSON object to be with id/label/value.
+            
+            customer.put("label", it.code)
+            customer.put("value", it.code)
+            
+            
+            custList.add(customer) // add to the arraylist
+        }
+
+       // println " custList ppp " + custList
+        
+        render custList as JSON
+        
     }
 }

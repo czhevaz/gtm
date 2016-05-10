@@ -12,6 +12,7 @@ beans = {
         marshallers = [ 
         	new LineBalanceMarshaller(),
         	new UserPlantsMarshaller(),
+          new ItemMarshaller()
         ]
     }
 }

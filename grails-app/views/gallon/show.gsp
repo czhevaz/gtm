@@ -37,13 +37,7 @@
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="gallon.updatedBy.label" default="Updated By" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: gallonInstance, field: "updatedBy")}</td>
-								
-							</tr>
-						
+							
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="gallon.createdBy.label" default="Created By" /></td>
 								
@@ -57,6 +51,13 @@
 								<td valign="top" class="value"><g:formatDate date="${gallonInstance?.dateCreated}" /></td>
 								
 							</tr>
+							
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="gallon.updatedBy.label" default="Updated By" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: gallonInstance, field: "updatedBy")}</td>
+								
+							</tr>
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="gallon.lastUpdated.label" default="Last Updated" /></td>
@@ -65,38 +66,8 @@
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="gallon.productionInDetails.label" default="Production In Details" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${gallonInstance.productionInDetails}" var="p">
-										<li><g:link controller="productionInDetail" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="gallon.qCHeaders.label" default="QCH eaders" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${gallonInstance.qCHeaders}" var="q">
-										<li><g:link controller="QCHeader" action="show" id="${q.id}">${q?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="gallon.serverId.label" default="Server Id" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: gallonInstance, field: "serverId")}</td>
-								
-							</tr>
+							
+							
 						
 						</tbody>
 					</table>

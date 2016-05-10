@@ -34,7 +34,11 @@
 							QC
 						</g:link>
 					</li>
-					
+					<li class="controller">
+						<g:link controller="CloseShift">
+							Close Shift
+						</g:link>
+					</li>
               
 				</ul>	
 			</li>
@@ -51,6 +55,18 @@
 					<li class="controller">
 						<g:link controller="Plant">
 							Plant
+						</g:link>
+					</li>
+
+					<li class="controller">
+						<g:link controller="Shift">
+							Shift
+						</g:link>
+					</li>
+
+					<li class="controller">
+						<g:link controller="Item">
+							Item
 						</g:link>
 					</li>
 
@@ -78,10 +94,18 @@
 						</g:link>
 					</li>
 
-					<li class="controller">
-						<g:link controller="Gallon">
-							Gallon
-						</g:link>
+					<li class="dropdown-submenu">
+						<a tabindex="-1" href="#">Tracked Item</a>
+						<ul class="dropdown-menu">
+	                  		<g:each in="${com.smanggin.trackingmanagement.Item.list()}" status="i" var="trackItem">
+			                  	<li>
+			                  		<g:link controller="Gallon" action="list" params="[itemId:trackItem.serverId]">
+										${trackItem?.name}
+									</g:link>
+								</li>
+			                </g:each> 
+		                </ul>
+					
 					</li>
 
 					<li class="controller">
@@ -126,12 +150,13 @@
 					<li class="dropdown-submenu">
 						<a tabindex="-1" href="#">General</a>
 						<ul class="dropdown-menu">
-	                  		
+	                  			<!--
 			                  	<li>
 			                  		<g:link controller="Gallon" action="report" params="[newGallon:true]">
 										New Gallon
 									</g:link>
 								</li>
+								-->
 								<li>
 			                  		<g:link controller="Gallon" action="report" params="[lineBalance:true]">
 										Line Balance
@@ -146,6 +171,7 @@
 		                </ul>
 					
 					</li>
+					<!--
 					<li class="dropdown-submenu">
 						<a tabindex="-1" href="#">Production In</a>
 						<ul class="dropdown-menu">
@@ -159,6 +185,7 @@
 		                </ul>
 					
 					</li>
+					-->
 					<li class="dropdown-submenu">
 						<a tabindex="-1" href="#">QC</a>
 						<ul class="dropdown-menu">
@@ -169,7 +196,7 @@
 									</g:link>
 								</li>
 								<li>
-			                  		<g:link controller="${country?.domainPPP}">
+			                  		<g:link controller="QCHeader" action="report" params="[report:'qcAnalysisQuestion']">
 										QC Analysis
 									</g:link>
 								</li>   

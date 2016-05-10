@@ -21,7 +21,7 @@ class ProductionInDetailController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = ProductionInDetail.createCriteria().list(params){}
         [productionInDetailInstanceList: results, productionInDetailInstanceTotal: results.totalCount]
     }
@@ -143,16 +143,23 @@ class ProductionInDetailController {
         }
                         
         render([success: true] as JSON)*/
-
+        println " params " + params
         def productionInDetailInstance = new ProductionInDetail()
 
         if (params.code && params.serverId) {
 
             def gallonInstance = Gallon.findByCode(params.code)
+            def productionInHeader = ProductionInHeader.findByServerId(params.serverId)
+            
 
             if (gallonInstance) {
-                def production = ProductionInDetail.findByGallon(gallonInstance)
-                if (production) {
+                def production = ProductionInDetail.createCriteria().list(){
+                    eq('productionInHeader',productionInHeader)
+                    eq('gallon',gallonInstance)
+                }
+                
+                if (production.size() > 0) {
+                   
                     render([success: false] as JSON)
                 } else {
                     productionInDetailInstance.productionInHeader = ProductionInHeader.get(params.serverId)
@@ -161,11 +168,16 @@ class ProductionInDetailController {
                     productionInDetailInstance.updatedBy = session.user
 
                     if (!productionInDetailInstance.save(flush: true)) {
+                        println "errors " +productionInDetailInstance.errors
                         render([success: false] as JSON)
                         return
                     }
-
-                    render([success: true] as JSON)
+                    def pdi = ProductionInDetail.createCriteria().list(){
+                        eq('productionInHeader',productionInHeader)
+                    
+                    }   
+                    def count =pdi?.size()
+                    render([success: true,count:count] as JSON)
                 }
             }
         }

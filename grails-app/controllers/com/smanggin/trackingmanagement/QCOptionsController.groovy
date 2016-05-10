@@ -43,7 +43,7 @@ class QCOptionsController {
     }
 
     def show() {
-        def QCOptionsInstance = QCOptions.get(params.id)
+        def QCOptionsInstance = QCOptions.findByServerId(params.serverId)
         if (!QCOptionsInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCOptions.label', default: 'QCOptions'), params.id])
             redirect(action: "list")
@@ -54,7 +54,7 @@ class QCOptionsController {
     }
 
     def edit() {
-        def QCOptionsInstance = QCOptions.get(params.id)
+        def QCOptionsInstance = QCOptions.findByServerId(params.serverId)
         if (!QCOptionsInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCOptions.label', default: 'QCOptions'), params.id])
             redirect(action: "list")
@@ -65,7 +65,7 @@ class QCOptionsController {
     }
 
     def update() {
-        def QCOptionsInstance = QCOptions.get(params.id)
+        def QCOptionsInstance = QCOptions.findByServerId(params.serverId)
         if (!QCOptionsInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCOptions.label', default: 'QCOptions'), params.id])
             redirect(action: "list")

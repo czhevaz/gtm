@@ -98,42 +98,26 @@
             <p class="lead">Summary</p>
             <div class="table-responsive">
                 <table class="table">
-                    <tr>
-                        <th style="width:50%">Begin:</th>
-                        <td>0</td>
-                    </tr>
-                    <tr>
+                   
+                    <tr style="width:50%">
                         <th>In:</th>
-                        <td>0</td>
+                        <td><span id='totalIn'>0</span></td>
                     </tr>
                     <tr>
                         <th>Out:</th>
-                        <td>0</td>
+                        <td><span id='totalOut'>0</span></td>
                     </tr>
-                    <tr>
-                        <th>Ending:</th>
-                        <td>0</td>
-                    </tr>
+                   
                     <tr>
                         <th>Total:</th>
-                        <td>0</td>
+                        <td><span id='total'>0</span></td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <button class="btn btn-success pull-right">
-                <span class="glyphicon .glyphicon-save"></span> Generate XLS
-            </button>
-            <button class="btn btn-success pull-right" style="margin-right: 5px;">
-                <span class="glyphicon .glyphicon-open"></span> Generate PDF
-            </button>
-        </div>
-    </div>
-
+    
 
     <r:script>
 		$("#process").on('click', function() {
@@ -158,9 +142,11 @@
 	            success: function (data) {
 	            	console.log(data);
 	            	$("#table-summary tbody").html("");
+                    var totalIn = 0
+                    var totalOut = 0
 	            	$.each(data.results , function(i, lb) {
 						var tr ="<tr>";
-                            tr += "<td > "+  i +" </td>";
+                            tr += "<td > "+  (i*1+1) +" </td>";
                             tr += "<td > "+  lb.date +" </td>";
                             tr += "<td > "+  lb.begin +" </td>";
                             tr += "<td > "+  lb.in +" </td>";
@@ -168,7 +154,13 @@
                             tr += "<td > "+  lb.ending +" </td>";
                             tr += "</tr>";
 						$("#table-summary tbody").append(tr);
+                        totalIn = totalIn+lb.in;
+                        totalOut = totalOut+lb.out; 
 					});
+                    var total = totalIn - totalOut
+                    $("#totalIn").text(totalIn);
+                    $("#totalOut").text(totalOut);
+                    $("#total").text(total);
 	            },
 	            error: function (xhr, status, error) {
 	                alert("fail");

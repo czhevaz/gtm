@@ -43,11 +43,11 @@
 								<td valign="top" class="value">${fieldValue(bean: QCQuestionsInstance, field: "notes")}</td>
 								
 							</tr>
-						
+
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCQuestions.updatedBy.label" default="Updated By" /></td>
+								<td valign="top" class="name"><g:message code="QCQuestions.parameterType.label" default="Parameter Type" /></td>
 								
-								<td valign="top" class="value">${fieldValue(bean: QCQuestionsInstance, field: "updatedBy")}</td>
+								<td valign="top" class="value">${fieldValue(bean: QCQuestionsInstance, field: "parameterType")}</td>
 								
 							</tr>
 						
@@ -64,61 +64,22 @@
 								<td valign="top" class="value"><g:formatDate date="${QCQuestionsInstance?.dateCreated}" /></td>
 								
 							</tr>
+
+								<tr class="prop">
+								<td valign="top" class="name"><g:message code="QCQuestions.updatedBy.label" default="Updated By" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: QCQuestionsInstance, field: "updatedBy")}</td>
+								
+							</tr>
+						
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="QCQuestions.lastUpdated.label" default="Last Updated" /></td>
 								
 								<td valign="top" class="value"><g:formatDate date="${QCQuestionsInstance?.lastUpdated}" /></td>
 								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCQuestions.parameterType.label" default="Parameter Type" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: QCQuestionsInstance, field: "parameterType")}</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCQuestions.qCDetails.label" default="QCD etails" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${QCQuestionsInstance.qCDetails}" var="q">
-										<li><g:link controller="QCDetail" action="show" id="${q.id}">${q?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCQuestions.qCMaster.label" default="QCM aster" /></td>
-								
-								<td valign="top" class="value"><g:link controller="QCMaster" action="show" id="${QCQuestionsInstance?.qCMaster?.id}">${QCQuestionsInstance?.qCMaster?.encodeAsHTML()}</g:link></td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCQuestions.qCOptions.label" default="QCO ptions" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${QCQuestionsInstance.qCOptions}" var="q">
-										<li><g:link controller="QCOptions" action="show" id="${q.id}">${q?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCQuestions.serverId.label" default="Server Id" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: QCQuestionsInstance, field: "serverId")}</td>
-								
-							</tr>
-						
+							</tr>	
+							
 						</tbody>
 					</table>
 				</div><!--/.row -->

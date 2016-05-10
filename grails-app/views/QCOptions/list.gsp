@@ -42,7 +42,7 @@
 						<g:each in="${QCOptionsInstanceList}" status="i" var="QCOptionsInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${QCOptionsInstance.id}">${fieldValue(bean: QCOptionsInstance, field: "description")}</g:link></td>
+								<td><g:link action="show" params="[serverId:QCOptionsInstance?.serverId]">${fieldValue(bean: QCOptionsInstance, field: "description")}</g:link></td>
 							
 								<td>${fieldValue(bean: QCOptionsInstance, field: "updatedBy")}</td>
 							

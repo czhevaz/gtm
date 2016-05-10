@@ -111,7 +111,7 @@
 						<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'qcActions', 'error')} required">
 							<label for="qcActions" class="col-sm-3 control-label"><g:message code="QCHeader.qcActions.label" default="Action " /><span class="required-indicator">*</span></label>
 							<div class="col-sm-5">
-								<g:select id="qcActions" name="qcActions.serverId" from="${com.smanggin.trackingmanagement.QCActions.list()}" optionKey="serverId" required="" value="${QCHeaderInstance?.qcActions?.serverId}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
+								<g:select id="qcActions" name="qcActions.serverId" from="${com.smanggin.trackingmanagement.QCActions.list()}" optionKey="serverId" optionValue="description" required="" value="${QCHeaderInstance?.qcActions?.serverId}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
 								<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'qcActions', 'error')}</span>
 							</div>
 						</div>
@@ -137,7 +137,7 @@
 	            success: function (data) {
 	            	console.log("data");
 	            	console.log(data);
-	            	$('#description').val(data.QCActionsInstance.description);
+	            	//$('#description').val(data.QCActionsInstance.description);
 	            },
 	            error: function (xhr, status, error) {
 	                alert("fail");

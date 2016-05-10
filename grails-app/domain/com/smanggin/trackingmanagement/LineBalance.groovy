@@ -18,8 +18,10 @@ class LineBalance {
 	Date	dateCreated
 	Date	lastUpdated
 
+	Shift shift
 
-	static	belongsTo	= [ Plant, Line]
+
+	static	belongsTo	= [ Plant, Line, Shift]
 
 	static	mapping = {
     	id name : 'serverId',
@@ -31,6 +33,7 @@ class LineBalance {
 
     static constraints = {
     	updatedBy nullable:true
+    	shift nullable:true
     }
 
     def beforeValidate(){

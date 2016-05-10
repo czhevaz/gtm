@@ -17,6 +17,9 @@ modules = {
         resource url:'css/bootstrap-datetimepicker.min.css'
 
         resource url:'js/jquery.browser.js'
+        resource url:'js/bootstrap-timepicker.js'
+        resource url:'css/bootstrap-timepicker.css'
+
     }
 
     fileUpload{

@@ -37,7 +37,8 @@ class QCHeaderController {
         QCHeaderInstance.plant = Plant.findByServerId(params.plant?.serverId)
         QCHeaderInstance.workCenter = WorkCenter.findByServerId(params?.workCenter?.serverId)
         QCHeaderInstance.transactionGroup =TransactionGroup.findByServerId(params?.transactionGroup?.serverId)
-
+        QCHeaderInstance.item = Item.findByServerId(params?.item?.serverId)
+        QCHeaderInstance.shift = Shift.findByServerId(params?.shift?.serverId)
 
         if (!QCHeaderInstance.save(flush: true)) {
             render(view: "create", model: [QCHeaderInstance: QCHeaderInstance])
@@ -257,8 +258,6 @@ class QCHeaderController {
            maxResults(1)
         }
 
-        
-
         def lineBalance = new LineBalance()
         lineBalance.plant = QCHeaderInstance.plant
         lineBalance.line = QCHeaderInstance.workCenter.line
@@ -268,6 +267,8 @@ class QCHeaderController {
         lineBalance.outQty = 1
         lineBalance.endQty = lineBalance.beginQty - 1
         lineBalance.createdBy =session.user
+        lineBalance.shift = QCHeaderInstance.shift
+
         if(!lineBalance.save(flush:true)){
             println "errors " + lineBalance.errors
         }
@@ -381,6 +382,47 @@ class QCHeaderController {
         return listMaster     
     }
 
+    /* END REport WC Summary*/
 
+    def qcAnalysisQuestion(){
+        println "params " +params 
+        def startDate = globalService.correctDateTime(params.startDate)
+        def endDate = globalService.correctDateTime(params.endDate)
+        def filterDate = globalService.filterDate(startDate, endDate)
+        def process = Process.findByServerId(params.processServerId)
+        def line1 = Line.findByServerId(params.line1ServerId)
+        def plant = Plant.findByServerId(params.plantServerId)
+
+        def processQc = ProcessQC.createCriteria().list(){
+            eq('process',process)
+        }
+
+        def listQc=[]
+
+        processQc.each{
+            def mapqc=[:]
+            mapqc.put('qcName',it.qcMaster?.name)
+            def qCQuestions = QCQuestions.findAllByQCMaster(it.qcMaster)
+            def listQuestion = []
+            qCQuestions.each{ question ->
+                def mapQuestion=[:]
+                mapQuestion.put('questionName',question.notes)
+                def qcOptions = QCOptions.findAllByQCQuestions(question)
+                def lisOption=[]
+                qcOptions.each{ option->
+                    def mapOption=[:]
+                    mapOption.put('optionName',option?.description)
+                    lisOption.push(mapOption)
+                }
+                mapQuestion.put('lisOption',lisOption)
+                listQuestion.push(mapQuestion)
+            }
+            mapqc.put('listQuestion',listQuestion)
+            listQc.push(mapqc)
+        }
+
+        println listQc
+        render([success: true ,results:listQc] as JSON)        
+    }
 
 }

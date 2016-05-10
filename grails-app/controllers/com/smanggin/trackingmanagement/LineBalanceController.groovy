@@ -144,6 +144,7 @@ class LineBalanceController {
     }
 
     def jlist() {
+        println " params " +params
         if(params.masterField){
             def c = LineBalance.createCriteria()
             def results = c.list {
@@ -161,6 +162,13 @@ class LineBalanceController {
             }
 
             render results as JSON            
+        }else if (params.closeshift) {
+            def line = Line.findByServerId(params.lineId)
+            def shift = Shift.findByServerId(params.shiftId)
+            def results = calculateLineBalance(line,shift)
+
+            render ([qty : results ] as JSON)
+            
         }
         else
         {
@@ -195,5 +203,25 @@ class LineBalanceController {
         else {
             render([lineBalanceInstance : lineBalanceInstance ] as JSON)
         }
+    }
+
+    def calculateLineBalance(line,shift){
+        println "line" + line?.name
+        println " shift" + shift?.name
+        def balance =LineBalance.createCriteria().list(){
+            eq('line',line)
+            eq('shift',shift)
+            projections{
+                //groupProperty('shift')
+                sum('inQty','inQty')
+                sum('outQty','outQty')
+            }
+
+        }
+
+        println "balance "+ balance
+        def qtyEnd =  balance[0][0] - balance[0][1]
+        
+        return qtyEnd
     }
 }

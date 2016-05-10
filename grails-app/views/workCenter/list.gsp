@@ -24,9 +24,16 @@
 					<table class="table table-bordered margin-top-medium">
 						<thead>
 							<tr>
-							
+								<td> No. </td>
+
 								<g:sortableColumn property="name" title="${message(code: 'workCenter.name.label', default: 'Name')}" />
 							
+								<th><g:message code="workCenter.line.label" default="Plant" /></th>
+
+								<th><g:message code="workCenter.line.label" default="Line" /></th>
+
+								<th><g:message code="workCenter.line.label" default="Process" /></th>
+
 								<g:sortableColumn property="updatedBy" title="${message(code: 'workCenter.updatedBy.label', default: 'Updated By')}" />
 							
 								<g:sortableColumn property="createdBy" title="${message(code: 'workCenter.createdBy.label', default: 'Created By')}" />
@@ -35,16 +42,24 @@
 							
 								<g:sortableColumn property="lastUpdated" title="${message(code: 'workCenter.lastUpdated.label', default: 'Last Updated')}" />
 							
-								<th><g:message code="workCenter.line.label" default="Line" /></th>
+								
 							
 							</tr>
 						</thead>
 						<tbody>
 						<g:each in="${workCenterInstanceList}" status="i" var="workCenterInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-							
-								<td><g:link action="show" id="${workCenterInstance.id}">${fieldValue(bean: workCenterInstance, field: "name")}</g:link></td>
-							
+
+								<td>${i+1}</td>
+
+								<td><g:link action="show" params="[serverId:workCenterInstance.serverId]">${fieldValue(bean: workCenterInstance, field: "name")}</g:link></td>
+								
+								<td>${fieldValue(bean: workCenterInstance, field: "plant")}</td>
+
+								<td>${fieldValue(bean: workCenterInstance, field: "line")}</td>
+
+								<td>${fieldValue(bean: workCenterInstance, field: "process")}</td>
+
 								<td>${fieldValue(bean: workCenterInstance, field: "updatedBy")}</td>
 							
 								<td>${fieldValue(bean: workCenterInstance, field: "createdBy")}</td>
@@ -53,7 +68,7 @@
 							
 								<td><g:formatDate date="${workCenterInstance.lastUpdated}" /></td>
 							
-								<td>${fieldValue(bean: workCenterInstance, field: "line")}</td>
+								
 							
 							</tr>
 						</g:each>

@@ -33,6 +33,22 @@
 				</div>
 			</div>
 
+			<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'shift', 'error')} required">
+				<label for="shift" class="col-sm-3 control-label"><g:message code="QCHeader.plant.label" default="Shift" /><span class="required-indicator">*</span></label>
+				<div class="col-sm-5">
+					<g:select id="shift" name="shift.serverId" from="${com.smanggin.trackingmanagement.Shift.list()}" optionKey="serverId" required="" value="${QCHeaderInstance?.shift?.serverId}" class="many-to-one form-control chosen-select"/>
+					<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'shift', 'error')}</span>
+				</div>
+			</div>
+
+			<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'item', 'error')} required">
+				<label for="item" class="col-sm-3 control-label"><g:message code="QCHeader.plant.label" default="Tracked Item" /><span class="required-indicator">*</span></label>
+				<div class="col-sm-5">
+					<g:select id="item" name="item.serverId" from="${com.smanggin.trackingmanagement.Item.list()}" optionKey="serverId" required="" value="${QCHeaderInstance?.item?.serverId}" class="many-to-one form-control chosen-select"/>
+					<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'item', 'error')}</span>
+				</div>
+			</div>
+
 			<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'workCenter', 'error')} required">
 				<label for="workCenter" class="col-sm-3 control-label"><g:message code="QCHeader.workCenter.label" default="Work Center" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">

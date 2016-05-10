@@ -24,9 +24,8 @@
 					<table class="table table-bordered margin-top-medium">
 						<thead>
 							<tr>
-							
-								<g:sortableColumn property="serverId" title="${message(code: 'QCMaster.serverId.label', default: 'Server Id')}" />
-							
+								<td>No.</td>							
+								
 								<g:sortableColumn property="code" title="${message(code: 'QCMaster.code.label', default: 'Code')}" />
 							
 								<g:sortableColumn property="name" title="${message(code: 'QCMaster.name.label', default: 'Name')}" />
@@ -42,10 +41,10 @@
 						<tbody>
 						<g:each in="${QCMasterInstanceList}" status="i" var="QCMasterInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-							
-								<td><g:link action="show" id="${QCMasterInstance.id}">${fieldValue(bean: QCMasterInstance, field: "serverId")}</g:link></td>
-							
-								<td>${fieldValue(bean: QCMasterInstance, field: "code")}</td>
+								
+								<td>${i+1}</td>
+
+								<td><g:link action="show" params="[serverId:QCMasterInstance.serverId]">${fieldValue(bean: QCMasterInstance, field: "code")}</g:link></td>
 							
 								<td>${fieldValue(bean: QCMasterInstance, field: "name")}</td>
 							

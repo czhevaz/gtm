@@ -12,8 +12,11 @@ class Gallon {
 	String  updatedBy
 	Date	dateCreated
 	Date	lastUpdated
+    Item    item
 
 	String toString() { return code } 
+
+    static  belongsTo   = [Item]
 
 	static  hasMany = [productionInDetails:ProductionInDetail, qCHeaders:QCHeader]
 
@@ -30,6 +33,7 @@ class Gallon {
         code blank: false
         writeOff nullable: false
         updatedBy nullable:true
+        item nullable:true
     }
 
     def beforeValidate(){

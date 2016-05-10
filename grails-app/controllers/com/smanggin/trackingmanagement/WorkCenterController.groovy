@@ -29,7 +29,7 @@ class WorkCenterController {
     }
 
     def save() {
-        println " Params  " + params
+        //println " Params  " + params
         def workCenterInstance = new WorkCenter()
         workCenterInstance.properties = params
         workCenterInstance.plant = Plant.findByServerId(params.plant?.serverId)
@@ -46,7 +46,7 @@ class WorkCenterController {
     }
 
     def show() {
-        def workCenterInstance = WorkCenter.get(params.id)
+        def workCenterInstance = WorkCenter.findByServerId(params.serverId)
         if (!workCenterInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'workCenter.label', default: 'WorkCenter'), params.id])
             redirect(action: "list")
@@ -57,7 +57,7 @@ class WorkCenterController {
     }
 
     def edit() {
-        def workCenterInstance = WorkCenter.get(params.id)
+        def workCenterInstance = WorkCenter.findByServerId(params.serverId)
         if (!workCenterInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'workCenter.label', default: 'WorkCenter'), params.id])
             redirect(action: "list")
@@ -68,7 +68,7 @@ class WorkCenterController {
     }
 
     def update() {
-        def workCenterInstance = WorkCenter.get(params.id)
+        def workCenterInstance = WorkCenter.findByServerId(params.serverId)
         if (!workCenterInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'workCenter.label', default: 'WorkCenter'), params.id])
             redirect(action: "list")
