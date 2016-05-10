@@ -42,9 +42,9 @@
 			</div>
 
 			<div class="form-group ${hasErrors(bean: transactionGroupInstance, field: 'plant', 'error')}  required">
-				<label for="plant" class="col-sm-3 control-label"><g:message code="register.plant.label" default="Country" /></label>
+				<label for="plant" class="col-sm-3 control-label"><g:message code="register.plant.label" default="plant" /></label>
 				<div class="col-sm-3">
-					<g:select id="plant" name="plant.serverId" from="${com.smanggin.trackingmanagement.Plant.list()}" optionKey="serverId" optionValue="name" required="" value="${transactionGroupInstance?.plant?.id}" class="many-to-one form-control chosen-select" />
+					<g:select id="plant" name="plant.serverId" from="${com.smanggin.trackingmanagement.Plant.list()}" optionKey="serverId" optionValue="name"  value="${transactionGroupInstance?.plant?.id}" class="many-to-one form-control chosen-select" />
 					<span class="help-inline">${hasErrors(bean: transactionGroupInstance, field: 'plant', 'error')}</span>
 				</div>
 			</div>

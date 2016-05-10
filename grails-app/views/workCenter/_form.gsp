@@ -37,7 +37,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: workCenterInstance, field: 'plant', 'error')} required">
 				<label for="plant" class="col-sm-3 control-label"><g:message code="workCenter.plant.label" default="Plant" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-9">
-					<g:select id="plant" name="plant.serverId" from="${com.smanggin.trackingmanagement.Plant.list()}" optionKey="serverId" optionValue="code" required="" value="${workCenterInstance?.plant?.serverId}" class="many-to-one form-control chosen-select"/>
+					<g:select id="plant" name="plant.serverId" from="${com.smanggin.trackingmanagement.Plant.list()}" optionKey="serverId" optionValue="code" value="${workCenterInstance?.plant?.serverId}" class="many-to-one form-control chosen-select"/>
 					<span class="help-inline">${hasErrors(bean: workCenterInstance, field: 'plant', 'error')}</span>
 				</div>
 			</div>
