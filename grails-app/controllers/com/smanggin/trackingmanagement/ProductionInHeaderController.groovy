@@ -304,14 +304,16 @@ class ProductionInHeaderController {
 
         def list = []
         workCenter.each{
+
             def cp = counProductionIn(it,filterDate)
             def qc =countQc(it,filterDate)
             def cc = countClosing(it,filterDate)
+            println " cc "+cc
             def yield =0
             def unknown = 0
             if(cc.size()>0){
-                yield=cc[0][1]
-                unknown=(cc[0]?cc[0][0]:0)-(cc[0]?cc[0][1]:0)
+                yield=cc[0][1]?cc[0][1]:0
+                unknown=(cc[0][0]?cc[0][0]:0)-(cc[0][1]?cc[0][1]:0)
             }            
             def map=[:]
             map.put('workCenterName',it.name)
