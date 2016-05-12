@@ -22,6 +22,7 @@ class QCHeader {
     Shift  shift
     Item   item
 
+    String description
 
     String toString() { return number }
 
@@ -43,6 +44,7 @@ class QCHeader {
     	updatedBy nullable:true
         shift nullable:true
         item nullable:true
+        description nullable:true
     }
 
     def beforeValidate(){

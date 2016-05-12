@@ -3,7 +3,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: transactionGroupInstance, field: 'transactionType', 'error')} required">
 				<label for="transactionType" class="col-sm-3 control-label"><g:message code="transactionGroup.transactionType.label" default="Transaction Type" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-3">
-					<g:select id="transactionType" name="transactionType" from="${[[id:0,value:'Production in'],[id:1,id:0,value:'QC']]}" optionKey="id" optionValue="value" required="" value="${transactionGroupInstance?.transactionType}"  noSelection="${['':'']}" class="many-to-one form-control chosen-select-width"/>
+					<g:select id="transactionType" name="transactionType" from="${[[id:0,value:'Production in'],[id:1,value:'QC'],[id:3,value:'Production out']]}" optionKey="id" optionValue="value" required="" value="${transactionGroupInstance?.transactionType}"  noSelection="${['':'']}" class="many-to-one form-control chosen-select-width"/>
 					<span class="help-inline">${hasErrors(bean: transactionGroupInstance, field: 'transactionType', 'error')}</span>
 				</div>
 			</div>

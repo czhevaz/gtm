@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class ProductionInHeaderController {
 
+    def globalService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -244,6 +245,9 @@ class ProductionInHeaderController {
         lineBalance.endQty = lineBalance.beginQty + lineBalance.inQty 
         lineBalance.createdBy = session.user
         lineBalance.shift = productionInHeaderInstance.shift
+        lineBalance.item = productionInHeaderInstance.item
+        lineBalance.triggerClass = 'ProductionInHeader'
+        lineBalance.triggerId = productionInHeaderInstance?.serverId
         if(!lineBalance.save(flush:true)){
             println "errors " + lineBalance.errors
         }
@@ -292,16 +296,87 @@ class ProductionInHeaderController {
         def line1 = Line.findByServerId(params.line1ServerId)
         def plant = Plant.findByServerId(params.plantServerId)
 
-
-        def productionInHeader = ProductionInHeader.createCriteria().list(){
-            workCenter{
-                eq('line',line)    
-                eq('plant',plant)
-                eq('process',process)
-            }
+        def workCenter = WorkCenter.createCriteria().list(){
+            eq('line',line1)    
+            eq('plant',plant)
+            eq('process',process)
         }
 
-        render([success: true ,results:listQc] as JSON)        
+        def list = []
+        workCenter.each{
+            def cp = counProductionIn(it,filterDate)
+            def qc =countQc(it,filterDate)
+            def cc = countClosing(it,filterDate)
+            def yield =0
+            def unknown = 0
+            if(cc.size()>0){
+                yield=cc[0][1]
+                unknown=cc[0][0]-cc[0][1]
+            }            
+            def map=[:]
+            map.put('workCenterName',it.name)
+            map.put('sumItem',cp)
+            map.put('failed',qc)
+            map.put('yield',yield)
+            map.put('unknown',unknown)
+            list.push(map)
 
+            println "cc" + cc
+
+        }
+
+        
+        
+        render([success: true ,results:list] as JSON)        
+
+    }
+
+    def counProductionIn(workCenter,filterDate){
+        def lineBalances =LineBalance.createCriteria().list(){
+            le('date',filterDate.end)
+            ge('date',filterDate.start)
+            eq('triggerClass','ProductionInHeader')
+            eq('line',workCenter.line)
+            eq('plant',workCenter.plant)
+            projections{
+                sum('inQty')
+            }            
+        }
+        println "lineBalances " + lineBalances
+        return lineBalances?lineBalances[0]:0
+
+    }
+
+    def countQc(workCenter,filterDate){
+        def lineBalances =LineBalance.createCriteria().list(){
+            le('date',filterDate.end)
+            ge('date',filterDate.start)
+            eq('triggerClass','QCHeader')
+            eq('line',workCenter.line)
+            eq('plant',workCenter.plant)
+            projections{
+                sum('outQty')
+            }            
+        }
+
+        println "lineBalances " + lineBalances
+
+        return lineBalances?lineBalances[0]:0
+    }
+
+    def countClosing(workCenter,filterDate){
+        def closingShift = CloseShift.createCriteria().list(){
+            eq('line',workCenter.line)
+            eq('plant',workCenter.plant)
+            le('closeDate',filterDate.end)
+            ge('closeDate',filterDate.start)
+            projections{
+                sum('yieldBySystem')
+                sum('yieldByUser')
+            
+            }
+
+        }
+        return closingShift
     }
 }

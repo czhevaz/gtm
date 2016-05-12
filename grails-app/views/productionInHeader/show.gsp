@@ -23,41 +23,8 @@
 					<table class="table table-striped">
 						<tbody>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="productionInHeader.updatedBy.label" default="Updated By" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: productionInHeaderInstance, field: "updatedBy")}</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="productionInHeader.createdBy.label" default="Created By" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: productionInHeaderInstance, field: "createdBy")}</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="productionInHeader.date.label" default="Date" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${productionInHeaderInstance?.date}" /></td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="productionInHeader.dateCreated.label" default="Date Created" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${productionInHeaderInstance?.dateCreated}" /></td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="productionInHeader.lastUpdated.label" default="Last Updated" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${productionInHeaderInstance?.lastUpdated}" /></td>
-								
-							</tr>
-						
+							
+					
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="productionInHeader.number.label" default="Number" /></td>
 								
@@ -71,14 +38,41 @@
 								<td valign="top" class="value"><g:link controller="plant" action="show" id="${productionInHeaderInstance?.plant?.id}">${productionInHeaderInstance?.plant?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
-						
+							
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="productionInHeader.serverId.label" default="Server Id" /></td>
+								<td valign="top" class="name"><g:message code="productionInHeader.plant.label" default="Workcenter" /></td>
 								
-								<td valign="top" class="value">${fieldValue(bean: productionInHeaderInstance, field: "serverId")}</td>
+								<td valign="top" class="value"><g:link controller="workCenter" action="show" id="${productionInHeaderInstance?.workCenter?.id}">${productionInHeaderInstance?.workCenter?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
-						
+							
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="productionInHeader.plant.label" default="shift" /></td>
+								
+								<td valign="top" class="value"><g:link controller="shift" action="show" id="${productionInHeaderInstance?.shift?.id}">${productionInHeaderInstance?.shift?.encodeAsHTML()}</g:link></td>
+								
+							</tr>
+							
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="productionInHeader.plant.label" default="item" /></td>
+								
+								<td valign="top" class="value"><g:link controller="item" action="show" id="${productionInHeaderInstance?.item?.id}">${productionInHeaderInstance?.item?.encodeAsHTML()}</g:link></td>
+								
+							</tr>
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="productionInHeader.date.label" default="Date" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${productionInHeaderInstance?.date}" /></td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="productionInHeader.transactionGroup.label" default="Transaction Group" /></td>
+								
+								<td valign="top" class="value"><g:link controller="transactionGroup" action="show" id="${productionInHeaderInstance?.transactionGroup?.id}">${productionInHeaderInstance?.transactionGroup?.encodeAsHTML()}</g:link></td>
+								
+							</tr>
+	
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="productionInHeader.totalGallon.label" default="Total Gallon" /></td>
 								
@@ -87,11 +81,35 @@
 							</tr>
 						
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="productionInHeader.transactionGroup.label" default="Transaction Group" /></td>
+								<td valign="top" class="name"><g:message code="productionInHeader.createdBy.label" default="Created By" /></td>
 								
-								<td valign="top" class="value"><g:link controller="transactionGroup" action="show" id="${productionInHeaderInstance?.transactionGroup?.id}">${productionInHeaderInstance?.transactionGroup?.encodeAsHTML()}</g:link></td>
+								<td valign="top" class="value">${fieldValue(bean: productionInHeaderInstance, field: "createdBy")}</td>
 								
 							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="productionInHeader.dateCreated.label" default="Date Created" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${productionInHeaderInstance?.dateCreated}" /></td>
+								
+							</tr>
+						
+							
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="productionInHeader.updatedBy.label" default="Updated By" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: productionInHeaderInstance, field: "updatedBy")}</td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="productionInHeader.lastUpdated.label" default="Last Updated" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${productionInHeaderInstance?.lastUpdated}" /></td>
+								
+							</tr>
+						
+						
 						
 						</tbody>
 					</table>

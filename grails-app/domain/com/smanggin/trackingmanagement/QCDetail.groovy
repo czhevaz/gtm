@@ -8,6 +8,8 @@ class QCDetail {
 	QCHeader qcHeader
 	QCMaster qcMaster
 	QCQuestions qcQuestions
+    QCOptions qcOptions
+
 	String   results
 
 	String  createdBy
@@ -32,6 +34,7 @@ class QCDetail {
 
     static constraints = {
     	updatedBy nullable:true
+        qcOptions nullable:true
     }
 
     def beforeValidate(){

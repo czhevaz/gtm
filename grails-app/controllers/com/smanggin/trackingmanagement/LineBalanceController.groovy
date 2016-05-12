@@ -11,7 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 
 class LineBalanceController {
-
+    def globalService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -165,10 +165,39 @@ class LineBalanceController {
         }else if (params.closeshift) {
             def line = Line.findByServerId(params.lineId)
             def shift = Shift.findByServerId(params.shiftId)
-            def results = calculateLineBalance(line,shift)
+            def item = Item.findByServerId(params.itemId)
+            def results = calculateLineBalance(line,shift,item)
 
             render ([qty : results ] as JSON)
             
+        }else if(params.checkgalon){
+            def workCenter = WorkCenter.findByServerId(params.workCenterId)
+            def item = Item.findByServerId(params.itemId)
+            def lineBalances = LineBalance.createCriteria().list(){
+                eq('line',workCenter?.line)
+                eq('plant',workCenter?.plant)
+                eq('item',item)
+            }
+
+            def qtyin = 0
+            def qtyOut = 0
+            def res= false
+            println " lineBalances " +lineBalances
+            lineBalances.each{
+                qtyin = qtyin + it.inQty
+                qtyOut =  qtyOut + it.outQty
+                
+            }
+            def diff = qtyin-qtyOut
+            
+            if(diff > 0){
+                lineBalances.each{    
+                    res = checkgalon(it.triggerClass,it.triggerId,params.code)
+                }
+                render ([success : res ] as JSON)
+            }else{
+                render ([success : false ] as JSON)
+            }
         }
         else
         {
@@ -205,12 +234,13 @@ class LineBalanceController {
         }
     }
 
-    def calculateLineBalance(line,shift){
-        println "line" + line?.name
-        println " shift" + shift?.name
+    def calculateLineBalance(line,shift,item){
+        //println "line" + line?.name
+        //println " shift" + shift?.name
         def balance =LineBalance.createCriteria().list(){
             eq('line',line)
             eq('shift',shift)
+            eq('item',item)
             projections{
                 //groupProperty('shift')
                 sum('inQty','inQty')
@@ -219,9 +249,18 @@ class LineBalanceController {
 
         }
 
-        println "balance "+ balance
-        def qtyEnd =  balance[0][0] - balance[0][1]
-        
+        def qtyEnd =  (balance[0][0]?:0) - (balance[0][1]?:0)
+
         return qtyEnd
+    }
+
+    def checkgalon(triggerClass,triggerId,code){
+        def ph = globalService.findByDomainClass(triggerClass,triggerId)
+        def pd = ProductionInDetail.createCriteria().list(){
+            eq('productionInHeader',ph)
+        }
+        
+        def res = code in pd.gallon.code?true:false
+        return res
     }
 }

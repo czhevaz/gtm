@@ -118,14 +118,22 @@
 	            		var tabel = '<table id="table-summary" class="table table-bordered table-striped  margin-top-medium">';
 	            		tabel += '<thead>';
 	            		tabel += '<tr>'
-	            		tabel += '<th rowspan="2">'+k.qcName+'</th>';
+	            		//tabel += '<th rowspan="2">'+k.qcName+'</th>';
 	            		$.each(k.listQuestion, function(j,question) {
-	            			tabel += '<th>'+question.questionName+'</th>';
+	            			tabel += '<th colspan="'+question.lisOption.length+'">'+question.questionName+'</th>';
 	            		});
+
 						tabel += '</tr>';
 						tabel += '<tr>';
 						$.each(k.listQuestion, function(j,question) {
-	            			tabel += '<th>'+question.questionName+'</th>';
+							if(question.lisOption.length > 0){
+								$.each(question.lisOption, function(k,options) {
+	            					tabel += '<th>'+options.optionName+'</th>';
+	            				});
+							}else{
+								tabel += '<th> other </th>';
+							}
+							
 	            		});
 						tabel += '</tr>';
 						tabel += '</thead>'

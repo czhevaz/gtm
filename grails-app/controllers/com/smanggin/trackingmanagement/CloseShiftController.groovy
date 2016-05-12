@@ -25,7 +25,10 @@ class CloseShiftController {
     }
 
     def create() {
-        [closeShiftInstance: new CloseShift(params)]
+        def transactionGroup =TransactionGroup.createCriteria().list(){
+            eq('transactionType','3')
+        }
+        [closeShiftInstance: new CloseShift(params),transactionGroup:transactionGroup]
     }
 
     def save() {
@@ -33,6 +36,8 @@ class CloseShiftController {
         closeShiftInstance.shift = Shift.findByServerId(params.shift?.serverId)
         closeShiftInstance.line = Line.findByServerId(params.line?.serverId)
         closeShiftInstance.plant = Plant.findByServerId(params.plant?.serverId)
+        closeShiftInstance.item = Item.findByServerId(params.item?.serverId)
+        closeShiftInstance.transactionGroup = TransactionGroup.findByServerId(params.transactionGroup?.serverId)
 
         if (!closeShiftInstance.save(flush: true)) {
             render(view: "create", model: [closeShiftInstance: closeShiftInstance])
@@ -57,6 +62,9 @@ class CloseShiftController {
     }
 
     def edit() {
+        def transactionGroup =TransactionGroup.createCriteria().list(){
+            eq('transactionType','3')
+        }
         def closeShiftInstance = CloseShift.get(params.id)
         if (!closeShiftInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'closeShift.label', default: 'CloseShift'), params.id])
@@ -64,7 +72,7 @@ class CloseShiftController {
             return
         }
 
-        [closeShiftInstance: closeShiftInstance]
+        [closeShiftInstance: closeShiftInstance,transactionGroup:transactionGroup]
     }
 
     def update() {
@@ -224,8 +232,11 @@ class CloseShiftController {
         lineBalance.inQty = 0
         lineBalance.outQty = closeShiftInstance.yieldBySystem
         lineBalance.endQty = lineBalance.beginQty - lineBalance.outQty
-        lineBalance.createdBy =session.user
+        lineBalance.createdBy = session.user
         lineBalance.shift = closeShiftInstance.shift
+        lineBalance.item = closeShiftInstance.item
+        lineBalance.triggerClass = 'CloseShift'
+        lineBalance.triggerId = closeShiftInstance?.serverId
 
         if(!lineBalance.save(flush:true)){
             println "errors " + lineBalance.errors

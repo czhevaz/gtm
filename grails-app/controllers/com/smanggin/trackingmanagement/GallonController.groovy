@@ -227,6 +227,7 @@ class GallonController {
         def gallon = Gallon.findByCode(params.gallonCode)
         def productionin = ProductionInDetail.createCriteria().list(){
             eq('gallon',gallon)
+
             /*productionInHeader{
                 le('date',filterDate.start)
                 ge('date',filterDate.end)
@@ -235,12 +236,15 @@ class GallonController {
 
         def gallonMap =[:]
         def list=[]
+
         productionin.each{
             def map = [:]
             map.put('date',it.dateCreated)
             map.put('plant',it.productionInHeader?.plant?.name)
             map.put('line',it.productionInHeader?.workCenter?.line?.name)
             map.put('workcenter',it.productionInHeader?.workCenter?.name)
+            map.put('transactionGroup',it.productionInHeader?.transactionGroup?.name)
+            map.put('number',it.productionInHeader?.number)
             map.put('in',1)
             map.put('out',0)
             def duration = TimeCategory.minus(it.dateCreated,gallon.dateCreated)
@@ -262,6 +266,8 @@ class GallonController {
             map.put('plant',it.plant?.name)
             map.put('line',it.workCenter?.line?.name)
             map.put('workcenter',it?.workCenter?.name)
+            map.put('transactionGroup',it.transactionGroup?.name)
+            map.put('number',it.number)
             map.put('in',0)
             map.put('out',1)
             def duration = TimeCategory.minus(it.dateCreated,gallon.dateCreated)
@@ -280,6 +286,8 @@ class GallonController {
             mapres.put('plant',it.plant)
             mapres.put('line',it.line)
             mapres.put('workcenter',it.workcenter)
+            mapres.put('transactionGroup',it.transactionGroup)
+            mapres.put('number',it.number)
             mapres.put('in',it.in)
             mapres.put('out',it.out)
             def duration = TimeCategory.minus(res[i].date,res[i-1].date)

@@ -187,10 +187,14 @@
 							<tr>
 								<td>
 								${qcQuestionsInstance?.qcActions?.code}
-									<g:textArea class="form-control" name="description" value="${QCHeaderInstance?.qcActions?.description}" rows="5" cols="40" readonly="true"/>
+									<g:textArea class="form-control" name="qcActiondescription" value="${QCHeaderInstance?.qcActions?.description}" rows="5" cols="40" readonly="true"/>
 								</td>
 							</tr>
-										
+							<tr>
+								<td>
+									<g:textArea class="form-control" name="description" value="${QCHeaderInstance?.description}" rows="5" cols="40" readonly="true"/>
+								</td>
+							</tr>										
 						</tbody>
 					</table>	
 

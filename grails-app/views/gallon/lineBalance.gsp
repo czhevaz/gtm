@@ -100,9 +100,14 @@
                 <table class="table">
                    
                     <tr style="width:50%">
+                        <th>Begin:</th>
+                        <td><span id='begin'>0</span></td>
+                    </tr>
+                    <tr>
                         <th>In:</th>
                         <td><span id='totalIn'>0</span></td>
                     </tr>
+                   
                     <tr>
                         <th>Out:</th>
                         <td><span id='totalOut'>0</span></td>
@@ -158,6 +163,7 @@
                         totalOut = totalOut+lb.out; 
 					});
                     var total = totalIn - totalOut
+                    $("#begin").text(data.results[0].begin);
                     $("#totalIn").text(totalIn);
                     $("#totalOut").text(totalOut);
                     $("#total").text(total);

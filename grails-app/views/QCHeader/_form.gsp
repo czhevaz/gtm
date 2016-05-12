@@ -10,7 +10,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'transactionGroup', 'error')} required">
 				<label for="transactionGroup" class="col-sm-3 control-label"><g:message code="QCHeader.transactionGroup.label" default="Transaction Group" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
-					<g:select id="transactionGroup" name="transactionGroup.serverId" from="${com.smanggin.trackingmanagement.TransactionGroup.list()}" optionKey="serverId" required="" value="${QCHeaderInstance?.transactionGroup?.serverId}" class="many-to-one form-control chosen-select"/>
+					<g:select id="transactionGroup" name="transactionGroup.serverId" from="${transactionGroup}" optionKey="serverId" required="" value="${QCHeaderInstance?.transactionGroup?.serverId}" class="many-to-one form-control chosen-select"/>
 					<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'transactionGroup', 'error')}</span>
 				</div>
 			</div>
@@ -61,12 +61,50 @@
 				<label for="gallon" class="col-sm-3 control-label"><g:message code="QCHeader.gallon.label" default="Gallon" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
 					<g:textField id="gallon" name="gallon.code" class="form-control" value="${QCHeaderInstance?.gallon?.code}" placeholder="Scan Gallon Barcode..." 
-        style="width:98.5%;height:100px;font-size:20pt"/>
+        style="width:98.5%;height:100px;font-size:20pt" onkeyUp="checkGallon();"/>
 					<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'gallon', 'error')}</span>
 				</div>
 			</div>
 			
 
 
+<r:script>
+	$(document).ready(function() {
+        $("#Gallon").focus();
+    });
+    
+    //checkGallon();
+    /*var timernotif = 0;
+    clearInterval(timernotif);
+    timernotif = setInterval("checkGallon()", 2000);*/
 
+    function checkGallon(){
+    	var code = $("#gallon").val();
+    	var workCenterId = $("#workCenter").val();
+    	var itemId = $("#item").val();
+        if (code) {
+        	var data = {
+        		workCenterId:workCenterId,
+        		itemId:itemId,
+        		code :code,
+        		checkgalon:true,
+        	}
+
+        	$.ajax({
+                url: "/${meta(name:'app.name')}/lineBalance/jlist",
+                data: data,
+                success: function (d) {
+                    console.log(d);
+                    if (d.success) {
+	                    $('#createQC').removeClass('disabled');
+
+                    } else {
+    					$('#createQC').addClass('disabled');         
+    					alert(' Item Code ' + code +'not Found in Balance' );           
+                    }
+                }
+            });
+        }
+    }    
+</r:script>
 

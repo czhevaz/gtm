@@ -19,13 +19,24 @@ class QCHeaderController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        if(params.trType =='qc'){
+            session.trType = '1'
+        }
         def results = QCHeader.createCriteria().list(params){}
         [QCHeaderInstanceList: results, QCHeaderInstanceTotal: results.totalCount]
     }
 
     def create() {
-        [QCHeaderInstance: new QCHeader(params)]
+        if(params.trType =='qc'){
+            session.trType = '1'
+        }
+
+        def transactionGroup = TransactionGroup.createCriteria().list(){
+            eq('transactionType',session.trType)
+        }
+
+        [QCHeaderInstance: new QCHeader(params),transactionGroup:transactionGroup]
     }
 
     def save() {
@@ -50,6 +61,8 @@ class QCHeaderController {
     }
 
     def show() {
+        
+
         def QCHeaderInstance = QCHeader.findByServerId(params.serverId)
         if (!QCHeaderInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCHeader.label', default: 'QCHeader'), params.id])
@@ -64,6 +77,14 @@ class QCHeaderController {
     }
 
     def edit() {
+        if(params.trType =='qc'){
+            session.trType = '1'
+        }
+        
+        def transactionGroup = TransactionGroup.createCriteria().list(){
+            eq('transactionType',session.trType)
+        }
+
         def QCHeaderInstance = QCHeader.findByServerId(params.serverId)
         if (!QCHeaderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCHeader.label', default: 'QCHeader'), params.id])
@@ -73,11 +94,11 @@ class QCHeaderController {
 
         def processQC = ProcessQC.findAllByProcess(QCHeaderInstance.workCenter?.process)
 
-        [QCHeaderInstance: QCHeaderInstance,processQCAll:processQC]
+        [QCHeaderInstance: QCHeaderInstance,processQCAll:processQC,transactionGroup:transactionGroup]
     }
 
     def update() {
-        println "update" + params
+        //println "update" + params
         def QCHeaderInstance = QCHeader.findByServerId(params.serverId)
         println "QCHeaderInstance " + QCHeaderInstance
         if (!QCHeaderInstance) {
@@ -109,7 +130,7 @@ class QCHeaderController {
         
 
         if (!QCHeaderInstance.save(flush: true)) {
-            println "<<<<<<<<<<<<<<<<<  errors >>>>>>>>>>>>> "
+            //println "<<<<<<<<<<<<<<<<<  errors >>>>>>>>>>>>> "
             render(view: "edit", model: [QCHeaderInstance: QCHeaderInstance])
             return
         }
@@ -268,6 +289,9 @@ class QCHeaderController {
         lineBalance.endQty = lineBalance.beginQty - 1
         lineBalance.createdBy =session.user
         lineBalance.shift = QCHeaderInstance.shift
+        lineBalance.item = QCHeaderInstance.item
+        lineBalance.triggerClass = 'QCHeader'
+        lineBalance.triggerId = QCHeaderInstance?.serverId
 
         if(!lineBalance.save(flush:true)){
             println "errors " + lineBalance.errors
@@ -385,7 +409,7 @@ class QCHeaderController {
     /* END REport WC Summary*/
 
     def qcAnalysisQuestion(){
-        println "params " +params 
+        
         def startDate = globalService.correctDateTime(params.startDate)
         def endDate = globalService.correctDateTime(params.endDate)
         def filterDate = globalService.filterDate(startDate, endDate)
@@ -397,18 +421,26 @@ class QCHeaderController {
             eq('process',process)
         }
 
-        def listQc=[]
+        def workCenter = WorkCenter.createCriteria().list(){
+            eq('line',line1)    
+            eq('plant',plant)
+            eq('process',process)
+        }
 
+        def listQc=[]
+        def listValQc=[]
         processQc.each{
             def mapqc=[:]
             mapqc.put('qcName',it.qcMaster?.name)
             def qCQuestions = QCQuestions.findAllByQCMaster(it.qcMaster)
             def listQuestion = []
+            def listValQs=[]
             qCQuestions.each{ question ->
                 def mapQuestion=[:]
-                mapQuestion.put('questionName',question.notes)
+                mapQuestion.put('questionName',question.parameterDesc)
                 def qcOptions = QCOptions.findAllByQCQuestions(question)
                 def lisOption=[]
+                def listValQp=[]
                 qcOptions.each{ option->
                     def mapOption=[:]
                     mapOption.put('optionName',option?.description)
@@ -421,8 +453,15 @@ class QCHeaderController {
             listQc.push(mapqc)
         }
 
+        println "listQc"+listQc
         
         render([success: true ,results:listQc] as JSON)        
+    }
+
+    def countTotalItem(workCenter,qCQuestions,filterDate){
+        def qcDetail = QCDetail.createCriteria().list(){
+            
+        }
     }
 
 }

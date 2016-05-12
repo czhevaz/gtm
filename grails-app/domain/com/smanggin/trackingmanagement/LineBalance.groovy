@@ -19,7 +19,9 @@ class LineBalance {
 	Date	lastUpdated
 
 	Shift shift
-
+	String triggerId
+	String triggerClass
+	Item item
 
 	static	belongsTo	= [ Plant, Line, Shift]
 
@@ -34,6 +36,9 @@ class LineBalance {
     static constraints = {
     	updatedBy nullable:true
     	shift nullable:true
+    	triggerId nullable:true
+    	triggerClass nullable:true
+    	item nullable:true
     }
 
     def beforeValidate(){

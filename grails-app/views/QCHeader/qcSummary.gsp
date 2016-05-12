@@ -80,7 +80,7 @@
 					<td>Date</td>
 					<td>Hasil QC </td>
 					<td>Action </td>
-					<td>user Created</td>
+					<td>created By</td>
 				</tr>
 			</thead>
 			<tbody>

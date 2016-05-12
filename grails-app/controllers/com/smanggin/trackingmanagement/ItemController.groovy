@@ -175,7 +175,7 @@ class ItemController {
     }
 
     def jshow = {
-        def itemInstance = Item.get(params.id)
+        def itemInstance = Item.findByServerId(params.id)
         if (!itemInstance) {
             render(
                 message : "item.not.found",

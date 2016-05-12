@@ -32,7 +32,7 @@
 					</div><!--/.box-body -->
 					<div class="box-footer">
 						<div class="form-actions">
-							<g:submitButton name="create" class="btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+							<g:submitButton name="create" class="btn btn-primary " value="${message(code: 'default.button.create.label', default: 'Create')}" />
 				            <button class="btn" type="reset"><g:message code="default.button.reset.label" default="Reset" /></button>
 						</div>
 					</div><!--/.box-footer -->	

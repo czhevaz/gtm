@@ -17,8 +17,10 @@ class CloseShift {
 	Plant plant
 	Shift shift
 	Line  line
+	Item  item
 	Float yieldBySystem
 	Float yieldByUser
+	TransactionGroup transactionGroup
 
 	static	belongsTo	= [Shift,Line]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -34,6 +36,8 @@ class CloseShift {
     
 	static	constraints = {
 		plant nullable:true
+		transactionGroup nullable:true
+		item nullable:true
     }
 	
 	def beforeValidate(){

@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'QCHeader.label', default: 'QCHeader')}" />
-	<title>QC Analysis</title>
+	<title>Production Resource Analysis</title>
 </head>
 
 <body>
@@ -84,7 +84,22 @@
 
 
 	<div class="row" id="div-summary">
-		
+		<table id="table-summary" class="table table-bordered table-striped  margin-top-medium">
+			<thead>
+				<tr>
+					<td>No</td>
+					<td>Workcenter</td>
+					<td>Sum Tracked item</td>
+					<td>Failed</td>
+					<td>Yield</td>
+					<td>Unknown</td>
+					
+				</tr>
+			</thead>
+			<tbody>
+			
+			</tbody>
+		</table>
 	</div>
 
 
@@ -107,33 +122,26 @@
 			}
 
 			$.ajax({
-	            url: "/${meta(name:'app.name')}/QCHeader/qcAnalysisQuestion",
+	            url: "/${meta(name:'app.name')}/productionInHeader/productionAnalysis",
 	            data: data,
 	            type: "POST",
 	            success: function (data) {
-	            	
-	            	
-	            	$.each(data.results , function(i,k) {
-	            		console.log(k);
-	            		var tabel = '<table id="table-summary" class="table table-bordered table-striped  margin-top-medium">';
-	            		tabel += '<thead>';
-	            		tabel += '<tr>'
-	            		tabel += '<th rowspan="2">'+k.qcName+'</th>';
-	            		$.each(k.listQuestion, function(j,question) {
-	            			tabel += '<th>'+question.questionName+'</th>';
-	            		});
-						tabel += '</tr>';
-						tabel += '<tr>';
-						$.each(k.listQuestion, function(j,question) {
-	            			tabel += '<th>'+question.questionName+'</th>';
-	            		});
-						tabel += '</tr>';
-						tabel += '</thead>'
-						tabel += '<tbody></tbody></table>';
-						$("#div-summary").append(tabel);        
+	            	console.log(data);
+	            	$("#table-summary tbody").html("");
+	            	$.each(data.results , function(i,item) {
+	            		var tr ="<tr>";
+	            		
+							tr += "<td > "+  (i*1+1) +" </td>";
+							tr += "<td > "+  item.workCenterName +" </td>";
+							tr += "<td > "+  item.sumItem +" </td>";
+							tr += "<td > "+  item.failed+" </td>";
+							tr += "<td > "+  item.yield +" </td>";
+							tr += "<td > "+  item.unknown +" </td>";
+							tr += "</tr>";
+
+						$("#table-summary tbody").append(tr);		
 	            	});
-	            	
-	            	
+						            	
 	            },
 	            error: function (xhr, status, error) {
 	                alert("fail");

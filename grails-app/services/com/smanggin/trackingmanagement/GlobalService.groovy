@@ -7,6 +7,7 @@ import java.text.*
  */
 class GlobalService {
 
+    def grailsApplication
     static transactional = true
 
     /* gereate unique id for server ID*/
@@ -72,6 +73,13 @@ class GlobalService {
         return d
     }
 
-    
+    def findByDomainClass(triggerClass,triggerId){
+      def domainClassName = "com.smanggin.trackingmanagement."+triggerClass
+      println domainClassName
+      def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
+      def domain = domainClassInstance.findByServerId(triggerId)
+      return domain
+      
+    }
     
 }
