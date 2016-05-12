@@ -61,7 +61,7 @@
 				<label for="gallon" class="col-sm-3 control-label"><g:message code="QCHeader.gallon.label" default="Gallon" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
 					<g:textField id="gallon" name="gallon.code" class="form-control" value="${QCHeaderInstance?.gallon?.code}" placeholder="Scan Gallon Barcode..." 
-        style="width:98.5%;height:100px;font-size:20pt" onkeyUp="checkGallon();"/>
+        style="width:98.5%;height:100px;font-size:20pt" />
 					<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'gallon', 'error')}</span>
 				</div>
 			</div>
@@ -99,12 +99,118 @@
 	                    $('#createQC').removeClass('disabled');
 
                     } else {
-    					$('#createQC').addClass('disabled');         
-    					alert(' Item Code ' + code +'not Found in Balance' );           
+    					$('#createQC').addClass('disabled');
+    					$('#gallon').val('');
+    					$("body").off("blur", "#gallon", inputBlur);
+    					alert(' Item Code ' + code +' not Found in Balance' );           
                     }
                 }
             });
         }
-    }    
+    }
+
+
+    var inputStart, inputStop, firstKey, lastKey, timing, userFinishedEntering;
+	var minChars = 3;
+	$("#gallon").keypress(function (e) {
+    // restart the timer
+	    if (timing) {
+	        clearTimeout(timing);
+	    }
+	    
+	    // handle the key event
+	    if (e.which == 13) {
+	        // Enter key was entered
+	        
+	        // don't submit the form
+	        e.preventDefault();
+	        
+	        // has the user finished entering manually?
+	        if ($("#gallon").val().length >= minChars){
+	            userFinishedEntering = true; // incase the user pressed the enter key
+	            inputComplete();
+	        }
+	    }
+	    else {
+	        // some other key value was entered
+	        
+	        // could be the last character
+	        inputStop = performance.now();
+	        lastKey = e.which;
+	        
+	        // don't assume it's finished just yet
+	        userFinishedEntering = false;
+	        
+	        // is this the first character?
+	        if (!inputStart) {
+	            firstKey = e.which;
+	            inputStart = inputStop;
+	            
+	            // watch for a loss of focus
+	            $("body").on("blur", "#gallon", inputBlur);
+	        }
+	        
+	        // start the timer again
+	        timing = setTimeout(inputTimeoutHandler, 500);
+	    }
+	});
+
+	// Assume that a loss of focus means the value has finished being entered
+	function inputBlur(){
+	    clearTimeout(timing);
+	    if ($("#gallon").val().length >= minChars){
+	        userFinishedEntering = true;
+	        inputComplete();
+	    }
+	};
+
+
+	// reset the page
+	$("#reset").click(function (e) {
+	    e.preventDefault();
+	    resetValues();
+	});
+
+	function resetValues() {
+	    // clear the variables
+	    inputStart = null;
+	    inputStop = null;
+	    firstKey = null;
+	    lastKey = null;
+	    // clear the results
+	    inputComplete();
+	}
+
+	// Assume that it is from the scanner if it was entered really fast
+	function isScannerInput() {
+	    return (((inputStop - inputStart) / $("#gallon").val().length) < 15);
+	}
+
+	// Determine if the user is just typing slowly
+	function isUserFinishedEntering(){
+	    return !isScannerInput() && userFinishedEntering;
+	}
+
+	function inputTimeoutHandler(){
+	    // stop listening for a timer event
+	    clearTimeout(timing);
+	    // if the value is being entered manually and hasn't finished being entered
+	    if (!isUserFinishedEntering() || $("#gallon").val().length < 3) {
+	        // keep waiting for input
+	        return;
+	    }
+	    else{
+	        checkGallon();
+	    }
+	}
+
+	// here we decide what to do now that we know a value has been completely entered
+	function inputComplete(){
+	    // stop listening for the input to lose focus
+	    //$("body").off("blur", "#gallon", inputBlur);
+	    // report the results
+	    checkGallon();
+	}
+    
 </r:script>
 

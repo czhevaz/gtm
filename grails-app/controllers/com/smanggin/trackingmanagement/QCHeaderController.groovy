@@ -126,6 +126,7 @@ class QCHeaderController {
         QCHeaderInstance.workCenter = WorkCenter.findByServerId(params?.workCenter?.serverId)
         QCHeaderInstance.transactionGroup =TransactionGroup.findByServerId(params?.transactionGroup?.serverId)
         QCHeaderInstance.qcActions = QCActions.findByServerId(params.qcActions?.serverId)
+        //QCHeaderInstance.qcOptions = QCOptions.findByServerId(params.qcOptions?.serverId)
 
         
 
@@ -140,13 +141,14 @@ class QCHeaderController {
         processQCAll.each{ processQC -> 
            
             processQC?.qcMaster?.qCQuestions.each{
-                if(it.parameterType == 2){
+                if(it.parameterType > 0){
                     println " >>>>>>>>>>>>>>>>>> parameterType 2"
                     params."${it.qCMaster?.code}_${it.sequenceNo}".each{ option->
                         def qcDetail = new QCDetail()
                         qcDetail.qcHeader = QCHeaderInstance
                         qcDetail.qcMaster = it.qCMaster
                         qcDetail.qcQuestions = it
+                        qcDetail.qcOptions = option?.id
                         qcDetail.results = option
                         qcDetail.createdBy = session.user
                         if(!qcDetail.save(flush:true)){
@@ -158,6 +160,7 @@ class QCHeaderController {
                     qcDetail.qcHeader = QCHeaderInstance
                     qcDetail.qcMaster = it.qCMaster
                     qcDetail.qcQuestions = it
+                    //qcDetail.qcOptions = option?.id
                     qcDetail.results = params."${it.qCMaster?.code}_${it.sequenceNo}"
                     qcDetail.createdBy = session.user
                     if(!qcDetail.save(flush:true)){
@@ -453,15 +456,30 @@ class QCHeaderController {
             listQc.push(mapqc)
         }
 
-        println "listQc"+listQc
-        
+        //println "listQc"+listQc
+        countTotalItem(workCenter,filterDate)
+
         render([success: true ,results:listQc] as JSON)        
     }
 
-    def countTotalItem(workCenter,qCQuestions,filterDate){
-        def qcDetail = QCDetail.createCriteria().list(){
-            
+    def countTotalItem(workCenter,filterDate){
+        def qcHeaders = QCHeader.createCriteria().list(){
+            //le('date',filterDate.end)
+            //ge('date',filterDate.start)
+            'in'('workCenter',workCenter)
         }
+
+        println 'workCenter '+workCenter
+        
+        def qcDetail = QCDetail.createCriteria().list(){
+            'in'('qcHeader',qcHeaders)
+            projections{
+                groupProperty('qcOptions')
+                count('serverId')
+            }
+        }
+
+        println " qcDetail " + qcDetail
     }
 
 }
