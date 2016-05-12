@@ -81,11 +81,12 @@
 												<g:textArea class="form-control" name="${processQCInstance?.qcMaster?.code}_${qcQuestionsInstance?.sequenceNo}" value="${myService?.valueQCDetail(QCHeaderInstance,qcQuestionsInstance?.qCMaster,qcQuestionsInstance)}" rows="5" cols="40"/>
 											</g:if>	
 											<g:if test="${qcQuestionsInstance?.parameterType == 1}">  
-												<g:select  name="${processQCInstance?.qcMaster?.code}_${qcQuestionsInstance?.sequenceNo}" from="${myService.qcOptionsBy(qcQuestionsInstance)}" optionKey="description" optionValue="description"  required="" value="${workCenterInstance?.line?.serverId}" class="many-to-one form-control chosen-select"/>
+
+												<g:select  name="${processQCInstance?.qcMaster?.code}_${qcQuestionsInstance?.sequenceNo}" from="${myService.qcOptionsBy(qcQuestionsInstance)}" optionKey="serverId" optionValue="description"  required="" value="${workCenterInstance?.line?.serverId}" class="many-to-one form-control chosen-select"/>
 											</g:if>	
 											<g:if test="${qcQuestionsInstance?.parameterType == 2}">  
 												<g:each in="${myService.qcOptionsBy(qcQuestionsInstance)}" status="k" var="qcoption">
-													<g:checkBox name="${processQCInstance?.qcMaster?.code}_${qcQuestionsInstance?.sequenceNo}" value="${qcoption.description}" checked="false"/>
+													<g:checkBox name="${processQCInstance?.qcMaster?.code}_${qcQuestionsInstance?.sequenceNo}" value="${qcoption.serverId}" checked="false"/>
 													<label for="${processQCInstance?.qcMaster?.code}_${qcQuestionsInstance?.sequenceNo}">${qcoption.description}</label>
 												</g:each>	
 											</g:if>	
@@ -111,6 +112,7 @@
 						<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'qcActions', 'error')} required">
 							<label for="qcActions" class="col-sm-3 control-label"><g:message code="QCHeader.qcActions.label" default="Action " /><span class="required-indicator">*</span></label>
 							<div class="col-sm-5">
+
 								<g:select id="qcActions" name="qcActions.serverId" from="${com.smanggin.trackingmanagement.QCActions.list()}" optionKey="serverId" optionValue="description" required="" value="${QCHeaderInstance?.qcActions?.serverId}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
 								<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'qcActions', 'error')}</span>
 							</div>

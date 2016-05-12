@@ -311,7 +311,7 @@ class ProductionInHeaderController {
             def unknown = 0
             if(cc.size()>0){
                 yield=cc[0][1]
-                unknown=cc[0][0]-cc[0][1]
+                unknown=(cc[0]?cc[0][0]:0)-(cc[0]?cc[0][1]:0)
             }            
             def map=[:]
             map.put('workCenterName',it.name)
