@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="kickstart" />
     <g:set var="entityName" value="${message(code: 'QCHeader.label', default: 'Hasil Produksi')}" />
-    <title>Hasil Produksi</title>
+    <title>Line Balances</title>
 </head>
 
 <body>

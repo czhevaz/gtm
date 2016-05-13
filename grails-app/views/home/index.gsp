@@ -28,7 +28,7 @@
 	            <span class="info-box-icon bg-red"><i class="icon-foursquare"></i></span>
 
 	            <div class="info-box-content">
-	              <span class="info-box-text">QC Item</span>
+	              <span class="info-box-text">QC</span>
 	              <span class="info-box-number">&nbsp;</span>
 	            </div>
 	            <!-- /.info-box-content -->
@@ -84,7 +84,7 @@
 						$('#item').append(html);	
 
 						var color2 = 'bg-red';
-						var footerText2= "Qc Item";
+						var footerText2= "Qc";
 						var link2 = "/${meta(name:'app.name')}/QCHeader/create?itemId="+b.id+"&trType=qc";
 						var html2 = addBox(title,count,icon,color2,link2,footerText2);		
 						$('#QCItem').append(html2);

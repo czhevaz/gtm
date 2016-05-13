@@ -25,13 +25,13 @@
 						<thead>
 							<tr>
 							
+								<g:sortableColumn property="name" title="${message(code: 'item.name.label', default: 'Name')}" />
+
+								<g:sortableColumn property="description" title="${message(code: 'item.description.label', default: 'Description')}" />
+
 								<g:sortableColumn property="dateCreated" title="${message(code: 'item.dateCreated.label', default: 'Date Created')}" />
 							
-								<g:sortableColumn property="description" title="${message(code: 'item.description.label', default: 'Description')}" />
-							
 								<g:sortableColumn property="lastUpdated" title="${message(code: 'item.lastUpdated.label', default: 'Last Updated')}" />
-							
-								<g:sortableColumn property="name" title="${message(code: 'item.name.label', default: 'Name')}" />
 							
 							</tr>
 						</thead>
@@ -39,13 +39,13 @@
 						<g:each in="${itemInstanceList}" status="i" var="itemInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" params="[serverId:itemInstance?.serverId]">${fieldValue(bean: itemInstance, field: "dateCreated")}</g:link></td>
-							
+								<td><g:link action="show" params="[serverId:itemInstance?.serverId]">${fieldValue(bean: itemInstance, field: "name")}</g:link></td>
+
 								<td>${fieldValue(bean: itemInstance, field: "description")}</td>
+								
+								<td>${fieldValue(bean: itemInstance, field: "dateCreated")}</td>
 							
 								<td><g:formatDate date="${itemInstance.lastUpdated}" /></td>
-							
-								<td>${fieldValue(bean: itemInstance, field: "name")}</td>
 							
 							</tr>
 						</g:each>

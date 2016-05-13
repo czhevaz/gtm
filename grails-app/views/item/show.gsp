@@ -24,29 +24,16 @@
 						<tbody>
 						
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="item.dateCreated.label" default="Date Created" /></td>
+								<td valign="top" class="name"><g:message code="item.name.label" default="Name" /></td>
 								
-								<td valign="top" class="value"><g:formatDate date="${itemInstance?.dateCreated}" /></td>
+								<td valign="top" class="value">${fieldValue(bean: itemInstance, field: "name")}</td>
 								
 							</tr>
-						
+
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="item.description.label" default="Description" /></td>
 								
 								<td valign="top" class="value">${fieldValue(bean: itemInstance, field: "description")}</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="item.gallons.label" default="Gallons" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${itemInstance.gallons}" var="g">
-										<li><g:link controller="gallon" action="show" id="${g.id}">${g?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
 								
 							</tr>
 						
@@ -56,11 +43,11 @@
 								<td valign="top" class="value"><g:formatDate date="${itemInstance?.lastUpdated}" /></td>
 								
 							</tr>
-						
+							
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="item.name.label" default="Name" /></td>
+								<td valign="top" class="name"><g:message code="item.dateCreated.label" default="Date Created" /></td>
 								
-								<td valign="top" class="value">${fieldValue(bean: itemInstance, field: "name")}</td>
+								<td valign="top" class="value"><g:formatDate date="${itemInstance?.dateCreated}" /></td>
 								
 							</tr>
 						
@@ -72,7 +59,7 @@
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box-body table-responsive -->
 
-			<g:render template="detail"/> 
+			
 		</div><!--/.box box-primary -->
 	</div><!--/.row -->
 </section>

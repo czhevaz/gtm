@@ -89,8 +89,8 @@
 				<tr>
 					<td>No</td>
 					<td>Workcenter</td>
-					<td>Sum Tracked item</td>
-					<td>Failed</td>
+					<td>Production in</td>
+					<td>QC</td>
 					<td>Yield</td>
 					<td>Unknown</td>
 					
@@ -130,7 +130,7 @@
 	            	$("#table-summary tbody").html("");
 	            	$.each(data.results , function(i,item) {
 	            		var tr ="<tr>";
-	            		
+
 							tr += "<td > "+  (i*1+1) +" </td>";
 							tr += "<td > "+  item.workCenterName +" </td>";
 							tr += "<td > "+  item.sumItem +" </td>";
