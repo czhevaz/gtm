@@ -25,15 +25,17 @@
 						<thead>
 							<tr>
 							
-								<g:sortableColumn property="serverId" title="${message(code: 'QCActions.serverId.label', default: 'Server Id')}" />
+								
 							
 								<g:sortableColumn property="description" title="${message(code: 'QCActions.description.label', default: 'Description')}" />
 							
-								<g:sortableColumn property="updatedBy" title="${message(code: 'QCActions.updatedBy.label', default: 'Updated By')}" />
-							
+								
 								<g:sortableColumn property="createdBy" title="${message(code: 'QCActions.createdBy.label', default: 'Created By')}" />
 							
 								<g:sortableColumn property="dateCreated" title="${message(code: 'QCActions.dateCreated.label', default: 'Date Created')}" />
+
+								<g:sortableColumn property="updatedBy" title="${message(code: 'QCActions.updatedBy.label', default: 'Updated By')}" />
+							
 							
 								<g:sortableColumn property="lastUpdated" title="${message(code: 'QCActions.lastUpdated.label', default: 'Last Updated')}" />
 							
@@ -43,16 +45,18 @@
 						<g:each in="${QCActionsInstanceList}" status="i" var="QCActionsInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${QCActionsInstance.id}">${fieldValue(bean: QCActionsInstance, field: "serverId")}</g:link></td>
+								
 							
-								<td>${fieldValue(bean: QCActionsInstance, field: "description")}</td>
+								<td><g:link action="show" id="${QCActionsInstance.id}">${fieldValue(bean: QCActionsInstance, field: "description")}</g:link></td>
 							
-								<td>${fieldValue(bean: QCActionsInstance, field: "updatedBy")}</td>
+								
 							
 								<td>${fieldValue(bean: QCActionsInstance, field: "createdBy")}</td>
 							
 								<td><g:formatDate date="${QCActionsInstance.dateCreated}" /></td>
-							
+								
+								<td>${fieldValue(bean: QCActionsInstance, field: "updatedBy")}</td>
+								
 								<td><g:formatDate date="${QCActionsInstance.lastUpdated}" /></td>
 							
 							</tr>

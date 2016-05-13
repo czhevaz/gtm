@@ -23,12 +23,21 @@
 					<table class="table table-striped">
 						<tbody>
 						
+							
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="QCOptions.description.label" default="Description" /></td>
 								
 								<td valign="top" class="value">${fieldValue(bean: QCOptionsInstance, field: "description")}</td>
 								
 							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="QCOptions.qCQuestions.label" default="QC Questions" /></td>
+								
+								<td valign="top" class="value"><g:link controller="QCQuestions" action="show" id="${QCOptionsInstance?.qCQuestions?.id}">${QCOptionsInstance?.qCQuestions?.encodeAsHTML()}</g:link></td>
+								
+							</tr>
+						
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="QCOptions.updatedBy.label" default="Updated By" /></td>
@@ -57,17 +66,7 @@
 								<td valign="top" class="value"><g:formatDate date="${QCOptionsInstance?.lastUpdated}" /></td>
 								
 							</tr>
-						
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="QCOptions.qCQuestions.label" default="QCQ uestions" /></td>
-								
-								<td valign="top" class="value"><g:link controller="QCQuestions" action="show" id="${QCOptionsInstance?.qCQuestions?.id}">${QCOptionsInstance?.qCQuestions?.encodeAsHTML()}</g:link></td>
-								
-							</tr>
-						
-							
-						
+					
 						</tbody>
 					</table>
 				</div><!--/.row -->

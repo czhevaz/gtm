@@ -173,27 +173,35 @@ class LineBalanceController {
         }else if(params.checkgalon){
             def workCenter = WorkCenter.findByServerId(params.workCenterId)
             def item = Item.findByServerId(params.itemId)
-            def lineBalances = LineBalance.createCriteria().list(){
+
+            params.order = params.order ?: 'desc' 
+            params.sort = params.sort ?: 'dateCreated' 
+            def lineBalances = LineBalance.createCriteria().list(params){
                 eq('line',workCenter?.line)
                 eq('plant',workCenter?.plant)
                 eq('item',item)
+                eq('triggerClass','ProductionInHeader')
+                maxResults(1)
+            }
+
+            def lastinsertLine = LineBalance.createCriteria().list(params){
+                eq('line',workCenter?.line)
+                eq('plant',workCenter?.plant)
+                eq('item',item)
+                maxResults(1)
             }
 
             def qtyin = 0
             def qtyOut = 0
             def res= false
-            println " lineBalances " +lineBalances
-            lineBalances.each{
-                qtyin = qtyin + it.inQty
-                qtyOut =  qtyOut + it.outQty
-                
-            }
+            def qtyEnd = lastinsertLine?.endQty[0]?:0
+
             def diff = qtyin-qtyOut
             
-            if(diff > 0){
-                lineBalances.each{    
-                    res = checkgalon(it.triggerClass,it.triggerId,params.code)
-                }
+            if(qtyEnd > 0){
+
+                res = checkgalon(lineBalances.triggerClass[0],lineBalances.triggerId[0],params.code)
+                
                 render ([success : res ] as JSON)
             }else{
                 render ([success : false ] as JSON)
@@ -254,13 +262,14 @@ class LineBalanceController {
         return qtyEnd
     }
 
-    def checkgalon(triggerClass,triggerId,code){
+    def checkgalon(String triggerClass,String triggerId,String code){
         def ph = globalService.findByDomainClass(triggerClass,triggerId)
         def pd = ProductionInDetail.createCriteria().list(){
             eq('productionInHeader',ph)
         }
         
         def res = code in pd.gallon.code?true:false
+
         return res
     }
 }

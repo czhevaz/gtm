@@ -51,7 +51,7 @@ class CloseShiftController {
     }
 
     def show() {
-        def closeShiftInstance = CloseShift.get(params.id)
+        def closeShiftInstance = CloseShift.findByServerId(params.serverId)
         if (!closeShiftInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'closeShift.label', default: 'CloseShift'), params.id])
             redirect(action: "list")

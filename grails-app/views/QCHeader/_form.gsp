@@ -58,9 +58,9 @@
 			</div>
 
 			<div class="form-group fieldcontain ${hasErrors(bean: QCHeaderInstance, field: 'gallon', 'error')} required">
-				<label for="gallon" class="col-sm-3 control-label"><g:message code="QCHeader.gallon.label" default="Gallon" /><span class="required-indicator">*</span></label>
+				<label for="gallon" class="col-sm-3 control-label"><g:message code="QCHeader.gallon.label" default="Code" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
-					<g:textField id="gallon" name="gallon.code" class="form-control" value="${QCHeaderInstance?.gallon?.code}" placeholder="Scan Gallon Barcode..." 
+					<g:textField id="gallon" name="gallon.code" class="form-control" value="${QCHeaderInstance?.gallon?.code}" placeholder="Scan Barcode..." 
         style="width:98.5%;height:100px;font-size:20pt" />
 					<span class="help-inline">${hasErrors(bean: QCHeaderInstance, field: 'gallon', 'error')}</span>
 				</div>

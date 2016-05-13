@@ -36,7 +36,7 @@
 					</li>
 					<li class="controller">
 						<g:link controller="CloseShift">
-							Close Shift
+							Shift Closing 
 						</g:link>
 					</li>
               
@@ -164,7 +164,7 @@
 								</li>
 								<li>
 			                  		<g:link controller="Gallon" action="report" params="[gallonHistory:true]">
-										Gallon History
+										Tracked Item History
 									</g:link>
 								</li>
 			                 

@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'closeShift.label', default: 'CloseShift')}" />
+	<g:set var="entityName" value="${message(code: 'closeShift.label', default: 'Shift Closing')}" />
 	<title><g:message code="default.list.label" args="[entityName]" /></title>
 </head>
 
@@ -24,18 +24,19 @@
 					<table class="table table-bordered margin-top-medium">
 						<thead>
 							<tr>
-							
+								
+
 								<g:sortableColumn property="closeDate" title="${message(code: 'closeShift.closeDate.label', default: 'Close Date')}" />
-							
-								<g:sortableColumn property="dateCreated" title="${message(code: 'closeShift.dateCreated.label', default: 'Date Created')}" />
-							
-								<g:sortableColumn property="lastUpdated" title="${message(code: 'closeShift.lastUpdated.label', default: 'Last Updated')}" />
 							
 								<th><g:message code="closeShift.line.label" default="Line" /></th>
 							
-								<g:sortableColumn property="serverId" title="${message(code: 'closeShift.serverId.label', default: 'Server Id')}" />
-							
 								<th><g:message code="closeShift.shift.label" default="Shift" /></th>
+								
+								<th><g:message code="closeShift.item.label" default="item" /></th>
+								
+								<th><g:message code="closeShift.yieldBySystem.label" default="yieldBySystem" /></th>
+
+								<th><g:message code="closeShift.yieldByUser.label" default="yieldByUser" /></th>
 							
 							</tr>
 						</thead>
@@ -43,18 +44,20 @@
 						<g:each in="${closeShiftInstanceList}" status="i" var="closeShiftInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${closeShiftInstance.id}">${fieldValue(bean: closeShiftInstance, field: "closeDate")}</g:link></td>
+								
+
+								<td>${fieldValue(bean: closeShiftInstance, field: "closeDate")}</td>
 							
-								<td><g:formatDate date="${closeShiftInstance.dateCreated}" /></td>
-							
-								<td><g:formatDate date="${closeShiftInstance.lastUpdated}" /></td>
-							
-								<td>${fieldValue(bean: closeShiftInstance, field: "line")}</td>
-							
-								<td>${fieldValue(bean: closeShiftInstance, field: "serverId")}</td>
-							
+								<td>${fieldValue(bean: closeShiftInstance, field: "line")}</td>	
+								
 								<td>${fieldValue(bean: closeShiftInstance, field: "shift")}</td>
-							
+								
+								<td>${fieldValue(bean: closeShiftInstance, field: "item")}</td>
+
+								<td>${fieldValue(bean: closeShiftInstance, field: "yieldBySystem")}</td>
+
+								<td>${fieldValue(bean: closeShiftInstance, field: "yieldByUser")}</td>
+								
 							</tr>
 						</g:each>
 						</tbody>

@@ -13,6 +13,8 @@ class QCOptions {
 	String  updatedBy
 	Date	dateCreated
 	Date	lastUpdated
+    
+    String toString() { return description }
 
 	//static	belongsTo	= [QCMaster, QCQuestions]
 

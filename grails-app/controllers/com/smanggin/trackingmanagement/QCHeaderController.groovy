@@ -167,7 +167,7 @@ class QCHeaderController {
                     qcDetail.qcMaster = it.qCMaster
                     qcDetail.qcQuestions = it
                     qcDetail.qcOptions = qcp
-                    qcDetail.results = qcp?.description
+                    qcDetail.results = qcp?qcp.description:params."${it.qCMaster?.code}_${it.sequenceNo}"
                     qcDetail.createdBy = session.user
                     if(!qcDetail.save(flush:true)){
                         println "erorr" +qcDetail.errors
@@ -449,43 +449,83 @@ class QCHeaderController {
                 mapQuestion.put('questionName',question.parameterDesc)
                 def qcOptions = QCOptions.findAllByQCQuestions(question)
                 def lisOption=[]
-                def listValQp=[]
+                
                 qcOptions.each{ option->
                     def mapOption=[:]
                     mapOption.put('optionName',option?.description)
+                    mapOption.put('optionId',option?.serverId)
                     lisOption.push(mapOption)
+                    def qcDetails=countTotalItem(workCenter,option,filterDate)
+                    listValQs.push(qcDetails)
                 }
-                mapQuestion.put('lisOption',lisOption)
+                
+                mapQuestion.put('lisOption',lisOption)    
+                if(lisOption.size() == 0){
+                    def qcDetails=countTotalItem2(workCenter,question,filterDate) 
+                    listValQs.push(qcDetails)
+                }
+                
                 listQuestion.push(mapQuestion)
             }
             mapqc.put('listQuestion',listQuestion)
+            mapqc.put('listValQs',listValQs)
             listQc.push(mapqc)
+
+            println mapqc
         }
 
-        //println "listQc"+listQc
-        countTotalItem(workCenter,filterDate)
+       /* def qcDetails=countTotalItem(workCenter,filterDate)
+        qcDetails.each{
+            println " value " + it[0]?.serverId
+            def mamval=[:]
+            mamval.put('optionName',it[0]?.description)
+            mamval.put('optionId',it[0]?.serverId)
+            mamval.put('optionValue',it[1])
+            listValQc.push(mamval)
+        }*/
 
-        render([success: true ,results:listQc] as JSON)        
+        
+        render([success: true ,results:listQc,qcVal:listValQc] as JSON)        
     }
 
-    def countTotalItem(workCenter,filterDate){
+    def countTotalItem(workCenter,qcOptions,filterDate){
         def qcHeaders = QCHeader.createCriteria().list(){
             //le('date',filterDate.end)
             //ge('date',filterDate.start)
             'in'('workCenter',workCenter)
         }
 
-        println 'workCenter '+workCenter
+        
         
         def qcDetail = QCDetail.createCriteria().list(){
             'in'('qcHeader',qcHeaders)
+            eq('qcOptions',qcOptions)
             projections{
-                groupProperty('qcOptions')
+                //groupProperty('qcOptions')
                 count('serverId')
             }
         }
+        //println qcDetail
+        return qcDetail[0]
+        
+    }
 
-        println " qcDetail " + qcDetail
+    def countTotalItem2(workCenter,qcQuestion,filterDate){
+        def qcHeaders = QCHeader.createCriteria().list(){
+            //le('date',filterDate.end)
+            //ge('date',filterDate.start)
+            'in'('workCenter',workCenter)
+        }
+
+        def qcDetail = QCDetail.createCriteria().list(){
+            'in'('qcHeader',qcHeaders)
+            eq('qcQuestions',qcQuestion)
+            isNull('qcOptions')
+        }
+
+        //println qcDetail
+        return qcDetail.size()
+        
     }
 
 }

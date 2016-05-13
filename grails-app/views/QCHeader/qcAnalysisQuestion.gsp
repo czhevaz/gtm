@@ -115,7 +115,8 @@
 	            	
 	            	$.each(data.results , function(i,k) {
 	            		console.log(k);
-	            		var tabel = '<table id="table-summary" class="table table-bordered table-striped  margin-top-medium">';
+	            		var tabel = '<div class="row"><div class="col-lg-12"><div class="box box-primary"><table id="table-summary" class="table table-bordered margin-top-medium">';
+	            		tabel += '<div class="box-header with-border"><h3 class="box-title">'+k.qcName+'</h3></div>'
 	            		tabel += '<thead>';
 	            		tabel += '<tr>'
 	            		//tabel += '<th rowspan="2">'+k.qcName+'</th>';
@@ -136,8 +137,14 @@
 							
 	            		});
 						tabel += '</tr>';
+
+						tabel += '<tr class="odd">';
+							$.each(k.listValQs, function(j,val) {
+		            			tabel += '<td>'+val+'</td>';
+	            			});
+						tabel += '</tr>';
 						tabel += '</thead>'
-						tabel += '<tbody></tbody></table>';
+						tabel += '<tbody></tbody></table></div></div></div>';
 						$("#div-summary").append(tabel);        
 	            	});
 	            	

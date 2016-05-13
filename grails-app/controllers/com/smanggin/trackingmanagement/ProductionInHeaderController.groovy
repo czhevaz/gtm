@@ -253,6 +253,30 @@ class ProductionInHeaderController {
         }
     }
 
+    def insertItemBalance(productionInHeaderInstance){
+        def productionInDetail = ProductionInDetail.createCriteria().list(){
+            eq('productionInHeader',productionInHeaderInstance)
+        }
+
+        productionInDetail.each{
+            def itemBalance = new ItemBalance()
+            itemBalance.workCenter = it.productionInHeader?.workCenter
+            itemBalance.date = new Date()
+            itemBalance.inQty = 1
+            itemBalance.outQty = 0
+            
+            itemBalance.createdBy = session.user
+            itemBalance.shift = it.productionInHeader.shift
+            itemBalance.item = it.productionInHeader.item
+            itemBalance.triggerClass = 'ProductionInHeader'
+            itemBalance.triggerId = it.productionInHeader?.serverId
+            if(!itemBalance.save(flush:true)){
+                println "errors " + lineBalance.errors
+            }    
+        }
+        
+    }
+
     def productionIn() {
         return ''
     }
