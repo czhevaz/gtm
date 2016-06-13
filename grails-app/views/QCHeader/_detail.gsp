@@ -5,20 +5,7 @@ if(actionName=='edit' || actionName=='show') {
 %>
 <div class="easyui-tabs table" style="height:300px">
     
-    
-    
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
+            
         <div title='<g:message code="QCHeader.qCDetails.label" default="QCD etails" />' style="padding:10px">
 
             <table id="dg-qCDetails" class="easyui-datagrid" style="height:240px"
@@ -32,13 +19,8 @@ if(actionName=='edit' || actionName=='show') {
                     
                         
                         <th data-options="field:'updatedBy',width:200,editor:'text'">Updated By</th>
-                        
-
-                    
-                        
+                            
                         <th data-options="field:'createdBy',width:200,editor:'text'">Created By</th>
-                        
-
                     
                         <th data-options="field:'qcHeaderId',width:200,
                             formatter:function(value,row){

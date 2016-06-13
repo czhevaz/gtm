@@ -98,9 +98,9 @@ class QCHeaderController {
     }
 
     def update() {
-        //println "update" + params
+        println "update" + params
         def QCHeaderInstance = QCHeader.findByServerId(params.serverId)
-        println "QCHeaderInstance " + QCHeaderInstance
+        
         if (!QCHeaderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'QCHeader.label', default: 'QCHeader'), params.id])
             redirect(action: "list")
@@ -145,10 +145,10 @@ class QCHeaderController {
                     println " >>>>>>>>>>>>>>>>>> parameterType 2"
                     params."${it.qCMaster?.code}_${it.sequenceNo}".each{ option->
                         def qcp = QCOptions.findByServerId(option)
-                        println "-----------------------------"
+                      /*  println "-----------------------------"
                         println it
                         println " qcp " + qcp
-                        println "-----------------------------"
+                        println "-----------------------------"*/
                         def qcDetail = new QCDetail()
                         qcDetail.qcHeader = QCHeaderInstance
                         qcDetail.qcMaster = it.qCMaster
@@ -157,10 +157,11 @@ class QCHeaderController {
                         qcDetail.results = qcp?.description
                         qcDetail.createdBy = session.user
                         if(!qcDetail.save(flush:true)){
-                            println "erorr" +qcDetail.errors
+                            //println "erorr" +qcDetail.errors
                         }    
                     }
                 }else{
+                    //println "testing >>>>>>> " + params."${it.qCMaster?.code}_${it.sequenceNo}"
                     def qcp = QCOptions.findByServerId(params."${it.qCMaster?.code}_${it.sequenceNo}")
                     def qcDetail = new QCDetail()
                     qcDetail.qcHeader = QCHeaderInstance
@@ -170,7 +171,7 @@ class QCHeaderController {
                     qcDetail.results = qcp?qcp.description:params."${it.qCMaster?.code}_${it.sequenceNo}"
                     qcDetail.createdBy = session.user
                     if(!qcDetail.save(flush:true)){
-                        println "erorr" +qcDetail.errors
+                        //println "erorr" +qcDetail.errors
                     }
                 }
                 

@@ -163,7 +163,7 @@ class QCQuestionsController {
     }   
 
     def jdelete(Long id) {
-        def QCQuestionsInstance = QCQuestions.get(id)
+        def QCQuestionsInstance = QCQuestions.findByServerId(id)
         if (!QCQuestionsInstance)
             render([success: false] as JSON)
         else {
@@ -177,7 +177,7 @@ class QCQuestionsController {
     }
 
     def jshow = {
-        def QCQuestionsInstance = QCQuestions.get(params.id)
+        def QCQuestionsInstance = QCQuestions.findByServerId(params.id)
         if (!QCQuestionsInstance) {
             render(
                 message : "QCQuestions.not.found",

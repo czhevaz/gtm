@@ -60,5 +60,6 @@ grails.project.dependency.resolution = {
         compile ":quartz2:2.1.6.2"
         compile ":mail:1.0.1"
         compile ":jasper:1.10.0"
+        runtime ":executor:0.3"
     }
 }

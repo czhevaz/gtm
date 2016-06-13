@@ -4,28 +4,7 @@
 if(actionName=='edit' || actionName=='show') { 
 %>
 <div class="easyui-tabs table" style="height:300px">
-    
-    
-    
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
+
         
         <div title='<g:message code="user.userPlants.label" default="User Plants" />' style="padding:10px">
 
@@ -34,25 +13,9 @@ if(actionName=='edit' || actionName=='show') {
             collapsible:true, 
             onClickRow: userPlantsOnClickRow,
             toolbar: '#tb-userPlants',
-            url:'/${meta(name:'app.name')}/userPlants/jlist?masterField.name=user&masterField.id=${userInstance?.id}'">
+            url:'/${meta(name:'app.name')}/userPlants/jlist?masterField.name=user&masterField.id=${userInstance?.serverId}'">
                 <thead>
-                    <tr>
-                    
-                        
-                        <th data-options="field:'updatedBy',width:200,editor:'text'">Updated By</th>
-                        
-
-                    
-                        
-                        <th data-options="field:'createdBy',width:200,editor:'text'">Created By</th>
-                        
-
-                    
-                        
-                        <th data-options="field:'isNumber',align:'right', width:100,editor:{type:'checkbox',options:{on:'1',off:'0'}}">Is Number</th>
-                        
-
-                    
+                    <tr>            
                         <th data-options="field:'plantId',width:200,
                             formatter:function(value,row){
                                 return row.plantName;
@@ -60,19 +23,18 @@ if(actionName=='edit' || actionName=='show') {
                             editor:{
                                 type:'combobox',
                                 options:{
-                                    valueField:'id',
+                                    valueField:'serverId',
                                     textField:'name',
                                     url:'/${meta(name:'app.name')}/plant/jlist',
                                     required:true,
                                 }
                         }">Plant</th>
                                     
+                        <th data-options="field:'isDefault',align:'right', width:100,editor:{type:'checkbox',options:{on:'1',off:'0'}}">isDefault</th>
                         
-                        <th data-options="field:'serverId',width:200,editor:'text'">Server Id</th>
-                        
-
-                    
                         <th data-options="field:'userId',hidden:true">User</th>
+
+
                                  
                     </tr>
                 </thead>
@@ -160,7 +122,7 @@ if(actionName=='edit' || actionName=='show') {
             function userPlantsAppend(){
                 if (userPlantsEndEditing()){
                     $('#dg-userPlants').datagrid('appendRow',
-                    {userId: ${userInstance.id? userInstance.id : 0} });
+                    {userId: '${userInstance.serverId? userInstance.serverId : 0}' });
                     editIndex = $('#dg-userPlants').datagrid('getRows').length-1;
                     $('#dg-userPlants').datagrid('selectRow', editIndex).datagrid('beginEdit', editIndex);
                 }

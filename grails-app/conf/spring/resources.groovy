@@ -12,7 +12,10 @@ beans = {
         marshallers = [ 
         	new LineBalanceMarshaller(),
         	new UserPlantsMarshaller(),
-          new ItemMarshaller()
+          new ItemMarshaller(),
+          new QCOptionsMarshaller(),
+          new QCQuestionsMarshaller(),
+          new QCDetailMarshaller()
         ]
     }
 }

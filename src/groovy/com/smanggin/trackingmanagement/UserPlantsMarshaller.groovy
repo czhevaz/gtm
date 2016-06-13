@@ -14,8 +14,10 @@ class UserPlantsMarshaller {
             return [
             	id:it.serverId,
 				userLogin:it.user?.login,
-				plantName:it.user?.name,
+				plantName:it.plant?.name,
 				version     : it.version?:0,
+                isDefault :it.isDefault,
+                userId :it.user?.serverId,
 			]
         }
     }

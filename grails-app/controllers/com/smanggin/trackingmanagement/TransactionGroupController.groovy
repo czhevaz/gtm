@@ -42,12 +42,12 @@ class TransactionGroupController {
         }
 
 		flash.message = message(code: 'default.created.message', args: [message(code: 'transactionGroup.label', default: 'TransactionGroup'), transactionGroupInstance.id])
-        redirect(action: "show", id: transactionGroupInstance.id)
+        redirect(action: "show", params:[serverId:transactionGroupInstance.serverId])
     }
 
     def show() {
         def transactionGroupInstance = TransactionGroup.findByServerId(params.serverId)
-        println "transactionGroup >>>>>> " +transactionGroupInstance
+        
         if (!transactionGroupInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'transactionGroup.label', default: 'TransactionGroup'), params.id])
             redirect(action: "list")
@@ -69,8 +69,10 @@ class TransactionGroupController {
     }
 
     def update() {
+
         def transactionGroupInstance = TransactionGroup.findByServerId(params.serverId)
         if (!transactionGroupInstance) {
+
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'transactionGroup.label', default: 'TransactionGroup'), params.id])
             redirect(action: "list")
             return
@@ -88,14 +90,18 @@ class TransactionGroupController {
         }
 
         transactionGroupInstance.properties = params
+        transactionGroupInstance.plant = Plant.findByServerId(params.plant?.serverId)
+        transactionGroupInstance.transactionType = params.transactionType
+        transactionGroupInstance.updatedBy = session.user
 
         if (!transactionGroupInstance.save(flush: true)) {
+            println "errors "+transactionGroupInstance.errors
             render(view: "edit", model: [transactionGroupInstance: transactionGroupInstance])
             return
         }
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'transactionGroup.label', default: 'TransactionGroup'), transactionGroupInstance.id])
-        redirect(action: "show", id: transactionGroupInstance.id)
+        redirect(action: "show", params:[serverId:transactionGroupInstance.serverId])
     }
 
     def delete() {
@@ -155,6 +161,24 @@ class TransactionGroupController {
             def c = TransactionGroup.createCriteria()
             def results = c.list {
                 eq(params.masterField.name+'.id',params.masterField.id.toLong())    
+            }
+            render results as JSON
+
+        }else if(params.plantId){
+            println "params " + params
+            def c = TransactionGroup.createCriteria()
+            def results = c.list {
+
+                
+                if(params.plantId){
+                    plant{
+                        eq('serverId',params.plantId)
+                    }
+                }
+                if(params.trType){
+                    eq('transactionType',params.trType)
+                }
+
             }
             render results as JSON
 

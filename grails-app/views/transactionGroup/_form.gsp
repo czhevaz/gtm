@@ -3,7 +3,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: transactionGroupInstance, field: 'transactionType', 'error')} required">
 				<label for="transactionType" class="col-sm-3 control-label"><g:message code="transactionGroup.transactionType.label" default="Transaction Type" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-3">
-					<g:select id="transactionType" name="transactionType" from="${[[id:0,value:'Production in'],[id:1,value:'QC'],[id:3,value:'Production out']]}" optionKey="id" optionValue="value" required="" value="${transactionGroupInstance?.transactionType}"  noSelection="${['':'']}" class="many-to-one form-control chosen-select-width"/>
+					<g:select id="transactionType" name="transactionType" from="${[[id:0,value:'Production in'],[id:1,value:'QC'],[id:2,value:'Production out'],[id:3,value:'Receiving'],[id:4,value:'Afkir']]}" optionKey="id" optionValue="value" required="" value="${transactionGroupInstance?.transactionType}"  noSelection="${['':'']}" class="many-to-one form-control chosen-select-width"/>
 					<span class="help-inline">${hasErrors(bean: transactionGroupInstance, field: 'transactionType', 'error')}</span>
 				</div>
 			</div>
@@ -13,6 +13,15 @@
 				<div class="col-sm-5">
 					<g:textField name="name" class="form-control" value="${transactionGroupInstance?.name}" required=""/>
 					<span class="help-inline">${hasErrors(bean: transactionGroupInstance, field: 'name', 'error')}</span>
+				</div>
+			</div>
+
+			<div class="form-group fieldcontain ${hasErrors(bean: transactionGroupInstance, field: 'plant', 'error')} required">
+				<label for="plant" class="col-sm-3 control-label"><g:message code="transactionGroup.plant.label" default="Plant" /><span class="required-indicator">*</span></label>
+				<div class="col-sm-9">
+					<g:select id="plant" name="plant.serverId" from="${com.smanggin.trackingmanagement.Plant.list()}" optionKey="serverId" optionValue="code" value="${transactionGroupInstance?.plant?.serverId}" class="many-to-one form-control chosen-select"/>
+					
+					<span class="help-inline">${hasErrors(bean: transactionGroupInstance, field: 'plant', 'error')}</span>
 				</div>
 			</div>
 
@@ -32,7 +41,6 @@
 				</div>
 			</div>
 
-			
 			<div class="form-group fieldcontain ${hasErrors(bean: transactionGroupInstance, field: 'width', 'error')} required">
 				<label for="width" class="col-sm-3 control-label"><g:message code="transactionGroup.width.label" default="Width" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
@@ -41,14 +49,4 @@
 				</div>
 			</div>
 
-			<div class="form-group ${hasErrors(bean: transactionGroupInstance, field: 'plant', 'error')}  required">
-				<label for="plant" class="col-sm-3 control-label"><g:message code="register.plant.label" default="plant" /></label>
-				<div class="col-sm-3">
-					<g:select id="plant" name="plant.serverId" from="${com.smanggin.trackingmanagement.Plant.list()}" optionKey="serverId" optionValue="name"  value="${transactionGroupInstance?.plant?.id}" class="many-to-one form-control chosen-select" />
-					<span class="help-inline">${hasErrors(bean: transactionGroupInstance, field: 'plant', 'error')}</span>
-				</div>
-			</div>
 			
-
-
-

@@ -82,4 +82,16 @@ class GlobalService {
       
     }
     
+    /* filter TrGroup By plant */
+    def trGroupList(defaultPlantId,trType){
+
+      def trGroup = TransactionGroup.createCriteria().list(){
+        plant{
+          eq('serverId',defaultPlantId)
+        }
+        eq('transactionType',trType)
+      }
+
+      return trGroup
+    }    
 }

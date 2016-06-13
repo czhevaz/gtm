@@ -17,6 +17,9 @@ class QCDetail {
 	Date	dateCreated
 	Date	lastUpdated
 
+    String reffDocClass
+    String refDocId
+
 
 	static	belongsTo	= [ QCHeader, QCMaster, QCQuestions]
 
@@ -33,8 +36,11 @@ class QCDetail {
 
 
     static constraints = {
+        qcHeader nullable:true
     	updatedBy nullable:true
         qcOptions nullable:true
+        reffDocClass nullable:true
+        refDocId nullable:true
     }
 
     def beforeValidate(){

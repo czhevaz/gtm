@@ -19,7 +19,7 @@ class Line {
 
 	static	belongsTo	= [Plant]
 
-	static  hasMany = [lineBalances:LineBalance, workCenters:WorkCenter]
+	static  hasMany = [lineBalances:LineBalance, workCenters:WorkCenter, devices:Device]
 
 	static	mapping = {
     	id name : 'serverId',

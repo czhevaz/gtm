@@ -119,7 +119,6 @@
 
     <r:script>
 		$("#process").on('click', function() {
-			//alert('hello world');
 
 			var startDate = $('#starDate_year').val() + "-" + $('#starDate_month').val() + "-" + $('#starDate_day').val()+ " 00:00:00";
 			var endDate = $('#endDate_year').val() + "-" + $('#endDate_month').val() + "-" + $('#endDate_day').val()+ " 23:59:59";

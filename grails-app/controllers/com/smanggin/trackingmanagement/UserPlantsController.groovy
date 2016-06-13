@@ -110,8 +110,11 @@ class UserPlantsController {
         }
     }
 
+
     def jsave() {
-        def userPlantsInstance = (params.id) ? UserPlants.get(params.id) : new UserPlants()
+
+        println params
+        def userPlantsInstance = (params.id) ? UserPlants.findByServerId(params.id) : new UserPlants()
         
         if (!userPlantsInstance) {                     
             def error = [message: message(code: 'default.not.found.message', args: [message(code: 'userPlants.label', default: 'UserPlants'), params.id])]
@@ -134,8 +137,12 @@ class UserPlantsController {
         }
         
         userPlantsInstance.properties = params
+        userPlantsInstance.user = User.findByServerId(params.userId)
+        userPlantsInstance.plant = Plant.findByServerId(params.plantId)
+        userPlantsInstance.createdBy= session.user
                        
         if (!userPlantsInstance.save(flush: true)) {
+            println " errors "
             render([success: false, messages: userPlantsInstance.errors] as JSON)
             return
         }
@@ -144,17 +151,19 @@ class UserPlantsController {
     }
 
     def jlist() {
+        println params
         if(params.masterField){
             def c = UserPlants.createCriteria()
             def results = c.list {
-                eq(params.masterField.name+'.id',params.masterField.id.toLong())    
+                eq(params.masterField.name+'.serverId',params.masterField.id)    
             }
-            render results as JSON
 
+            println results
+            render results as JSON
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+           // params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render UserPlants.list(params) as JSON           
         }
         

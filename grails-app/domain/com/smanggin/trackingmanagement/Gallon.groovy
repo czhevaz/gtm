@@ -7,12 +7,15 @@ class Gallon {
 	String serverId
     String code
     Boolean writeOff
+    String reasonWriteOff
 
     String  createdBy
 	String  updatedBy
 	Date	dateCreated
 	Date	lastUpdated
     Item    item
+    ReceiveItem receiveItem
+
 
 	String toString() { return code } 
 
@@ -30,10 +33,12 @@ class Gallon {
     }
 
     static constraints = {
-        code blank: false,unique:true
+        code blank: false
         writeOff nullable: false
         updatedBy nullable:true
         item nullable:true
+        receiveItem nullable:true
+        reasonWriteOff nullable:true
     }
 
     def beforeValidate(){

@@ -29,7 +29,7 @@
 
 				<g:form method="post" class="form-horizontal" >
 					<div class="box-body">
-						<g:hiddenField name="id" value="${transactionGroupInstance?.id}" />
+						<g:hiddenField name="serverId" value="${transactionGroupInstance?.serverId}" />
 						<g:hiddenField name="version" value="${transactionGroupInstance?.version}" />
 						
 						<fieldset class="form">

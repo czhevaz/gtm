@@ -137,9 +137,32 @@ class UserController {
         def user = User.findByLogin(authenticationService.getSessionUser().login)
         session['user'] = user?.login 
         session['email'] = user?.email
+        def userplants = UserPlants.findByUserAndIsDefault(user,true)
+        session['defaultPlantId'] = userplants.plant?.serverId
         
         //session['domainPPP'] = Country.findByName(user?.country).domainPPP    
         
         redirect(action: "index", controller:"home",params: params)
+    }
+
+    def tcp(){
+        
+        try
+        {
+            Socket socket = new Socket('192.168.52.71', 80)
+            DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            outToServer.writeBytes(content + '\n');
+            clientSocket.setSoTimeout(timeout);
+            modifiedSentence = inFromServer.readLine();
+            clientSocket.close()
+            outToServer.close()
+            inFromServer.close()
+        }
+        catch (Exception exc)
+        {
+            modifiedSentence = "";
+        }
+        return modifiedSentence;
     }
 }

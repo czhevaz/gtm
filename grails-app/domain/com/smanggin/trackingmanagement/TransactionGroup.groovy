@@ -6,7 +6,7 @@ class TransactionGroup {
 
 	String serverId
 	String name
-	String transactionType /* 0 == production in & 1 == QC*/
+	String transactionType /* 0 == production in & 1 == QC & 2== production out & 3 == receiving & 4 == afkir*/
 	String prefix
 	String numberingMethod
 	Integer width
@@ -19,6 +19,7 @@ class TransactionGroup {
 
 	String toString() { return name }
 
+	static	belongsTo	= [Plant]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 	static  hasMany = [productionInHeaders:ProductionInHeader, qCHeaders:QCHeader]
 
 	static	mapping = {

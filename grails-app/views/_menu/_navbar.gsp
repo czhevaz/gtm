@@ -25,6 +25,12 @@
 				<ul class="dropdown-menu">
 					
 					<li class="controller">
+						<g:link controller="receiveItem">
+							Receiving Item(s)
+						</g:link>
+					</li>
+              
+					<li class="controller">
 						<g:link controller="ProductionInHeader">
 							Production In
 						</g:link>
@@ -39,13 +45,27 @@
 							Shift Closing 
 						</g:link>
 					</li>
-              
+					<li class="controller">
+						<g:link controller="qcAfkir" params="['trType':'1']">
+							Rejected Item(s)
+						</g:link>
+					</li>
+					<li class="controller">
+						<g:link controller="qcAfkir" params="['trType':'4']">
+							Afkir
+						</g:link>
+					</li>
 				</ul>	
 			</li>
 			
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Master Data<b class="caret"></b></a>
 				<ul class="dropdown-menu">
+					<li class="controller">
+						<g:link controller="Supplier">
+							Supplier
+						</g:link>
+					</li>
 					<li class="controller">
 						<g:link controller="User">
 							User

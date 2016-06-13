@@ -39,9 +39,11 @@ class GallonController {
     }
 
     def save() {
-        def gallonInstance = new Gallon(params)
+        def gallonInstance = new Gallon()
+        gallonInstance.properties = params
         gallonInstance.createdBy = session.user
         gallonInstance.item=Item.findByServerId(params.item?.serverId)
+       
         if (!gallonInstance.save(flush: true)) {
             render(view: "create", model: [gallonInstance: gallonInstance])
             return
@@ -163,6 +165,21 @@ class GallonController {
             }
             render results as JSON
 
+        }
+        else if(params.receiveId)
+        {
+            def c = Gallon.createCriteria()
+            def pid = c.list {
+                receiveItem{
+                    eq('serverId',params.receiveId)        
+                }
+                
+            }
+            def results = []
+            pid.each {
+                results << [it.code, it.dateCreated]
+            }
+            render([data: results] as JSON)
         }
         else
         {
@@ -341,5 +358,15 @@ class GallonController {
         
         render custList as JSON
         
+    }
+
+    /** receiving new gallon*/
+    def receiving() {
+
+        [gallonInstance: new Gallon(params)]
+    }
+
+    def saveReceiving(){
+
     }
 }
