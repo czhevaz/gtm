@@ -26,10 +26,30 @@
 					
 					<li class="controller">
 						<g:link controller="receiveItem">
-							Receiving Item(s)
+							New Item(s)
 						</g:link>
 					</li>
-              
+					<li class="controller">
+						<g:link controller="ProductionInDetail" action="scanBarcode">
+							Scan  Item(s)
+						</g:link>
+					</li>
+					<li class="controller">
+						<g:link controller="qcAfkir" params="['trType':'1']">
+							Rejected Item(s)
+						</g:link>
+					</li>
+					<li class="controller">
+						<g:link controller="qcAfkir" params="['trType':'4']">
+							Writen Off
+						</g:link>
+					</li>
+					<li class="controller">
+						<g:link controller="replaceCodeHistory" >
+							 Code Replacement
+						</g:link>
+					</li>
+              		<li class="divider"></li>
 					<li class="controller">
 						<g:link controller="ProductionInHeader">
 							Production In
@@ -45,16 +65,7 @@
 							Shift Closing 
 						</g:link>
 					</li>
-					<li class="controller">
-						<g:link controller="qcAfkir" params="['trType':'1']">
-							Rejected Item(s)
-						</g:link>
-					</li>
-					<li class="controller">
-						<g:link controller="qcAfkir" params="['trType':'4']">
-							Afkir
-						</g:link>
-					</li>
+					
 				</ul>	
 			</li>
 			
@@ -157,9 +168,12 @@
 							Transaction Group
 						</g:link>
 					</li>
-				
 					
-					
+					<li class="controller">
+						<g:link controller="Device">
+							Device
+						</g:link>
+					</li>
 				</ul>
 			</li>
 
@@ -187,7 +201,21 @@
 										Tracked Item History
 									</g:link>
 								</li>
-			                 
+								<li>
+			                  		<g:link controller="Gallon" action="report" params="[gallonAging:true]">
+										Gallon Aging
+									</g:link>
+								</li>
+								<li>
+			                  		<g:link controller="QcAfkir" action="report" params="[report:'rejectedAnalysis']">
+										Rejected Analysis
+									</g:link>
+								</li>
+								<li>
+			                  		<g:link controller="QcAfkir" action="report" params="[report:'reportWriteOff']">
+										Write Off report
+									</g:link>
+								</li>
 		                </ul>
 					
 					</li>

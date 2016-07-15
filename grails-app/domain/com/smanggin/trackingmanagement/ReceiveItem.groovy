@@ -28,11 +28,15 @@ class ReceiveItem {
 	Long productionLine
 	String groupShift
 
-	Long startNumber
-	Long endNumber
+	Long startNumber // not used
+	Long endNumber // not used
 
 	String createdBy
 	String updatedBy
+	String reffNo
+	String remarks
+
+	String toString() { return number } 
 	
 	static	belongsTo	= [Supplier, TransactionGroup]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -53,6 +57,12 @@ class ReceiveItem {
 		number nullable:true
 		transactionGroup nullable:true
 		plant nullable:true
+		reffNo nullable:true
+		remarks nullable:true
+
+		startNumber nullable:true
+		endNumber nullable:true
+
     }
 
     def beforeValidate(){

@@ -31,9 +31,14 @@
 								<th><g:message code="qcAfkir.shift.label" default="Shift" /></th>
 							
 								<th><g:message code="qcAfkir.item.label" default="Item" /></th>
+
+								<th>Plant</th>
+
+								<th>Line</th>
+
+								<th>Shift</th>
 							
 								<g:sortableColumn property="description" title="${message(code: 'qcAfkir.description.label', default: 'Description')}" />
-							
 							
 								<g:sortableColumn property="date" title="${message(code: 'qcAfkir.date.label', default: 'Date')}" />
 							
@@ -43,11 +48,17 @@
 						<g:each in="${qcAfkirInstanceList}" status="i" var="qcAfkirInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="edit" params="[serverId:qcAfkirInstance.serverId]">${fieldValue(bean: qcAfkirInstance, field: "number")}</g:link></td>
+								<td><g:link action="show" params="[serverId:qcAfkirInstance.serverId]">${fieldValue(bean: qcAfkirInstance, field: "number")}</g:link></td>
 							
 								<td>${fieldValue(bean: qcAfkirInstance, field: "shift")}</td>
 							
 								<td>${fieldValue(bean: qcAfkirInstance, field: "item")}</td>
+
+								<td>${fieldValue(bean: qcAfkirInstance, field: "plant")}</td>
+
+								<td>${qcAfkirInstance.workCenter.line}</td>
+
+								<td>${qcAfkirInstance.shift}</td>								
 							
 								<td>${fieldValue(bean: qcAfkirInstance, field: "description")}</td>
 							

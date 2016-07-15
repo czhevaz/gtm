@@ -1,7 +1,5 @@
 <%@ page import="com.smanggin.trackingmanagement.Gallon" %>
 
-
-
 			<div class="form-group fieldcontain ${hasErrors(bean: gallonInstance, field: 'code', 'error')} required">
 				<label for="code" class="col-sm-3 control-label"><g:message code="gallon.code.label" default="Code" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-9">

@@ -61,6 +61,7 @@
 				</div>
 			</div>
 
+			
 			<div class="form-group fieldcontain ${hasErrors(bean: qcAfkirInstance, field: 'description', 'error')} ">
 				<label for="description" class="col-sm-3 control-label"><g:message code="qcAfkir.description.label" default="Description" /></label>
 				<div class="col-sm-9">
@@ -68,6 +69,8 @@
 					<span class="help-inline">${hasErrors(bean: qcAfkirInstance, field: 'description', 'error')}</span>
 				</div>
 			</div>
+
+			
 
 			<div class="form-group fieldcontain ${hasErrors(bean: qcAfkirInstance, field: 'qCQuestions', 'error')} required">
 				<label for="qCQuestions" class="col-sm-3 control-label"><g:message code="qcAfkir.qCQuestions.label" default="QC Parameters" /><span class="required-indicator">*</span></label>

@@ -10,6 +10,7 @@ class QcAfkirDetail {
 	
 	QcAfkir qcAfkir
 	Gallon gallon
+    String code
     
     String serverId
 	String  createdBy
@@ -29,7 +30,8 @@ class QcAfkirDetail {
     }
 
     static constraints = {
-		
+        code nullable:true
+		gallon nullable:true
     	updatedBy nullable:true
     }
 

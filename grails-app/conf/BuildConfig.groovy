@@ -36,6 +36,9 @@ grails.project.dependency.resolution = {
         //runtime 'postgresql:postgresql-9.4-1206-jdbc41'
         compile 'joda-time:joda-time:2.4'
         compile 'joda-time:joda-time-hibernate-1.3'
+        compile 'org.usb4java:usb4java-1.2.0'
+        compile 'org.scream3r:jssc-2.8.0'
+        compile 'org.usb4java:usb4java-javax:1.2.0'
     }
 
     plugins {
@@ -61,5 +64,7 @@ grails.project.dependency.resolution = {
         compile ":mail:1.0.1"
         compile ":jasper:1.10.0"
         runtime ":executor:0.3"
+
+
     }
 }

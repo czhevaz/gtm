@@ -20,6 +20,8 @@ modules = {
         resource url:'js/bootstrap-timepicker.js'
         resource url:'css/bootstrap-timepicker.css'
 
+        resource url:'addPlugins/chartjs/Chart.js'
+
     }
 
     fileUpload{

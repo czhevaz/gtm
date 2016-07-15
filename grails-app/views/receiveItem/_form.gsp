@@ -16,6 +16,14 @@
 				</div>
 			</div>
 
+			<div class="form-group fieldcontain ${hasErrors(bean: receiveItemInstance, field: 'reffNo', 'error')} ">
+				<label for="number" class="col-sm-3 control-label"><g:message code="qcAfkir.reffNo.label" default="reffNo" /></label>
+				<div class="col-sm-9">
+					<g:textField name="reffNo" class="form-control" value="${receiveItemInstance?.reffNo}"/>
+					<span class="help-inline">${hasErrors(bean: receiveItemInstance, field: 'reffNo', 'error')}</span>
+				</div>
+			</div>
+
 
 			<div class="form-group fieldcontain ${hasErrors(bean: receiveItemInstance, field: 'supplier', 'error')} required">
 				<label for="supplier" class="col-sm-3 control-label"><g:message code="receiveItem.supplier.label" default="Supplier" /><span class="required-indicator">*</span></label>
@@ -49,6 +57,8 @@
 				</div>
 			</div>
 
+
+
 			<div class="form-group fieldcontain ${hasErrors(bean: receiveItemInstance, field: 'receivedDate', 'error')} required">
 				<label for="receivedDate" class="col-sm-3 control-label"><g:message code="receiveItem.receivedDate.label" default="Received Date" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-9">
@@ -73,18 +83,13 @@
 				</div>
 			</div>
 
-			<div class="form-group fieldcontain ${hasErrors(bean: receiveItemInstance, field: 'startNumber', 'error')} required">
-				<label for="startNumber" class="col-sm-3 control-label"><g:message code="receiveItem.startNumber.label" default="Start Number" /><span class="required-indicator">*</span></label>
+			
+
+			<div class="form-group fieldcontain ${hasErrors(bean: receiveItemInstance, field: 'remarks', 'error')} ">
+				<label for="remarks" class="col-sm-3 control-label"><g:message code="qcAfkir.remarks.label" default="Remaks" /></label>
 				<div class="col-sm-9">
-					<g:field type="number" name="startNumber" class="form-control" required="" value="${receiveItemInstance.startNumber}"/>
-					<span class="help-inline">${hasErrors(bean: receiveItemInstance, field: 'startNumber', 'error')}</span>
-				</div>
-			</div>
-			<div class="form-group fieldcontain ${hasErrors(bean: receiveItemInstance, field: 'endNumber', 'error')} required">
-				<label for="endNumber" class="col-sm-3 control-label"><g:message code="receiveItem.endNumber.label" default="End Number" /><span class="required-indicator">*</span></label>
-				<div class="col-sm-9">
-					<g:field type="number" name="endNumber" class="form-control" required="" value="${receiveItemInstance.endNumber}"/>
-					<span class="help-inline">${hasErrors(bean: receiveItemInstance, field: 'endNumber', 'error')}</span>
+					<g:textArea name="remarks" class="form-control" value="${receiveItemInstance?.remarks}"/>
+					<span class="help-inline">${hasErrors(bean: receiveItemInstance, field: 'remarks', 'error')}</span>
 				</div>
 			</div>
 

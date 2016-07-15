@@ -31,6 +31,13 @@
 							</tr>
 
 							<tr class="prop">
+								<td valign="top" class="name"><g:message code="receiveItem.reffNo.label" default="reffNo" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: receiveItemInstance, field: "reffNo")}</td>
+								
+							</tr>
+						
+							<tr class="prop">
 								<td valign="top" class="name"><g:message code="receiveItem.transactionGroup.label" default="TransactionGroup" /></td>
 								
 								<td valign="top" class="value"><g:link controller="TransactionGroup" action="show" id="${receiveItemInstance?.transactionGroup?.serverId}">${receiveItemInstance?.transactionGroup?.encodeAsHTML()}</g:link></td>
@@ -85,7 +92,13 @@
 								<td valign="top" class="value">${fieldValue(bean: receiveItemInstance, field: "endNumber")}</td>
 								
 							</tr>
-						
+							
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="receiveItem.remarks.label" default="remarks" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: receiveItemInstance, field: "remarks")}</td>
+								
+							</tr>
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="receiveItem.updatedBy.label" default="Updated By" /></td>

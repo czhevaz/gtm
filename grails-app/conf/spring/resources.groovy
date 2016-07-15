@@ -15,7 +15,9 @@ beans = {
           new ItemMarshaller(),
           new QCOptionsMarshaller(),
           new QCQuestionsMarshaller(),
-          new QCDetailMarshaller()
+          new QCDetailMarshaller(),
+          new ReceiveItemMarshaller(),
+          new GallonMarshaller()
         ]
     }
 }

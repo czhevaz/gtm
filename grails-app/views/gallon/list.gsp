@@ -29,6 +29,9 @@
 							
 								<g:sortableColumn property="writeOff" title="${message(code: 'gallon.writeOff.label', default: 'Write Off')}" />
 							
+								<th>Production Line</th>
+
+								<th>Shift</th>
 								<g:sortableColumn property="updatedBy" title="${message(code: 'gallon.updatedBy.label', default: 'Updated By')}" />
 							
 								<g:sortableColumn property="createdBy" title="${message(code: 'gallon.createdBy.label', default: 'Created By')}" />
@@ -47,6 +50,10 @@
 							
 								<td><g:formatBoolean boolean="${gallonInstance.writeOff}" /></td>
 							
+								<td>${gallonInstance.receiveItem?.productionLine}</td>
+
+								<td>${gallonInstance.receiveItem?.shift}</td>
+
 								<td>${fieldValue(bean: gallonInstance, field: "updatedBy")}</td>
 							
 								<td>${fieldValue(bean: gallonInstance, field: "createdBy")}</td>

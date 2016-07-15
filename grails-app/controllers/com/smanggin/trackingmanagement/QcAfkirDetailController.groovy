@@ -111,7 +111,7 @@ class QcAfkirDetailController {
     }
 
     def jsave() {
-
+        
         def qcAfkirDetailInstance = (params.id) ? QcAfkirDetail.get(params.id) : new QcAfkirDetail()
         
         if (!qcAfkirDetailInstance) {                     
@@ -134,15 +134,33 @@ class QcAfkirDetailController {
             }            
         }
         
+
         qcAfkirDetailInstance.properties = params
         qcAfkirDetailInstance.createdBy = session.user
         qcAfkirDetailInstance.qcAfkir = QcAfkir.findByServerId(params.qcAfkirId)
-        qcAfkirDetailInstance.gallon = Gallon.findByCode(params.code)
+        qcAfkirDetailInstance.code = params.code
+        def gallon = Gallon.findByCode(params.code)
+
+        if(gallon){
+            qcAfkirDetailInstance.gallon = gallon
+            qcAfkirDetailInstance.gallon.supplier = Supplier.findByServerId(params.supplierId)
+            qcAfkirDetailInstance.gallon.yearExisting = params.year
+            qcAfkirDetailInstance.gallon.monthExisting = params.month
+        }else{
+            
+                qcAfkirDetailInstance.gallon = newGallon(params)
+            
+        }
+        
+        
 
         if (!qcAfkirDetailInstance.save(flush: true)) {
+            println qcAfkirDetailInstance.errors
             render([success: false, messages: qcAfkirDetailInstance.errors] as JSON)
             return
         }
+
+
                         
         render([success: true] as JSON)
     }
@@ -163,7 +181,7 @@ class QcAfkirDetailController {
             }
             def results = []
             pid.each {
-                results << [it.gallon?.code, it.dateCreated]
+                results << [it.code, it.dateCreated]
             }
             render([data: results] as JSON)
         }
@@ -200,5 +218,73 @@ class QcAfkirDetailController {
         else {
             render([qcAfkirDetailInstance : qcAfkirDetailInstance ] as JSON)
         }
+    }
+
+    def scanRejectedItem(){
+        def qcAfkirDetailInstance = (params.id) ? QcAfkirDetail.get(params.id) : new QcAfkirDetail()
+        def gallon = Gallon.findByCode(params.code)
+        println " gallon " + gallon
+        if(gallon){
+            if(gallon.supplier && gallon.yearExisting && gallon.monthExisting){
+                
+                if (!qcAfkirDetailInstance) {                     
+                def error = [message: message(code: 'default.not.found.message', args: [message(code: 'qcAfkirDetail.label', default: 'QcAfkirDetail'), params.id])]
+                render([success: false, messages: [errors:[error]] ] as JSON)       
+                return
+                }
+                
+                if (params.version)
+                {
+                    def version = params.version.toLong()
+                    if (version != null) {
+                        if (qcAfkirDetailInstance.version > version) {
+                            qcAfkirDetailInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                                      [message(code: 'qcAfkirDetail.label', default: 'QcAfkirDetail')] as Object[],
+                                      "Another user has updated this QcAfkirDetail while you were editing")
+                            render([success: false, messages: qcAfkirDetailInstance.errors] as JSON)
+                            return
+                        }
+                    }            
+                }
+                
+                qcAfkirDetailInstance.properties = params
+                qcAfkirDetailInstance.createdBy = session.user
+                qcAfkirDetailInstance.qcAfkir = QcAfkir.findByServerId(params.qcAfkirId)
+                qcAfkirDetailInstance.gallon = Gallon.findByCode(params.code)
+                qcAfkirDetailInstance.code = params.code
+
+                if (!qcAfkirDetailInstance.save(flush: true)) {
+                    println qcAfkirDetailInstance.errors
+                    render([success: false, messages: qcAfkirDetailInstance.errors] as JSON)
+                    return
+                }
+                                
+                render([success: true] as JSON)    
+            }else{
+                render([success: false] as JSON)                    
+            }
+        }else{
+           render([success: false] as JSON)    
+        }
+    }
+
+    def newGallon(params){
+        def gallonInstance = new Gallon()
+        gallonInstance.code = params.code
+        gallonInstance.createdBy = session.user
+        gallonInstance.item=Item.findByServerId(params.itemId)
+        gallonInstance.type = true
+        gallonInstance.yearExisting = params.year
+        gallonInstance.monthExisting =params.month
+        gallonInstance.writeOff= false
+
+        if (!gallonInstance.save(flush: true)) {
+            println gallonInstance.errors
+            render([success: false, messages: gallonInstance.errors] as JSON)
+            return null
+        }else{
+            return gallonInstance
+        }
+
     }
 }

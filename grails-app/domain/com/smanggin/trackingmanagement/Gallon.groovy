@@ -15,13 +15,21 @@ class Gallon {
 	Date	lastUpdated
     Item    item
     ReceiveItem receiveItem
+    Integer year
+
+    Supplier supplier
+    String yearExisting
+    String monthExisting
+    Boolean type // 0 = new Item ,1 existing Item
+
+
 
 
 	String toString() { return code } 
 
-    static  belongsTo   = [Item]
+    static  belongsTo   = [Item,ReceiveItem]
 
-	static  hasMany = [productionInDetails:ProductionInDetail, qCHeaders:QCHeader]
+	static  hasMany = [productionInDetails:ProductionInDetail, qCHeaders:QCHeader, replaceCodeHistory:ReplaceCodeHistory]
 
 
 	static	mapping = {
@@ -30,6 +38,7 @@ class Gallon {
         	generator: 'assigned'
 
     	version true
+        year formula: "date_part('year',date_created)"
     }
 
     static constraints = {
@@ -39,7 +48,14 @@ class Gallon {
         item nullable:true
         receiveItem nullable:true
         reasonWriteOff nullable:true
+        year nullable:true
+        supplier nullable:true
+        yearExisting nullable:true
+        monthExisting nullable:true
+        type nullable:true
     }
+
+    static transients =['age']
 
     def beforeValidate(){
         
@@ -47,6 +63,12 @@ class Gallon {
             
             serverId = globalService.UUIDGenerator()
         }
+    }
+
+    Long getAge(){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        def age = year - this.year
+        return age
     }
 
 }

@@ -29,6 +29,27 @@
 								<td valign="top" class="value">${fieldValue(bean: gallonInstance, field: "code")}</td>
 								
 							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="gallon.supplier.label" default="Supplier" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: gallonInstance, field: "supplier")}</td>
+								
+							</tr>
+							
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="gallon.year.label" default="Year" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: gallonInstance, field: "yearExisting")}</td>
+								
+							</tr>
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="gallon.month.label" default="Month" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: gallonInstance, field: "monthExisting")}</td>
+								
+							</tr>
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="gallon.writeOff.label" default="Write Off" /></td>

@@ -33,6 +33,8 @@
 
 								<g:sortableColumn property="endNumber" title="${message(code: 'receiveItem.productionLine.label', default: 'Production Line')}" />
 								
+								<th>Receive Date</th>
+
 								<g:sortableColumn property="endNumber" title="${message(code: 'receiveItem.endNumber.label', default: 'Start Number')}" />
 
 								<g:sortableColumn property="endNumber" title="${message(code: 'receiveItem.endNumber.label', default: 'End Number')}" />
@@ -53,6 +55,8 @@
 								<td>${fieldValue(bean: receiveItemInstance, field: "groupShift")}</td>
 
 								<td>${fieldValue(bean: receiveItemInstance, field: "productionLine")}</td>
+
+								<td>${fieldValue(bean: receiveItemInstance, field: "receivedDate")}</td>
 
 								<td>${fieldValue(bean: receiveItemInstance, field: "startNumber")}</td>
 

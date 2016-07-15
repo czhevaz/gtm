@@ -21,7 +21,7 @@ class QCDetail {
     String refDocId
 
 
-	static	belongsTo	= [ QCHeader, QCMaster, QCQuestions]
+	static	belongsTo	= [QCHeader, QCMaster, QCQuestions]
 
 	static	mapping = {
 
@@ -33,7 +33,6 @@ class QCDetail {
 
     	version true
     }
-
 
     static constraints = {
         qcHeader nullable:true

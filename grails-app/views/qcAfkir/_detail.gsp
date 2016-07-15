@@ -31,6 +31,7 @@
         </div><!--/.col-lg-12 -->
     </div><!--/.row -->
 
+    <g:render template="modalAfkir"/> 
 </section>
 
 <script type='text/javascript'>
@@ -51,20 +52,103 @@
         });
         setInterval( function () {
             table.ajax.reload(null, false); // user paging is not reset on reload
-        }, 3000 );
+        }, 500 );
+    
+
+        var keyupFiredCount = 0; 
+
+        function DelayExecution(f, delay) {
+            var timer = 0; 
+            return function () {
+                var context = this, args = arguments;
+               
+                clearTimeout(timer);
+                timer = window.setTimeout(function () {
+                    f.apply(context, args);
+                },
+                delay || 100);
+            };
+        }
+
+        $.fn.ConvertToBarcodeTextbox = function () {
+            $(this).focus();
+
+            $(this).keydown(function (event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which); 
+                var code = $(this).val()
+                if ($(this).val() == '') {
+                    keyupFiredCount = 0; 
+                }  
+
+                if (keycode == 13) {//enter key 
+                        //$(".nextcontrol").focus();
+                        console.log($(this).val());
+                        $.ajax({
+                            url: "/${meta(name:'app.name')}/QcAfkirDetail/scanRejectedItem",
+                            data: {code: code, qcAfkirId: serverId},
+                            success: function (d) {
+                                console.log(d);
+                                if (d.success) {
+                                   $("#text").val('').focus();
+                                   //$("#text").ConvertToBarcodeTextbox();
+                                    //$("#totalGallon").val(d.count);
+                                } else {
+                                    $('#modal-qcafkir').modal('show');
+                                    //$("#text").ConvertToBarcodeTextbox();
+                                    
+                                }
+                            }
+                        });
+
+                      
+                        return false;
+                        event.stopPropagation(); 
+                } 
+
+            });
+
+            $(this).keyup(DelayExecution(function (event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);  
+                keyupFiredCount = keyupFiredCount + 1;  
+            }));
+
+            $(this).blur(function (event) { 
+             if ($(this).val() == '')
+                 return false;
+
+                 if(keyupFiredCount <= 1)
+                 {
+                    
+                 }
+                 else 
+                 {
+                    
+                 }
+
+             keyupFiredCount = 0;
+            });
+        };
+
+        try {
+            $("#text").ConvertToBarcodeTextbox();
+
+        } catch (e) { 
+            console.log('tesssdsdsdsdsd')
+        }
+
     });
 
-    checkNotif();
+    //checkNotif();
 
-    var timernotif = 0;
-    clearInterval(timernotif);
-    timernotif = setInterval("checkNotif()", 2000);
+    //var timernotif = 0;
+    //clearInterval(timernotif);
+    //timernotif = setInterval("checkNotif()", 2000);
 
-    function checkNotif() {
+    /*function checkNotif() {
         var code = $("#text").val();
         if (code) {
             $.ajax({
-                url: "/${meta(name:'app.name')}/QcAfkirDetail/jsave",
+                url: "/${meta(name:'app.name')}/QcAfkirDetail/scanRejectedItem",
                 data: {code: code, qcAfkirId: '${qcAfkirInstance?.serverId}'},
                 success: function (d) {
                     console.log(d);
@@ -72,8 +156,12 @@
                         $("#text").val('').focus();
                         $("#totalGallon").val(d.count);
                     } else {
-                        clearInterval(timernotif);
-                        var r = confirm("SCAN ULANG, HARUS UNIQUE");
+                        console.log('timeout');
+                        $('#modal-qcafkir').modal('show');
+                       // clearInterval(timernotif);
+                        //timernotif = setInterval("checkNotif()", 2000);
+                        /* show popup
+                        /*var r = confirm("SCAN ULANG, HARUS UNIQUE");
                         if (r == true) {
                             $("#text").val('').focus();
                             timernotif = setInterval("checkNotif()", 2000);
@@ -85,9 +173,10 @@
                 }
             });
         }
-    }
+    }*/
 
 </script>
 <%
 }
 %>
+

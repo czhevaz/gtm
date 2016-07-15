@@ -465,7 +465,7 @@ class QCHeaderController {
                     def qcDetails=countTotalItem2(workCenter,question,filterDate) 
                     listValQs.push(qcDetails)
                 }
-                
+
                 listQuestion.push(mapQuestion)
             }
             mapqc.put('listQuestion',listQuestion)
@@ -523,8 +523,6 @@ class QCHeaderController {
             eq('qcQuestions',qcQuestion)
             isNull('qcOptions')
         }
-
-        //println qcDetail
         return qcDetail.size()
         
     }

@@ -113,74 +113,69 @@ class ProductionInDetailController {
     }
 
     def jsave() {
-        /*def productionInDetailInstance = (params.id) ? ProductionInDetail.get(params.id) : new ProductionInDetail()
         
-        if (!productionInDetailInstance) {                     
-            def error = [message: message(code: 'default.not.found.message', args: [message(code: 'productionInDetail.label', default: 'ProductionInDetail'), params.id])]
-            render([success: false, messages: [errors:[error]] ] as JSON)       
-            return
-        }
-        
-        if (params.version)
-        {
-            def version = params.version.toLong()
-            if (version != null) {
-                if (productionInDetailInstance.version > version) {
-                    productionInDetailInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                              [message(code: 'productionInDetail.label', default: 'ProductionInDetail')] as Object[],
-                              "Another user has updated this ProductionInDetail while you were editing")
-                    render([success: false, messages: productionInDetailInstance.errors] as JSON)
-                    return
-                }
-            }            
-        }
-        
-        productionInDetailInstance.properties = params
-                       
-        if (!productionInDetailInstance.save(flush: true)) {
-            render([success: false, messages: productionInDetailInstance.errors] as JSON)
-            return
-        }
-                        
-        render([success: true] as JSON)*/
         println " params " + params
         def productionInDetailInstance = new ProductionInDetail()
 
-        if (params.code && params.serverId) {
+        if (params.code) {
 
             def gallonInstance = Gallon.findByCode(params.code)
             def productionInHeader = ProductionInHeader.findByServerId(params.serverId)
             
 
-            if (gallonInstance) {
+/**             if (gallonInstance) {
+                println 'jika gallonInstance'
                 def production = ProductionInDetail.createCriteria().list(){
-                    eq('productionInHeader',productionInHeader)
+                    //eq('productionInHeader',productionInHeader)
                     eq('gallon',gallonInstance)
+                    eq('dateCreated',new Date())
                 }
                 
                 if (production.size() > 0) {
                    
-                    render([success: false] as JSON)
+                    render([success: false,message:'SCAN ULANG HARUS UNIQUE'] as JSON)
+
                 } else {
+                    
+**/
+                    def device = Device.findByServerId('41c9fdd7-9cd5-458e-97b6-4dfeee1206c5')
+
                     productionInDetailInstance.productionInHeader = ProductionInHeader.get(params.serverId)
-                    productionInDetailInstance.gallon = Gallon.get(gallonInstance.serverId)
+                    if(gallonInstance){
+                        productionInDetailInstance.gallon = Gallon.get(gallonInstance.serverId)
+                    }else{
+                        params.itemId = device.item?.serverId
+                        productionInDetailInstance.gallon = newGallon(params)
+                    }
+                    productionInDetailInstance.number = params.code
                     productionInDetailInstance.createdBy = session.user
                     productionInDetailInstance.updatedBy = session.user
-
+                    productionInDetailInstance.line = device.line
+                    productionInDetailInstance.plant = device.plant
+                    productionInDetailInstance.item = device.item
+                    productionInDetailInstance.transactionGroup = Plant.findByServerId('ae1f131e-179a-44b6-b5a9-6a3960090dbe')
+                    
                     if (!productionInDetailInstance.save(flush: true)) {
                         println "errors " +productionInDetailInstance.errors
                         render([success: false] as JSON)
                         return
                     }
+
                     def pdi = ProductionInDetail.createCriteria().list(){
                         eq('productionInHeader',productionInHeader)
                     
                     }   
                     def count =pdi?.size()
                     render([success: true,count:count] as JSON)
-                }
+/**                }
+            }else{
+                render([success: false,message:'KODE ITEM TIDAK ADA'] as JSON)
             }
+**/            
+        }else{
+            render([success: false] as JSON)
         }
+        
 
     }
 
@@ -194,13 +189,13 @@ class ProductionInDetailController {
                 }
             }
             pid.each {
-                results << [it.gallon?.code, it.dateCreated]
+                results << [it.number, it.dateCreated]
             }
             render([data: results] as JSON)
         } else {
             pid = ProductionInDetail.list()
             pid.each {
-                results << [it.gallon?.code, it.dateCreated]
+                results << [it.number, it.dateCreated]
             }
             render([data: results] as JSON)
         }
@@ -261,4 +256,33 @@ class ProductionInDetailController {
 
         render([success: true, results: list] as JSON)
     }
+
+    /**
+    scan barcode 
+    **/
+    def scanBarcode(){
+
+    }
+
+
+    def newGallon(params){
+        def gallonInstance = new Gallon()
+        gallonInstance.code = params.code
+        gallonInstance.createdBy = session.user
+        gallonInstance.item=Item.findByServerId(params.itemId)
+        gallonInstance.type = true
+        gallonInstance.yearExisting = params.year
+        gallonInstance.monthExisting =params.month
+        gallonInstance.writeOff= false
+
+        if (!gallonInstance.save(flush: true)) {
+            println gallonInstance.errors
+            render([success: false, messages: gallonInstance.errors] as JSON)
+            return null
+        }else{
+            return gallonInstance
+        }
+
+    }
+
 }

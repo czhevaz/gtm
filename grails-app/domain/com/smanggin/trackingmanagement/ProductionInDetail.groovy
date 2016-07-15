@@ -6,7 +6,13 @@ class ProductionInDetail {
 	
 	String serverId
 	ProductionInHeader productionInHeader
-	Gallon gallon
+	TransactionGroup transactionGroup
+    Gallon gallon
+    String number
+    Plant  plant
+    Line   line
+    Item   item
+
 
 	String  createdBy
 	String  updatedBy
@@ -26,6 +32,13 @@ class ProductionInDetail {
     static constraints = {
 		
     	updatedBy nullable:true
+        plant nullable:true
+        productionInHeader nullable:true
+        line nullable:true
+        transactionGroup nullable:true
+        gallon nullable:true
+        item nullable:true
+        number nullable:true
     }
 
     def beforeValidate(){

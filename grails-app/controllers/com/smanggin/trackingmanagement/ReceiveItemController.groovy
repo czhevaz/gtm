@@ -35,8 +35,9 @@ class ReceiveItemController {
         receiveItemInstance.supplier = Supplier.findByServerId(params.supplier.serverId)
         receiveItemInstance.item = Item.findByServerId(params.item.serverId)
         receiveItemInstance.transactionGroup=TransactionGroup.findByServerId(params.transactionGroup?.serverId)
-        def startNumber = params.startNumber?.toLong() 
-        def endNumber = params.endNumber?.toLong() 
+        receiveItemInstance.plant=Plant.findByServerId(params.plant?.serverId)
+        //def startNumber = params.startNumber?.toLong() 
+        //def endNumber = params.endNumber?.toLong() 
 
        
         if (!receiveItemInstance.save(flush: true)) {
@@ -44,7 +45,7 @@ class ReceiveItemController {
             return
         }
 
-         (startNumber..endNumber).each{
+         /*(startNumber..endNumber).each{
             generateItemNumber(receiveItemInstance,it)
             def gallonInstance = new Gallon()
             gallonInstance.code =generateItemNumber(receiveItemInstance,it) 
@@ -55,7 +56,7 @@ class ReceiveItemController {
             if(!gallonInstance.save(flush: true)){
                 println " errors " + gallonInstance.errors
             }
-        }
+        }*/
 
 
 		flash.message = message(code: 'default.created.message', args: [message(code: 'receiveItem.label', default: 'ReceiveItem'), receiveItemInstance.serverId])

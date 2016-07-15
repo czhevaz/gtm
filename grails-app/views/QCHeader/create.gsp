@@ -16,7 +16,7 @@
 		<div class="col-lg-12">
 			<div class="box box-primary">
 				<div class="box-header with-border">
-    				<h3 class="box-title"><g:message code="default.create.label" args="[entityName]" /></h3>
+    				<h3 class="box-title">${entityName}</h3>
     			</div><!--/.box-header with-border -->	
 				<g:hasErrors bean="${QCHeaderInstance}">
 				<div class="alert alert-error">

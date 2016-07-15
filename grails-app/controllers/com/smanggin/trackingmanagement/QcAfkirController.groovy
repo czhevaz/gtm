@@ -22,13 +22,22 @@ class QcAfkirController {
         if(params.trType){
             session.trType = params.trType 
         }
-        def results = QcAfkir.createCriteria().list(params){}
+        def results = QcAfkir.createCriteria().list(params){
+            transactionGroup{
+                eq('transactionType',params.trType)
+            }
+        }
         [qcAfkirInstanceList: results, qcAfkirInstanceTotal: results.totalCount]
     }
 
     def create() {
+        
+            params.trType = session.trType 
+        
+        println "session" +session.trType
+        println params.trType
         def trGroupList =  globalService.trGroupList(session.defaultPlantId,session.trType)
-        [qcAfkirInstance: new QcAfkir(params),trGroupList:trGroupList]
+        [qcAfkirInstance: new QcAfkir(params),trGroupList:trGroupList,params:params]
     }
 
     def save() {
@@ -289,5 +298,176 @@ class QcAfkirController {
             
         }
         return res
+    }
+
+    def report(){
+        def view = params.report        
+        if(params.report){
+            render(view: "${view}")
+        }
+    }
+    
+    def rejectedAnalysis(){
+        def startDate = globalService.correctDateTime(params.startDate)
+        def endDate = globalService.correctDateTime(params.endDate)
+        def filterDate = globalService.filterDate(startDate, endDate)
+        def process = Process.findByServerId(params.processServerId)
+        def plant = Plant.findByServerId(params.plantServerId)
+        
+        def line = Line.createCriteria().list(){
+            le('serverId','${params.line2}')
+            ge('serverId','${params.line}')
+        }
+
+        def qcAfkirQuestions = QcAfkir.createCriteria().listDistinct(){
+            eq('plant',plant)
+            projections {
+                groupProperty("qCQuestions")
+            }
+        }
+
+    
+        def line1 = Line.findByServerId(params.line1ServerId)
+        def listLine = []
+
+        def mapLine=[:]
+        mapLine.put('lineName','Line 1')
+        def listQuestion = []
+        def listValQs=[]
+        
+        def workCenter = WorkCenter.createCriteria().list(){
+            eq('line',line1)    
+            eq('plant',plant)
+       
+        }
+
+        qcAfkirQuestions.each{question ->
+            def mapQuestion=[:]
+            mapQuestion.put('questionName',question.parameterDesc)
+            def qcOptions = QCOptions.findAllByQCQuestions(question)
+            def lisOption=[]
+            
+            qcOptions.each{ option->
+                def mapOption=[:]
+                mapOption.put('optionName',option?.description)
+                mapOption.put('optionId',option?.serverId)
+                def qcDetails=countTotalItem(workCenter,option,filterDate,question)
+                listValQs.push(qcDetails)
+                lisOption.push(mapOption)
+            }
+
+            if(lisOption.size() == 0){
+                def qcDetails=countTotalItem(workCenter,null,filterDate,question) 
+                listValQs.push(qcDetails)
+            }
+            mapQuestion.put('lisOption',lisOption) 
+
+            listQuestion.push(mapQuestion)
+        }
+        
+        mapLine.put('listQuestion',listQuestion)
+        mapLine.put('listValQs',listValQs)
+        listLine.push(mapLine)
+        
+        render([success:true ,results:listLine] as JSON)            
+    }    
+
+    def countTotalItem(workCenter,qcOptions,filterDate,qcQuestion){
+        
+        def qcDetails = QCDetail.createCriteria().list(){       
+            eq('qcQuestions',qcQuestion)
+            if(qcOptions){
+                eq('qcOptions',qcOptions)    
+            }else{
+                isNull('qcOptions')   
+            }     
+            
+        }
+
+        def listAfkir=[]
+        qcDetails.each{
+            if(it.reffDocClass == 'QcAfkir'){
+                def refDocId = it.refDocId
+               // println "refDocId " +it.refDocId
+                def qcAfkirs = QcAfkir.createCriteria().list(){
+                    eq('serverId',refDocId)  
+                }    
+                if(qcAfkirs){
+                    listAfkir.push(qcAfkirs[0])    
+                }
+                
+            }
+        }
+        
+        
+        def count=0
+        if(listAfkir.size() > 0){
+
+            def qcAfkirDetails = QcAfkirDetail.createCriteria().list(){
+            'in'('qcAfkir',listAfkir)
+            }
+            println "listAfkir true" +listAfkir
+            count = qcAfkirDetails.size() 
+        }
+        
+        return count
+        
+    }
+
+    def actionWriteOff(){
+        def qcAfkirInstance = QcAfkir.findByServerId(params.serverId)
+        if (!qcAfkirInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'qcAfkir.label', default: 'QcAfkir'), params.id])
+            redirect(action: "list")
+            return
+        }
+
+        if (params.version) {
+            def version = params.version.toLong()
+            if (qcAfkirInstance.version > version) {
+                qcAfkirInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                          [message(code: 'qcAfkir.label', default: 'QcAfkir')] as Object[],
+                          "Another user has updated this QcAfkir while you were editing")
+                render(view: "edit", model: [qcAfkirInstance: qcAfkirInstance])
+                return
+            }
+        }
+        
+        qcAfkirInstance.updatedBy= session.user
+       
+        if (!qcAfkirInstance.save(flush: true)) {
+            render(view: "edit", model: [qcAfkirInstance: qcAfkirInstance])
+            return
+        }
+        
+        //insert qc Detail 
+        
+        if(qcAfkirInstance.transactionGroup.transactionType == '4'){
+            /* write off gallon*/
+            println " <<<<<<< write Off >>>>>>> "    
+            writeOff(qcAfkirInstance.qcAfkirDetails)
+
+        }
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'qcAfkir.label', default: 'QcAfkir'), qcAfkirInstance.serverId])
+        redirect(action: "show", params:[serverId:qcAfkirInstance.serverId])
+
+    }
+
+    def reportWriteOff(){
+        def startDate = globalService.correctDateTime(params.startDate)
+        def endDate = globalService.correctDateTime(params.endDate)       
+        
+        def qcWriteOff = QcAfkir.createCriteria().list(){
+            transactionGroup{
+                eq('transactionType','4')    
+            }            
+        } 
+
+        def gallon = QcAfkirDetail.createCriteria().list(){
+            'in'('qcAfkir',qcWriteOff)
+        }
+
+
+        render([success:true ,results:qcWriteOff] as JSON)            
     }
 }

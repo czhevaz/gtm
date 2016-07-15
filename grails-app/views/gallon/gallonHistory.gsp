@@ -29,24 +29,24 @@
                     <span id="itemCode">Gallon</span> ID
                     <span class="required-indicator">*</span>
                 </label>
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                     <g:field type="text" name="gallon1" step="any"  class="form-control" value="${params.gallon1}" />
                 </div>
             </div>
         </div>
-        <!--
+        
         <div class="col-sm-6">
             <div class="form-group fieldcontain">
                 <label for="plant" class="col-sm-3 control-label">
-                    <g:message code="gallon.plant.label" default="GallonID" />
+                    <g:message code="gallon.plant.label" default="to Gallon ID" />
                     <span class="required-indicator">*</span>
                 </label>
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                     <g:field type="text" name="gallon2" step="any"  class="form-control" value="${params.gallon2}" />
                 </div>
             </div>
         </div>
-    -->
+    
     </div>
 
     <div class="row">
@@ -93,7 +93,7 @@
                     <td>Line</td>
                     <td>WorkCenter</td>
                     <td>Transaction Group</td>
-                    <td>Number Transsaction</td>
+                    <td>Number Transaction</td>
                     <td>In</td>
                     <td>Out</td>
                     <td>Cycle Time</td>
@@ -116,11 +116,13 @@
 			var startDate = $('#starDate_year').val() + "-" + $('#starDate_month').val() + "-" + $('#starDate_day').val()+ " 00:00:00";
 			var endDate = $('#endDate_year').val() + "-" + $('#endDate_month').val() + "-" + $('#endDate_day').val()+ " 23:59:59";
 			var gallonCode = $("#gallon1").val();
+            var gallonCode2 = $("#gallon2").val();
 
 			var data = {
 				startDate:startDate,
 				endDate:endDate ,
 				gallonCode:gallonCode,
+                gallonCode2:gallonCode2
 			}
 
 			$.ajax({
@@ -130,31 +132,43 @@
 	            success: function (d) {
                     console.log(d);
                     $("#table-summary tbody").html("");
-	                $.each(d.results.listDetail , function(i,k) {
-                    console.log(d.results.listDetail[i]);
-                    if(i>0){
-                        var date1 = d.results.listDetail[i-1].date;
-                        var date2 = d.results.listDetail[i].date;
-                        var diff = Math.abs(date2 - date1);
-                        console.log(diff);
-                    }
-                    
-                        var tr ="<tr>";
-                            tr += "<td > "+  (i*1+1) +" </td>";
-                            tr += "<td > "+  k.date +" </td>";
-                            tr += "<td > "+  k.plant +" </td>";
-                            tr += "<td > "+  k.line +" </td>";
-                            tr += "<td > "+  k.workcenter +" </td>";
-                            tr += "<td > "+  k.transactionGroup +" </td>";
-                            tr += "<td > "+  k.number +" </td>";
-                            tr += "<td > "+  k.in +" </td>";
-                            tr += "<td > "+  k.out +" </td>";
-                            tr += "<td > "+  k.duration +"</td>";
-                            
-                            tr += "</tr>";
+    	            
+                    $.each(d.results , function(j,l) {    
+                        var tr2 ="<tr>";
+                            tr2 += "<td>"+l.gallon.code+"</td>";
+                            tr2 += "<td colspan=9></td>";
+                            tr2 += "</tr>";
 
-                        $("#table-summary tbody").append(tr);        
-                    });
+                        $("#table-summary tbody").append(tr2);      
+                        
+
+                            $.each(l.listDetail , function(i,k) {
+                            console.log(l.listDetail[i]);
+                            if(i>0){
+                                var date1 = l.listDetail[i-1].date;
+                                var date2 = l.listDetail[i].date;
+                                var diff = Math.abs(date2 - date1);
+                                console.log(diff);
+                            }
+                            
+                                var tr ="<tr>";
+                                    tr += "<td > "+  (i*1+1) +" </td>";
+                                    tr += "<td > "+  k.date +" </td>";
+                                    tr += "<td > "+  k.plant +" </td>";
+                                    tr += "<td > "+  k.line +" </td>";
+                                    tr += "<td > "+  k.workcenter +" </td>";
+                                    tr += "<td > "+  k.transactionGroup +" </td>";
+                                    tr += "<td > "+  k.number +" </td>";
+                                    tr += "<td > "+  k.in +" </td>";
+                                    tr += "<td > "+  k.out +" </td>";
+                                    tr += "<td > "+  k.duration +"</td>";  
+                                    tr += "</tr>";
+
+                                $("#table-summary tbody").append(tr);        
+                            });//eand each detail
+                            
+                    }); 
+                    
 	            	
 	            },
 	            error: function (xhr, status, error) {
@@ -183,7 +197,7 @@
 
     <script type="text/javascript">
         //autocomplete PPP
-    $("#gallon1").autocomplete({
+    $("#gallon1,#gallon2").autocomplete({
         source: function(request, response){
             console.log(request);
             request.itemId=$('#item').val();
