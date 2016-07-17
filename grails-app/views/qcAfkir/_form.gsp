@@ -56,7 +56,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: qcAfkirInstance, field: 'item', 'error')} ">
 				<label for="item" class="col-sm-3 control-label"><g:message code="qcAfkir.item.label" default="Item" /></label>
 				<div class="col-sm-9">
-					<g:select id="item" name="item.serverId" from="${com.smanggin.trackingmanagement.Item.list()}" optionKey="serverId" value="${qcAfkirInstance?.item?.serverId}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
+					<g:select id="item" name="item.serverId" from="${com.smanggin.trackingmanagement.Item.list()}" optionKey="serverId" value="${qcAfkirInstance?.item?.serverId?:session.defaultItemId}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
 					<span class="help-inline">${hasErrors(bean: qcAfkirInstance, field: 'item', 'error')}</span>
 				</div>
 			</div>

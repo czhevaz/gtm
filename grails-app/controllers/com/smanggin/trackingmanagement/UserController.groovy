@@ -133,16 +133,27 @@ class UserController {
     }
 
     def postLogin() {
+        def expiredLoginDate = new Date().parse('yyyy-MM-dd hh:mm:ss', grailsApplication.config.grails.expiredLogin)
+        def today = new Date()
+        if(today.before(expiredLoginDate)){
+            def user = User.findByLogin(authenticationService.getSessionUser().login)
+            def appSetting = AppSetting.findByCode('itemDefault')
+            session['user'] = user?.login 
+            session['email'] = user?.email
+
+            def userplants = UserPlants.findByUserAndIsDefault(user,true)
+            session['defaultPlantId'] = userplants.plant?.serverId
+            
+
+            session['defaultItemId'] = appSetting?.val
+            
+            //session['domainPPP'] = Country.findByName(user?.country).domainPPP    
+            
+            redirect(action: "index", controller:"home",params: params)    
+        }else{
+            redirect(action: "auth", controller:"user")    
+        }
         
-        def user = User.findByLogin(authenticationService.getSessionUser().login)
-        session['user'] = user?.login 
-        session['email'] = user?.email
-        def userplants = UserPlants.findByUserAndIsDefault(user,true)
-        session['defaultPlantId'] = userplants.plant?.serverId
-        
-        //session['domainPPP'] = Country.findByName(user?.country).domainPPP    
-        
-        redirect(action: "index", controller:"home",params: params)
     }
 
     def tcp(){

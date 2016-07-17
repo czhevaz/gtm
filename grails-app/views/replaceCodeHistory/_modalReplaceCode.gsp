@@ -22,14 +22,16 @@
 							<div class="form-group fieldcontain ${hasErrors(bean: qcAfkirInstance, field: 'year', 'error')} ">
 								<label for="number" class="col-sm-3 control-label"><g:message code="gallon.year.label" default="Year" /></label>
 								<div class="col-sm-4">
-									<g:textField name="year" class="form-control" value="${params.year}"/>
+									
+									<g:select id="year" name="year" from="${yearList}"  required="" value="${params.year}" class="many-to-one form-control chosen-select-width"/>
 									<span class="help-inline">${hasErrors(bean: qcAfkirInstance, field: 'number', 'error')}</span>
 								</div>
 							</div>
 							<div class="form-group fieldcontain ${hasErrors(bean: qcAfkirInstance, field: 'month', 'error')} ">
 								<label for="number" class="col-sm-3 control-label"><g:message code="gallon.month.label" default="Month" /></label>
 								<div class="col-sm-4">
-									<g:textField name="month" class="form-control" value="${params.month}"/>
+									<g:select id="month" name="month" from="${monthList}"  required="" value="${params.month}" class="many-to-one form-control chosen-select-width"/>
+									
 									<span class="help-inline">${hasErrors(bean: qcAfkirInstance, field: 'number', 'error')}</span>
 								</div>
 							</div>
@@ -47,6 +49,7 @@
 </div>
 
 <r:script>
+	$('#year').focus();
 	$("#processButton").on('click', function() {
 		
 		var supplierId =$('#supplier').val();
@@ -66,22 +69,34 @@
 			year:year,
 			month:month,
 		}
-		 $.ajax({
+
+		if (year==null || year=="",month==null || month=="")
+	    {
+	      alert("Please Fill All Required Field");
+	      return false;
+	      
+	    }else{
+	    	$.ajax({
             url: "/${meta(name:'app.name')}/replaceCodeHistory/jsave",
             data: data,
             success: function (d) {
-                console.log(d);
+                
                 if (d.success) {
-                   $("#text").val('').focus();
+                   $("#oldNumber").val('').focus();
+                   $("#newNumber").val('').focus();
                    $('#modal-qcafkir').modal('hide');
+                   timernotif = setInterval("checkField()", 50);
                    //$("#text").ConvertToBarcodeTextbox();
                     //$("#totalGallon").val(d.count);
                 } else {
+                	$("#oldNumber").val('').focus();
                     //$('#modal-qcafkir').modal('show');
                     //$("#text").ConvertToBarcodeTextbox();
                     
                 }
             }
-        });
+         });		
+	    }
+		 
 	});
 </r:script>

@@ -86,12 +86,37 @@ class GlobalService {
     def trGroupList(defaultPlantId,trType){
 
       def trGroup = TransactionGroup.createCriteria().list(){
-        plant{
-          eq('serverId',defaultPlantId)
+        if(defaultPlantId){
+          plant{
+            eq('serverId',defaultPlantId)
+          }
         }
+        
         eq('transactionType',trType)
       }
 
       return trGroup
+    }
+
+    def monthList(){
+        def month = [1,2,3,4,5,6,7,8,9,10,11,12]
+        return month
     }    
+
+    def yearList(){
+       Calendar cal = Calendar.getInstance();
+       cal.setTime(new Date());
+       int year = cal.get(Calendar.YEAR)
+      
+        def z = 0
+        def list=[]
+        while (z < 5) {
+            list.push(year)
+            z++
+            year--
+        }
+        println list
+        return list
+          
+    }
 }

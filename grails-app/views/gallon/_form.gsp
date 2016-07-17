@@ -17,7 +17,7 @@
 			</div>
 
 			<div class="form-group fieldcontain ${hasErrors(bean: gallonInstance, field: 'writeOff', 'error')} ">
-				<label for="writeOff" class="col-sm-3 control-label"><g:message code="gallon.writeOff.label" default="Write Off" /></label>
+				<label for="writeOff" class="col-sm-3 control-label"><g:message code="gallon.writeOff.label" default="Written Off" /></label>
 				<div class="col-sm-9">
 					<bs:checkBox name="writeOff" value="${gallonInstance?.writeOff}" />
 					<span class="help-inline">${hasErrors(bean: gallonInstance, field: 'writeOff', 'error')}</span>

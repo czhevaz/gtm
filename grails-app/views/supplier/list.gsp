@@ -21,10 +21,12 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
-							
+								
+								<th>No</th>
+
 								<g:sortableColumn property="code" title="${message(code: 'supplier.code.label', default: 'Code')}" />
 							
 								<g:sortableColumn property="postCode" title="${message(code: 'supplier.postCode.label', default: 'Post Code')}" />
@@ -39,10 +41,30 @@
 							
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								
+								<th>No</th>
+
+								<g:sortableColumn property="code" title="${message(code: 'supplier.code.label', default: 'Code')}" />
+							
+								<g:sortableColumn property="postCode" title="${message(code: 'supplier.postCode.label', default: 'Post Code')}" />
+							
+								<g:sortableColumn property="phones" title="${message(code: 'supplier.phones.label', default: 'Phones')}" />
+							
+								<g:sortableColumn property="telex" title="${message(code: 'supplier.telex.label', default: 'Telex')}" />
+							
+								<g:sortableColumn property="fax" title="${message(code: 'supplier.fax.label', default: 'Fax')}" />
+							
+								<g:sortableColumn property="email" title="${message(code: 'supplier.email.label', default: 'Email')}" />
+							
+							</tr>
+						</tfoot>
 						<tbody>
 						<g:each in="${supplierInstanceList}" status="i" var="supplierInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-							
+								
+								<td>${i+1}</td>
 								<td><g:link action="show" id="${supplierInstance.id}">${fieldValue(bean: supplierInstance, field: "code")}</g:link></td>
 							
 								<td>${fieldValue(bean: supplierInstance, field: "postCode")}</td>

@@ -1,13 +1,5 @@
 <%@ page import="com.smanggin.trackingmanagement.ReceiveItem" %>
 			
-			<div class="form-group fieldcontain ${hasErrors(bean: receiveItemInstance, field: 'plant', 'error')} required">
-				<label for="plant" class="col-sm-3 control-label"><g:message code="workCenter.plant.label" default="Plant" /><span class="required-indicator">*</span></label>
-				<div class="col-sm-9">
-					<g:select id="plant" name="plant.serverId" from="${com.smanggin.trackingmanagement.Plant.list()}" optionKey="serverId" optionValue="code" value="${receiveItemInstance?.plant?.serverId?:session.defaultPlantId}" class="many-to-one form-control chosen-select"/>
-					<span class="help-inline">${hasErrors(bean: receiveItemInstance, field: 'plant', 'error')}</span>
-				</div>
-			</div>
-
 			<div class="form-group fieldcontain ${hasErrors(bean: receiveItemInstance, field: 'transactionGroup', 'error')} required">
 				<label for="transactionGroup" class="col-sm-3 control-label"><g:message code="qcAfkir.transactionGroup.label" default="Transaction Group" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-9">
@@ -17,7 +9,7 @@
 			</div>
 
 			<div class="form-group fieldcontain ${hasErrors(bean: receiveItemInstance, field: 'reffNo', 'error')} ">
-				<label for="number" class="col-sm-3 control-label"><g:message code="qcAfkir.reffNo.label" default="reffNo" /></label>
+				<label for="number" class="col-sm-3 control-label"><g:message code="receiveItem.reffNo.label" default="reffNo" /></label>
 				<div class="col-sm-9">
 					<g:textField name="reffNo" class="form-control" value="${receiveItemInstance?.reffNo}"/>
 					<span class="help-inline">${hasErrors(bean: receiveItemInstance, field: 'reffNo', 'error')}</span>
@@ -34,9 +26,9 @@
 			</div>
 			
 			<div class="form-group fieldcontain ${hasErrors(bean: receiveItemInstance, field: 'item', 'error')} required">
-				<label for="item" class="col-sm-3 control-label"><g:message code="QCHeader.plant.label" default="Tracked Item" /><span class="required-indicator">*</span></label>
+				<label for="item" class="col-sm-3 control-label"><g:message code="receiveItem.item.label" default="Tracked Item" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
-					<g:select id="item" name="item.serverId" from="${com.smanggin.trackingmanagement.Item.list()}" optionKey="serverId" required="" value="${receiveItemInstance?.item?.serverId}" class="many-to-one form-control chosen-select"/>
+					<g:select id="item" name="item.serverId" from="${com.smanggin.trackingmanagement.Item.list()}" optionKey="serverId" required="" value="${receiveItemInstance?.item?.serverId?:session.defaultItemId}" class="many-to-one form-control chosen-select"/>
 					<span class="help-inline">${hasErrors(bean: receiveItemInstance, field: 'item', 'error')}</span>
 				</div>
 			</div>

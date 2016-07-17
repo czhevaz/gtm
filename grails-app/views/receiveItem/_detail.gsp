@@ -8,9 +8,24 @@ if(actionName=='edit' || actionName=='show') {
             <div class="box box-primary">
 
                 <div class="table-responsive">
+                    
+
                     <div style="padding: 20px">
-                        <input id="text" class="form-control input-lg" type="text" placeholder="Scan Barcode">
+                        <table class="table table-striped">
+                            <tbody>
+                                
+                                <tr class="prop">
+                                    <td valign="top" class="name"><g:message code="receiveItem.totalScan.label" default="Total Item scanned " /></td>
+                                    
+                                    <td valign="top" class="value"><span id='totalScan'>${receiveItemInstance?.gallons?.size().encodeAsHTML()}</span></td>
+                                    
+                                </tr>
+                            </tbody>        
+                        </table>     
+                       
+                        <input id="text" class="form-control input-lg" type="text" placeholder="Scan Barcode" onkeydown="keyDown(event);">
                     </div>
+
 
                     <ul id="myTab" class="nav nav-tabs">
                         <li class="active">
@@ -35,6 +50,10 @@ if(actionName=='edit' || actionName=='show') {
 <script type='text/javascript'>
 
     var serverId = $('#serverId').val();
+    e = jQuery.Event("keydown"); // define this once in global scope
+    e.which = 13; // Some key value
+
+    var timernotif = 0;
 
     $(document).ready(function() {
         $("#text").focus();
@@ -70,35 +89,21 @@ if(actionName=='edit' || actionName=='show') {
         }
 
         $.fn.ConvertToBarcodeTextbox = function () {
+          
             $(this).focus();
-
+            
+            var code = $(this).val();
+            
             $(this).keydown(function (event) {
                 var keycode = (event.keyCode ? event.keyCode : event.which); 
-                var code = $(this).val()
+                
                 if ($(this).val() == '') {
                     keyupFiredCount = 0; 
                 }  
 
-                if (keycode == 13) {//enter key 
-                        //$(".nextcontrol").focus();
-                        console.log($(this).val());
-                        $.ajax({
-                            url: "/${meta(name:'app.name')}/gallon/jsave",
-                            data: {code: code, receiveId: '${receiveItemInstance.serverId}',itemId:'${receiveItemInstance.item.serverId}'},
-                            success: function (d) {
-                                console.log(d);
-                                if (d.success) {
-                                   $("#text").val('').focus();
-                                   //$("#text").ConvertToBarcodeTextbox();
-                                    //$("#totalGallon").val(d.count);
-                                } else {
-                                    //$('#modal-qcafkir').modal('show');
-                                    //$("#text").ConvertToBarcodeTextbox();
-                                    
-                                }
-                            }
-                        });
-
+                if (keycode == 13 && code) {//enter key 
+                        
+                        
                       
                         return false;
                         event.stopPropagation(); 
@@ -129,13 +134,54 @@ if(actionName=='edit' || actionName=='show') {
         };
 
         try {
-            $("#text").ConvertToBarcodeTextbox();
-
+           
+            
+            clearInterval(timernotif);
+            timernotif = setInterval(function() {$("#text").trigger(e);}, 1000);
+            
         } catch (e) { 
-            console.log('tesssdsdsdsdsd')
+            console.log('text')
         }
         
     });
+
+
+    function keyDown(event){
+        var code = $("#text").val();
+        
+        if(code){
+            
+            ajaxSave(code);
+            //clearInterval(timernotif); 
+
+        }
+    }
+
+    function ajaxSave(code){
+        $.ajax({
+            url: "/${meta(name:'app.name')}/gallon/jsave",
+            data: {code: code, receiveId: '${receiveItemInstance.serverId}',itemId:'${receiveItemInstance.item.serverId}',scanItem:true},
+            success: function (d) {
+                console.log(d);
+                if (d.success) {
+                   $("#text").val('').focus();
+                   $("#totalScan").text(d.totalScan)
+                   
+                } else {
+                    clearInterval(timernotif);
+                    var r = confirm("SCAN ULANG, HARUS UNIQUE");
+                    if (r == true) {
+                        $("#text").val('').focus();
+                        timernotif = setInterval(function() {$("#text").trigger(e);}, 1000);
+                    } else {
+                        $("#text").val('').focus();
+                        timernotif = setInterval(function() {$("#text").trigger(e);}, 1000);
+                    }
+                }
+            }
+        });
+
+    }
 
 </script>
 <%

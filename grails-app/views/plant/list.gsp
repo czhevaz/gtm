@@ -21,10 +21,10 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
-							
+								<td>No</td>
 								<g:sortableColumn property="code" title="${message(code: 'plant.code.label', default: 'Code')}" />
 							
 								<g:sortableColumn property="name" title="${message(code: 'plant.name.label', default: 'Name')}" />
@@ -39,10 +39,24 @@
 							
 							</tr>
 						</thead>
+						<tfoot>
+							<td>No</td>
+								<g:sortableColumn property="code" title="${message(code: 'plant.code.label', default: 'Code')}" />
+							
+								<g:sortableColumn property="name" title="${message(code: 'plant.name.label', default: 'Name')}" />
+							
+								<g:sortableColumn property="address" title="${message(code: 'plant.address.label', default: 'Address')}" />
+							
+								<g:sortableColumn property="city" title="${message(code: 'plant.city.label', default: 'City')}" />
+							
+								<g:sortableColumn property="postalCode" title="${message(code: 'plant.postalCode.label', default: 'Postal Code')}" />
+							
+								<g:sortableColumn property="country" title="${message(code: 'plant.country.label', default: 'Country')}" />
+						</tfoot>
 						<tbody>
 						<g:each in="${plantInstanceList}" status="i" var="plantInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-							
+								<td>${1+i}</td>
 								<td><g:link action="show" params="[serverId:plantInstance?.serverId]">${fieldValue(bean: plantInstance, field: "code")}</g:link></td>
 							
 								<td>${fieldValue(bean: plantInstance, field: "name")}</td>
@@ -60,7 +74,7 @@
 						</tbody>
 					</table>
 				</div><!--/.box-body table-responsive -->
-
+				<!--
 				<div class="box-footer clearfix">
 					<bs:paginate total="${plantInstanceTotal}" />
 				</div><!--/.box-footer clearfix -->

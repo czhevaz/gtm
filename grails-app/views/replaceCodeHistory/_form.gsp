@@ -10,7 +10,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: replaceCodeHistoryInstance, field: 'item', 'error')} ">
 				<label for="item" class="col-sm-3 control-label"><g:message code="qcAfkir.item.label" default="Item" /></label>
 				<div class="col-sm-9">
-					<g:select id="item" name="item.serverId" from="${com.smanggin.trackingmanagement.Item.list()}" optionKey="serverId" value="${replaceCodeHistoryInstance?.item?.serverId}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
+					<g:select id="item" name="item.serverId" from="${com.smanggin.trackingmanagement.Item.list()}" optionKey="serverId" value="${replaceCodeHistoryInstance?.item?.serverId?:session.defaultItemId}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
 					<span class="help-inline">${hasErrors(bean: replaceCodeHistoryInstance, field: 'item', 'error')}</span>
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 			</div>
 
 			
-			<g:render template="modalReplaceCode"/> 
+			
 
 <r:script>
 /*$(document).ready(function() {
@@ -55,7 +55,7 @@
 });*/
 jQuery.extend(jQuery.expr[':'], {
     focusable: function (el, index, selector) {
-        return $(el).is('a, button, :input, [tabindex]');
+        return $(el).is('a, button, :input');
     }
 });
 
@@ -66,7 +66,7 @@ $(document).on('keydown', ':focusable', function (e) {
         var $canfocus = $(':focusable');
         var index = $canfocus.index(this) + 1;
         if (index >= $canfocus.length) index = 0;
-        $canfocus.eq(index).focus();
+        $canfocus.eq(index).val('').focus();
     }
 });
 
@@ -89,7 +89,8 @@ $('#newNumber').on('keydown', function (e) {
             success: function (d) {
                 console.log(d);
                 if (d.success) {
-                   $("#text").val('').focus();
+                   $("#oldNumber").val('').focus();
+                   $("#newNumber").val('');
                    //$("#text").ConvertToBarcodeTextbox();
                     //$("#totalGallon").val(d.count);
                 } else {
@@ -104,4 +105,60 @@ $('#newNumber').on('keydown', function (e) {
 
 })
 
+var timernotif=0;
+clearInterval(timernotif);
+timernotif = setInterval("checkField()", 50);
+$("#oldNumber").val('').focus();
+
+function checkField(){
+	var oldNumber = $('#oldNumber').val();
+	var newNumber = $('#newNumber').val();
+	
+	
+	if(oldNumber && newNumber==''){
+		//
+		$('#oldNumber').blur();
+		$('#newNumber').focus();
+
+	}
+
+	if(oldNumber && newNumber){
+		clearInterval(timernotif);
+		var plantId = $('#plant').val();
+		var reason = $('#plant').val();
+		var oldNumber = $('#oldNumber').val();
+		var newNumber = $('#newNumber').val();
+		var data = {
+			plantId:plantId,
+			reason:reason,
+			oldNumber:oldNumber,
+			newNumber:newNumber,
+		}
+
+		$.ajax({
+            url: "/${meta(name:'app.name')}/replaceCodeHistory/scanReplaceCodeItem",
+            data: data,
+            success: function (d) {
+                console.log(d);
+                if (d.success) {
+                   $("#oldNumber").val('').focus();
+                   $("#newNumber").val('');
+				  timernotif = setInterval("checkField()", 50);                   
+                   //$("#text").ConvertToBarcodeTextbox();
+                    //$("#totalGallon").val(d.count);
+                } else {
+                    //$("#oldNumber").val('').focus();
+                    $('#modal-qcafkir').modal('show');
+                    //$("#text").ConvertToBarcodeTextbox();
+                    
+                }
+            }
+        });
+        
+	}
+}
+
+$("#modal-qcafkir").on("hidden.bs.modal",function(){
+	 $("#oldNumber").focus();
+});
 </r:script>

@@ -130,15 +130,17 @@
 							</tr>
 						
 							
-						
-						
-							
 						</tbody>
 					</table>
 				</div><!--/.row -->
-				<div class="box-footer clearfix">
-						
-				</div><!--/.box-footer clearfix -->
+				<div class="box-footer">
+				<g:form method="post" class="form-horizontal" >
+						<div class="form-actions">
+								<g:actionSubmit class="btn btn-primary btn-sm" action="create" value="${message(code: 'default.button.save.label', default: 'Save')}" />
+							
+						</div>
+				</g:form>		
+				</div><!--/.box-footer -->	
 			</div><!--/.box-body table-responsive -->
 
 			<g:render template="detail"/> 

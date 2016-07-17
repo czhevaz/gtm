@@ -10,7 +10,19 @@
 
                 <div class="table-responsive">
                     <div style="padding: 20px">
-                        <input id="text" class="form-control input-lg" type="text" placeholder="Scan Barcode">
+                        <table class="table table-striped">
+                            <tbody>
+                                
+                                <tr class="prop">
+                                    <td valign="top" class="name"><g:message code="receiveItem.totalScan.label" default="Total Item scanned " /></td>
+                                    
+                                    <td valign="top" class="value"><span id='totalScan'>${qcAfkirInstance?.qcAfkirDetails?.size().encodeAsHTML()}</span></td>
+                                    
+                                </tr>
+                            </tbody>        
+                        </table>    
+
+                        <input id="text" class="form-control input-lg" type="text" placeholder="Scan Barcode" onkeydown="keyDown(event);">
                     </div>
 
                     <ul id="myTab" class="nav nav-tabs">
@@ -37,6 +49,10 @@
 <script type='text/javascript'>
 
     var serverId = $('#serverId').val();
+    e = jQuery.Event("keydown"); // define this once in global scope
+    e.which = 13; // Some key value
+
+    var timernotif = 0;
 
     $(document).ready(function() {
         $("#text").focus();
@@ -54,7 +70,6 @@
             table.ajax.reload(null, false); // user paging is not reset on reload
         }, 500 );
     
-
         var keyupFiredCount = 0; 
 
         function DelayExecution(f, delay) {
@@ -90,6 +105,7 @@
                                 console.log(d);
                                 if (d.success) {
                                    $("#text").val('').focus();
+
                                    //$("#text").ConvertToBarcodeTextbox();
                                     //$("#totalGallon").val(d.count);
                                 } else {
@@ -130,50 +146,65 @@
         };
 
         try {
-            $("#text").ConvertToBarcodeTextbox();
+            //$("#text").ConvertToBarcodeTextbox();
+            clearInterval(timernotif);
+            timernotif = setInterval(function() {$("#text").trigger(e);}, 1000);
 
         } catch (e) { 
             console.log('tesssdsdsdsdsd')
         }
 
+            $("#modal-qcafkir").on("hidden.bs.modal",function(){
+                $("#text").focus();
+                $("#totalScan").text(d.totalScan)
+            });
+
     });
 
-    //checkNotif();
-
-    //var timernotif = 0;
-    //clearInterval(timernotif);
-    //timernotif = setInterval("checkNotif()", 2000);
-
-    /*function checkNotif() {
+    function keyDown(event){
         var code = $("#text").val();
-        if (code) {
-            $.ajax({
-                url: "/${meta(name:'app.name')}/QcAfkirDetail/scanRejectedItem",
-                data: {code: code, qcAfkirId: '${qcAfkirInstance?.serverId}'},
-                success: function (d) {
-                    console.log(d);
-                    if (d.success) {
-                        $("#text").val('').focus();
-                        $("#totalGallon").val(d.count);
-                    } else {
-                        console.log('timeout');
-                        $('#modal-qcafkir').modal('show');
-                       // clearInterval(timernotif);
-                        //timernotif = setInterval("checkNotif()", 2000);
-                        /* show popup
-                        /*var r = confirm("SCAN ULANG, HARUS UNIQUE");
+        
+        if(code){
+            
+            ajaxSave(code);
+            //clearInterval(timernotif); 
+
+        }
+    }
+
+    function ajaxSave(code){
+        $.ajax({
+            url: "/${meta(name:'app.name')}/QcAfkirDetail/scanRejectedItem",
+            data: {code: code, qcAfkirId: serverId},
+            success: function (d) {
+                console.log(d);
+                if (d.success) {
+                   $("#text").val('').focus();
+                   $("#totalScan").text(d.totalScan)
+                   //$("#text").ConvertToBarcodeTextbox();
+                    //$("#totalGallon").val(d.count);
+                } else {
+                    if(d.unique){
+                        clearInterval(timernotif);
+                        var r = confirm("SCAN ULANG, HARUS UNIQUE");
                         if (r == true) {
                             $("#text").val('').focus();
-                            timernotif = setInterval("checkNotif()", 2000);
+                            timernotif = setInterval(function() {$("#text").trigger(e);}, 1000);
                         } else {
                             $("#text").val('').focus();
-                            timernotif = setInterval("checkNotif()", 2000);
+                            timernotif = setInterval(function() {$("#text").trigger(e);}, 1000);
                         }
+                    }else{
+                        $('#modal-qcafkir').modal('show');    
                     }
+                    
+                    //$("#text").ConvertToBarcodeTextbox();
+                    
                 }
-            });
-        }
-    }*/
+            }
+        });
+    }    
+
 
 </script>
 <%

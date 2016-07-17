@@ -21,12 +21,13 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
+								<th>No</th>
+
 								<th>supplier</th>
 								
-
 								<g:sortableColumn property="endNumber" title="${message(code: 'receiveItem.shift.label', default: 'Shift')}" />
 
 								<g:sortableColumn property="groupShift" title="${message(code: 'receiveItem.groupShift.label', default: 'Group Shift')}" />	
@@ -35,18 +36,33 @@
 								
 								<th>Receive Date</th>
 
-								<g:sortableColumn property="endNumber" title="${message(code: 'receiveItem.endNumber.label', default: 'Start Number')}" />
-
-								<g:sortableColumn property="endNumber" title="${message(code: 'receiveItem.endNumber.label', default: 'End Number')}" />
-							
+								
 															
 								
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								<th>No</th>
+
+								<th>supplier</th>
+								
+								<g:sortableColumn property="endNumber" title="${message(code: 'receiveItem.shift.label', default: 'Shift')}" />
+
+								<g:sortableColumn property="groupShift" title="${message(code: 'receiveItem.groupShift.label', default: 'Group Shift')}" />	
+
+								<g:sortableColumn property="endNumber" title="${message(code: 'receiveItem.productionLine.label', default: 'Production Line')}" />
+								
+								<th>Receive Date</th>
+							
+								
+							</tr>
+						</tfoot>
 						<tbody>
 						<g:each in="${receiveItemInstanceList}" status="i" var="receiveItemInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
+								<td> ${i+1}</td>
 								<td><g:link action="show" params="['serverId':receiveItemInstance.serverId]">${fieldValue(bean: receiveItemInstance, field: "supplier")}</g:link></td>
 							
 								
@@ -57,21 +73,13 @@
 								<td>${fieldValue(bean: receiveItemInstance, field: "productionLine")}</td>
 
 								<td>${fieldValue(bean: receiveItemInstance, field: "receivedDate")}</td>
-
-								<td>${fieldValue(bean: receiveItemInstance, field: "startNumber")}</td>
-
-								<td>${fieldValue(bean: receiveItemInstance, field: "endNumber")}</td>
-							
-								
-							
-								
-							
+	
 							</tr>
 						</g:each>
 						</tbody>
 					</table>
 				</div><!--/.box-body table-responsive -->
-
+				<!--
 				<div class="box-footer clearfix">
 					<bs:paginate total="${receiveItemInstanceTotal}" />
 				</div><!--/.box-footer clearfix -->

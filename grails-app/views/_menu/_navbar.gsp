@@ -41,7 +41,7 @@
 					</li>
 					<li class="controller">
 						<g:link controller="qcAfkir" params="['trType':'4']">
-							Writen Off
+							Written Off
 						</g:link>
 					</li>
 					<li class="controller">
@@ -72,6 +72,11 @@
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Master Data<b class="caret"></b></a>
 				<ul class="dropdown-menu">
+					<li class="controller">
+						<g:link controller="AppSetting">
+							App Setting
+						</g:link>
+					</li>
 					<li class="controller">
 						<g:link controller="Supplier">
 							Supplier
@@ -213,7 +218,7 @@
 								</li>
 								<li>
 			                  		<g:link controller="QcAfkir" action="report" params="[report:'reportWriteOff']">
-										Write Off report
+										Written Off report
 									</g:link>
 								</li>
 		                </ul>

@@ -122,8 +122,10 @@ class QcAfkirController {
 
         def qcvalJoin = qcval.results.join(',')
 
-        println qcvalJoin
-        [qcAfkirInstance: qcAfkirInstance,qcvalJoin:qcvalJoin]
+        def yearList=globalService.yearList()
+        def monthList=globalService.monthList()
+
+        [qcAfkirInstance: qcAfkirInstance,qcvalJoin:qcvalJoin,yearList:yearList,monthList:monthList]
     }
 
     def edit() {
@@ -449,7 +451,7 @@ class QcAfkirController {
 
         }
         flash.message = message(code: 'default.updated.message', args: [message(code: 'qcAfkir.label', default: 'QcAfkir'), qcAfkirInstance.serverId])
-        redirect(action: "show", params:[serverId:qcAfkirInstance.serverId])
+        redirect(action: "create", params:[serverId:qcAfkirInstance.serverId])
 
     }
 
@@ -465,6 +467,7 @@ class QcAfkirController {
 
         def gallon = QcAfkirDetail.createCriteria().list(){
             'in'('qcAfkir',qcWriteOff)
+            
         }
 
 

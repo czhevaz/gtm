@@ -11,7 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 
 class ReplaceCodeHistoryController {
-
+    def globalService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -19,13 +19,15 @@ class ReplaceCodeHistoryController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = ReplaceCodeHistory.createCriteria().list(params){}
         [replaceCodeHistoryInstanceList: results, replaceCodeHistoryInstanceTotal: results.totalCount]
     }
 
     def create() {
-        [replaceCodeHistoryInstance: new ReplaceCodeHistory(params)]
+        def yearList = globalService.yearList()
+        def monthList = globalService.monthList()
+        [replaceCodeHistoryInstance: new ReplaceCodeHistory(params),yearList:yearList,monthList:monthList]
     }
 
     def save() {
@@ -158,6 +160,7 @@ class ReplaceCodeHistoryController {
         if(gallon){
             replaceCodeHistoryInstance.gallon = gallon
         }else{
+            println "123456"
             replaceCodeHistoryInstance.gallon = newGallon(params)
         }
         
@@ -179,11 +182,21 @@ class ReplaceCodeHistoryController {
             }
             render results as JSON
 
-        }
-        else
-        {
+        }else if(params.replaceCode){
+            def c = ReplaceCodeHistory.createCriteria().list(){
+                eq('createdBy',session.user)
+            }
+
+            def results = []
+            c.each {
+                results << [it.oldNumber,it.newNumber, it.dateCreated]
+            }
+
+            render([data: results] as JSON)
+        
+        }else{
             params.max = Math.min(params.max ? params.int('max') : 10, 100)
-            render ReplaceCodeHistory.list(params) as JSON           
+            render ReplaceCodeHistory.list(params) as JSON       
         }
         
     }   
@@ -217,7 +230,7 @@ class ReplaceCodeHistoryController {
 
     def newGallon(params){
         def gallonInstance = new Gallon()
-        gallonInstance.code = params.code
+        gallonInstance.code = params.newNumber
         gallonInstance.createdBy = session.user
         gallonInstance.item=Item.findByServerId(params.itemId)
         gallonInstance.type = true
@@ -243,7 +256,7 @@ class ReplaceCodeHistoryController {
             if(gallon.supplier && gallon.yearExisting && gallon.monthExisting){
                 
                 replaceCodeHistoryInstance.properties = params
-                replaceCodeHistoryInstance.plant = Plant.findByServerId(params.plant.serverId)
+                replaceCodeHistoryInstance.plant = Plant.findByServerId(params.plantId)
                 replaceCodeHistoryInstance.gallon = gallon
                 replaceCodeHistoryInstance.createdBy = session.user
                 replaceCodeHistoryInstance.updatedBy = session.user

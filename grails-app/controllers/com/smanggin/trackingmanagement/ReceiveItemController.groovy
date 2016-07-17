@@ -19,13 +19,13 @@ class ReceiveItemController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+       // params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = ReceiveItem.createCriteria().list(params){}
         [receiveItemInstanceList: results, receiveItemInstanceTotal: results.totalCount]
     }
 
     def create() {
-        def trGroupList =  globalService.trGroupList(session.defaultPlantId,'3')
+        def trGroupList =  globalService.trGroupList(null,'3')
         [receiveItemInstance: new ReceiveItem(params),trGroupList:trGroupList]
     }
 
@@ -35,7 +35,8 @@ class ReceiveItemController {
         receiveItemInstance.supplier = Supplier.findByServerId(params.supplier.serverId)
         receiveItemInstance.item = Item.findByServerId(params.item.serverId)
         receiveItemInstance.transactionGroup=TransactionGroup.findByServerId(params.transactionGroup?.serverId)
-        receiveItemInstance.plant=Plant.findByServerId(params.plant?.serverId)
+
+       // receiveItemInstance.plant=Plant.findByServerId(params.plant?.serverId)
         //def startNumber = params.startNumber?.toLong() 
         //def endNumber = params.endNumber?.toLong() 
 

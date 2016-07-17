@@ -14,7 +14,7 @@ class ReceiveItemMarshaller {
             return [
             	id:it.serverId,
 				number:it.number,
-			    plantName:it.plant?.name,
+			    //plantName:it.plant?.name,
 			    receivedDate:it.receivedDate,
 			    createdBy:it.createdBy,
 				updatedBy:it.updatedBy,

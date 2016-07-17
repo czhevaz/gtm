@@ -21,11 +21,11 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
 								
-
+								<th>No</th>
 								<g:sortableColumn property="closeDate" title="${message(code: 'closeShift.closeDate.label', default: 'Close Date')}" />
 							
 								<th><g:message code="closeShift.line.label" default="Line" /></th>
@@ -40,11 +40,29 @@
 							
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								
+								<th>No</th>
+								<g:sortableColumn property="closeDate" title="${message(code: 'closeShift.closeDate.label', default: 'Close Date')}" />
+							
+								<th><g:message code="closeShift.line.label" default="Line" /></th>
+							
+								<th><g:message code="closeShift.shift.label" default="Shift" /></th>
+								
+								<th><g:message code="closeShift.item.label" default="item" /></th>
+								
+								<th><g:message code="closeShift.yieldBySystem.label" default="yieldBySystem" /></th>
+
+								<th><g:message code="closeShift.yieldByUser.label" default="yieldByUser" /></th>
+							
+							</tr>
+						</tfoot>
 						<tbody>
 						<g:each in="${closeShiftInstanceList}" status="i" var="closeShiftInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								
+								<td>${1+i}</td>
 
 								<td>${fieldValue(bean: closeShiftInstance, field: "closeDate")}</td>
 							
@@ -63,7 +81,7 @@
 						</tbody>
 					</table>
 				</div><!--/.box-body table-responsive -->
-
+				<!--
 				<div class="box-footer clearfix">
 					<bs:paginate total="${closeShiftInstanceTotal}" />
 				</div><!--/.box-footer clearfix -->

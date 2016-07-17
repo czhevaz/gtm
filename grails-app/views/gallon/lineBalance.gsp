@@ -79,8 +79,8 @@
                 <thead>
                 <tr>
                     <td>No</td>
-                    <td>Date Write Off</td>
-                    <td> </td>
+                    <td>Date Written Off</td>
+                    <td></td>
                     <td>In </td>
                     <td>Out</td>
                     <td>Ending</td>

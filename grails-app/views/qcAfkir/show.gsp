@@ -131,9 +131,12 @@
 							<g:if test="${qcAfkirInstance.transactionGroup.transactionType == '4'}">
 								<g:actionSubmit class="btn btn-primary btn-sm" action="actionWriteOff" value="${message(code: 'default.button.approve.label', default: 'WriteOff')}" />
 							</g:if>
+							<g:else>
+								<g:actionSubmit class="btn btn-primary btn-sm" action="create" value="${message(code: 'default.button.save.label', default: 'Save')}" />
+							</g:else>
 						</div>
 				</g:form>		
-					</div><!--/.box-footer -->	
+				</div><!--/.box-footer -->	
 			</div><!--/.box-body table-responsive -->
 
 			<g:render template="detail"/> 

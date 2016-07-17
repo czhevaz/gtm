@@ -21,20 +21,32 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
-							
+								<th>No</th>
+
 								<g:sortableColumn property="name" title="${message(code: 'transactionGroup.name.label', default: 'Name')}" />
 							
 								<g:sortableColumn property="numberingMethod" title="${message(code: 'transactionGroup.numberingMethod.label', default: 'Numbering Method')}" />
 							
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								<th>No</th>
+
+								<g:sortableColumn property="name" title="${message(code: 'transactionGroup.name.label', default: 'Name')}" />
+							
+								<g:sortableColumn property="numberingMethod" title="${message(code: 'transactionGroup.numberingMethod.label', default: 'Numbering Method')}" />
+							
+							</tr>
+						</tfoot>
 						<tbody>
 						<g:each in="${transactionGroupInstanceList}" status="i" var="transactionGroupInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-							
+								<td>${i+1}</td>
+
 								<td><g:link action="show" params="[serverId:transactionGroupInstance?.serverId]">${fieldValue(bean: transactionGroupInstance, field: "name")}</g:link></td>
 							
 								<td>${fieldValue(bean: transactionGroupInstance, field: "numberingMethod")}</td>
@@ -44,7 +56,7 @@
 						</tbody>
 					</table>
 				</div><!--/.box-body table-responsive -->
-
+				<!--
 				<div class="box-footer clearfix">
 					<bs:paginate total="${transactionGroupInstanceTotal}" />
 				</div><!--/.box-footer clearfix -->

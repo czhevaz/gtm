@@ -22,14 +22,14 @@
 							<div class="form-group fieldcontain ${hasErrors(bean: qcAfkirInstance, field: 'year', 'error')} ">
 								<label for="number" class="col-sm-3 control-label"><g:message code="gallon.year.label" default="Year" /></label>
 								<div class="col-sm-4">
-									<g:textField name="year" class="form-control" value="${params.year}"/>
-									<span class="help-inline">${hasErrors(bean: qcAfkirInstance, field: 'number', 'error')}</span>
+									<g:select id="year" name="year" from="${yearList}"  required="" value="${params.year}" class="many-to-one form-control chosen-select-width"/>
 								</div>
 							</div>
 							<div class="form-group fieldcontain ${hasErrors(bean: qcAfkirInstance, field: 'month', 'error')} ">
 								<label for="number" class="col-sm-3 control-label"><g:message code="gallon.month.label" default="Month" /></label>
 								<div class="col-sm-4">
-									<g:textField name="month" class="form-control" value="${params.month}"/>
+									<g:select id="month" name="month" from="${monthList}"  required="" value="${params.month}" class="many-to-one form-control chosen-select-width"/>
+
 									<span class="help-inline">${hasErrors(bean: qcAfkirInstance, field: 'number', 'error')}</span>
 								</div>
 							</div>
@@ -63,22 +63,30 @@
 			month:month,
 			itemId:itemId
 		}
-		 $.ajax({
-            url: "/${meta(name:'app.name')}/QcAfkirDetail/jsave",
-            data: data,
-            success: function (d) {
-                console.log(d);
-                if (d.success) {
-                   $("#text").val('').focus();
-                   $('#modal-qcafkir').modal('hide');
-                   //$("#text").ConvertToBarcodeTextbox();
-                    //$("#totalGallon").val(d.count);
-                } else {
-                    //$('#modal-qcafkir').modal('show');
-                    //$("#text").ConvertToBarcodeTextbox();
-                    
-                }
-            }
-        });
+		if (year==null || year=="",month==null || month=="")
+	    {
+	      alert("Please Fill All Required Field");
+	      return false;
+	      
+	    }else{
+			 $.ajax({
+	            url: "/${meta(name:'app.name')}/QcAfkirDetail/jsave",
+	            data: data,
+	            success: function (d) {
+	                console.log(d);
+	                if (d.success) {
+	                   $("#text").val('').focus();
+	                   $('#modal-qcafkir').modal('hide');
+	                   $("#totalScan").text(d.totalScan)
+	                   //$("#text").ConvertToBarcodeTextbox();
+	                    //$("#totalGallon").val(d.count);
+	                } else {
+	                    //$('#modal-qcafkir').modal('show');
+	                    //$("#text").ConvertToBarcodeTextbox();
+	                    
+	                }
+	            }
+	        });
+		}
 	});
 </r:script>

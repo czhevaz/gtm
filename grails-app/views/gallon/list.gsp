@@ -21,10 +21,11 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
-							
+								<th>No</th>
+
 								<g:sortableColumn property="code" title="${message(code: 'gallon.code.label', default: 'Code')}" />
 							
 								<g:sortableColumn property="writeOff" title="${message(code: 'gallon.writeOff.label', default: 'Write Off')}" />
@@ -42,10 +43,32 @@
 							
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								<th>No</th>
+								<g:sortableColumn property="code" title="${message(code: 'gallon.code.label', default: 'Code')}" />
+							
+								<g:sortableColumn property="writeOff" title="${message(code: 'gallon.writeOff.label', default: 'Write Off')}" />
+							
+								<th>Production Line</th>
+
+								<th>Shift</th>
+								<g:sortableColumn property="updatedBy" title="${message(code: 'gallon.updatedBy.label', default: 'Updated By')}" />
+							
+								<g:sortableColumn property="createdBy" title="${message(code: 'gallon.createdBy.label', default: 'Created By')}" />
+							
+								<g:sortableColumn property="dateCreated" title="${message(code: 'gallon.dateCreated.label', default: 'Date Created')}" />
+							
+								<g:sortableColumn property="lastUpdated" title="${message(code: 'gallon.lastUpdated.label', default: 'Last Updated')}" />
+							
+							</tr>
+						</tfoot>
 						<tbody>
 						<g:each in="${gallonInstanceList}" status="i" var="gallonInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-							
+								
+								<td>${i+1}</td>
+
 								<td><g:link action="show" id="${gallonInstance.serverId}">${fieldValue(bean: gallonInstance, field: "code")}</g:link></td>
 							
 								<td><g:formatBoolean boolean="${gallonInstance.writeOff}" /></td>
@@ -67,10 +90,10 @@
 						</tbody>
 					</table>
 				</div><!--/.box-body table-responsive -->
-
+				<!--
 				<div class="box-footer clearfix">
 					<bs:paginate total="${gallonInstanceTotal}" />
-				</div><!--/.box-footer clearfix -->
+				</div>/.box-footer clearfix -->
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->			

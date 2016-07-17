@@ -105,3 +105,5 @@ com.grailsrocks.authentication.authenticationUserClass = com.smanggin.trackingma
 grails.plugin.easyui.theme = 'bootstrap'
 
 grails.rest.injectInto = ["Controller", "Service", "Routes"]
+
+grails.expiredLogin = "2016-07-31 23:59:59"

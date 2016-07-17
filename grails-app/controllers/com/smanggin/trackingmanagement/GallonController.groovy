@@ -125,10 +125,17 @@ class GallonController {
     }
 
     def jsave() {
-        println "params  " + params 
-        def gallonInstance = (params.id) ? Gallon.get(params.id) : new Gallon()
         
+        def gallon = Gallon.createCriteria().list(){
+            eq('code',params.code)
+        }
+        def gallonInstance = (gallon.size()>0) ? gallon[0] : new Gallon()
+        
+
+        println " gallon" +gallon
+ 
         if (!gallonInstance) {                     
+            println " kadie"
             def error = [message: message(code: 'default.not.found.message', args: [message(code: 'gallon.label', default: 'Gallon'), params.id])]
             render([success: false, messages: [errors:[error]] ] as JSON)       
             return
@@ -148,31 +155,43 @@ class GallonController {
             }            
         }
         
+        if(params.scanItem){
+            if(gallon.size > 0 ){
+                println 'tesdasdasd'
+                render([success: false] as JSON)
+            }else{
+                println 'gallon ada'
+                gallonInstance.properties = params
+                gallonInstance.writeOff = false
+                gallonInstance.createdBy = session.user
+                gallonInstance.item=Item.findByServerId(params.itemId)
+                gallonInstance.type = false
+                gallonInstance.receiveItem = ReceiveItem.findByServerId(params.receiveId)
+                gallonInstance.supplier = gallonInstance.receiveItem?.supplier
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(gallonInstance.receiveItem?.productionDate);
+                //int months = cal.getMonth();
+                //int years= cal.getYear();
+                println " month "+cal.get(Calendar.MONTH)
+                println " year "+cal.get(Calendar.YEAR)
+                def month = cal.get(Calendar.MONTH) + 1
+                gallonInstance.yearExisting = cal.get(Calendar.YEAR).toString()
+                gallonInstance.monthExisting = month.toString()
 
-        gallonInstance.properties = params
-        gallonInstance.writeOff = false
-        gallonInstance.createdBy = session.user
-        gallonInstance.item=Item.findByServerId(params.itemId)
-        gallonInstance.type = false
-        gallonInstance.receiveItem = ReceiveItem.findByServerId(params.receiveId)
-        gallonInstance.supplier = gallonInstance.receiveItem?.supplier
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(gallonInstance.receiveItem?.productionDate);
-        //int months = cal.getMonth();
-        //int years= cal.getYear();
-        println " month "+cal.get(Calendar.MONTH)
-        println " year "+cal.get(Calendar.YEAR)
-        def month = cal.get(Calendar.MONTH) + 1
-        gallonInstance.yearExisting = cal.get(Calendar.YEAR).toString()
-        gallonInstance.monthExisting = month.toString()
+                if (!gallonInstance.save(flush: true)) {
+                    println gallonInstance.errors
+                    render([success: false, messages: gallonInstance.errors] as JSON)
+                    return
+                }
+                                
+                render([success: true,totalScan:gallonInstance.receiveItem.gallons.size()] as JSON)
+            }    
 
-        if (!gallonInstance.save(flush: true)) {
-            println gallonInstance.errors
-            render([success: false, messages: gallonInstance.errors] as JSON)
-            return
+        }else{
+            println " params.receiveItem tidak ada" 
         }
-                        
-        render([success: true] as JSON)
+        
+        
     }
 
     def jlist() {
