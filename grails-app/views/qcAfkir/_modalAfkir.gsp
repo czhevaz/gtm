@@ -14,7 +14,8 @@
 							<div class="form-group fieldcontain ${hasErrors(bean: receiveItemInstance, field: 'supplier', 'error')} required">
 							<label for="supplier" class="col-sm-3 control-label"><g:message code="receiveItem.supplier.label" default="Supplier" /><span class="required-indicator">*</span></label>
 							<div class="col-sm-4">
-								<g:select id="supplier" name="supplier.serverId" from="${com.smanggin.trackingmanagement.Supplier.list()}" optionKey="serverId" required="" value="${receiveItemInstance?.supplier?.serverId}" class="many-to-one form-control chosen-select-width"/>
+							${params?.supplier?.serverId}
+								<g:select id="supplier" name="supplier.serverId" from="${com.smanggin.trackingmanagement.Supplier.list()}" optionKey="serverId" required="" value="${params?.supplier?.serverId}" class="many-to-one form-control chosen-select-width"/>
 								<span class="help-inline">${hasErrors(bean: receiveItemInstance, field: 'supplier', 'error')}</span>
 							</div>
 							</div>
@@ -77,7 +78,7 @@
 	                if (d.success) {
 	                   $("#text").val('').focus();
 	                   $('#modal-qcafkir').modal('hide');
-	                   $("#totalScan").text(d.totalScan)
+	                   $("#totalScan").text(d.totalScan);
 	                   //$("#text").ConvertToBarcodeTextbox();
 	                    //$("#totalGallon").val(d.count);
 	                } else {

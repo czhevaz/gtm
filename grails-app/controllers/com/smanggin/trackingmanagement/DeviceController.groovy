@@ -36,6 +36,8 @@ class DeviceController {
         deviceInstance.line = Line.findByServerId(params.line?.serverId)
         deviceInstance.item = Item.findByServerId(params.item?.serverId)
         deviceInstance.ipAddress = params.ipAddress
+        deviceInstance.active = params.active
+        deviceInstance.status = true
 
         if (!deviceInstance.save(flush: true)) {
             render(view: "create", model: [deviceInstance: deviceInstance])

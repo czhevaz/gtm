@@ -36,12 +36,12 @@
 					</li>
 					<li class="controller">
 						<g:link controller="qcAfkir" params="['trType':'1']">
-							Rejected Item(s)
+							Reject
 						</g:link>
 					</li>
 					<li class="controller">
 						<g:link controller="qcAfkir" params="['trType':'4']">
-							Written Off
+							Write Off
 						</g:link>
 					</li>
 					<li class="controller">
@@ -208,19 +208,11 @@
 								</li>
 								<li>
 			                  		<g:link controller="Gallon" action="report" params="[gallonAging:true]">
-										Gallon Aging
+										Item(s) Aging
 									</g:link>
 								</li>
-								<li>
-			                  		<g:link controller="QcAfkir" action="report" params="[report:'rejectedAnalysis']">
-										Rejected Analysis
-									</g:link>
-								</li>
-								<li>
-			                  		<g:link controller="QcAfkir" action="report" params="[report:'reportWriteOff']">
-										Written Off report
-									</g:link>
-								</li>
+								
+								
 		                </ul>
 					
 					</li>
@@ -253,6 +245,26 @@
 										QC Analysis
 									</g:link>
 								</li>   
+								<li>
+			                  		<g:link controller="QcAfkir" action="report" params="[report:'rejectedAnalysis',trType:1]">
+										Rejection Analysis
+									</g:link>
+								</li>
+								<li>
+			                  		<g:link controller="QcAfkir" action="report" params="[report:'rejectedAnalysis',trType:4]">
+										Write Off Analysis
+									</g:link>
+								</li>
+								<li>
+			                  		<g:link controller="QcAfkir" action="report" params="[report:'rejectedAnalysisVendor',trType:1]">
+										Rejection Analysis By Vendor
+									</g:link>
+								</li>
+								<li>
+			                  		<g:link controller="QcAfkir" action="report" params="[report:'rejectedAnalysisVendor',trType:4]">
+										Write Off Analysis By Vendor
+									</g:link>
+								</li>
 		                </ul>
 					
 					</li>

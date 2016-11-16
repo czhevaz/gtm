@@ -32,12 +32,12 @@
 							
 								<g:sortableColumn property="dateCreated" title="${message(code: 'replaceCodeHistory.dateCreated.label', default: 'Date Created')}" />
 							
-								<g:sortableColumn property="lastUpdated" title="${message(code: 'replaceCodeHistory.lastUpdated.label', default: 'Last Updated')}" />
 							
 								<g:sortableColumn property="newNumber" title="${message(code: 'replaceCodeHistory.newNumber.label', default: 'New Number')}" />
 							
 								<g:sortableColumn property="oldNumber" title="${message(code: 'replaceCodeHistory.oldNumber.label', default: 'Old Number')}" />
-							
+								
+								<th>Plant </th>
 							</tr>
 						</thead>
 						<tfoot>
@@ -50,11 +50,12 @@
 							
 								<g:sortableColumn property="dateCreated" title="${message(code: 'replaceCodeHistory.dateCreated.label', default: 'Date Created')}" />
 							
-								<g:sortableColumn property="lastUpdated" title="${message(code: 'replaceCodeHistory.lastUpdated.label', default: 'Last Updated')}" />
 							
 								<g:sortableColumn property="newNumber" title="${message(code: 'replaceCodeHistory.newNumber.label', default: 'New Number')}" />
 							
 								<g:sortableColumn property="oldNumber" title="${message(code: 'replaceCodeHistory.oldNumber.label', default: 'Old Number')}" />
+
+								<th>Replace in Plant </th>
 							
 							</tr>
 						</tfoot>
@@ -62,18 +63,18 @@
 						<g:each in="${replaceCodeHistoryInstanceList}" status="i" var="replaceCodeHistoryInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 								<td>${i+1}</td>
-								<td><g:link action="show" id="${replaceCodeHistoryInstance.id}">${fieldValue(bean: replaceCodeHistoryInstance, field: "gallon")}</g:link></td>
+								<td><g:link action="show" params="['serverId':replaceCodeHistoryInstance.serverId]">${fieldValue(bean: replaceCodeHistoryInstance, field: "gallon")}</g:link></td>
 							
 								<td>${fieldValue(bean: replaceCodeHistoryInstance, field: "createdBy")}</td>
 							
 								<td><g:formatDate date="${replaceCodeHistoryInstance.dateCreated}" /></td>
 							
-								<td><g:formatDate date="${replaceCodeHistoryInstance.lastUpdated}" /></td>
 							
 								<td>${fieldValue(bean: replaceCodeHistoryInstance, field: "newNumber")}</td>
 							
 								<td>${fieldValue(bean: replaceCodeHistoryInstance, field: "oldNumber")}</td>
-							
+								
+								<td>${fieldValue(bean: replaceCodeHistoryInstance, field: "plant")}</td>
 							</tr>
 						</g:each>
 						</tbody>
@@ -87,7 +88,7 @@
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->			
-
+	<g:render template="searchModal"/> 
 </section>
 
 </body>

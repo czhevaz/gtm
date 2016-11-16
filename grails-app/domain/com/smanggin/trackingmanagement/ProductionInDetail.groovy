@@ -12,6 +12,7 @@ class ProductionInDetail {
     Plant  plant
     Line   line
     Item   item
+    Boolean isChecked
 
 
 	String  createdBy
@@ -39,6 +40,7 @@ class ProductionInDetail {
         gallon nullable:true
         item nullable:true
         number nullable:true
+        isChecked nullable:true
     }
 
     def beforeValidate(){

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReceiveList" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eba0c6bf-bcd6-4c3a-849e-893cb8bbc916">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="startDate" class="java.util.Date"/>
+	<parameter name="endDate" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+     receive_item."version" AS receive_item_version,
+     receive_item."created_by" AS receive_item_created_by,
+     receive_item."date_created" AS receive_item_date_created,
+     receive_item."end_number" AS receive_item_end_number,
+     receive_item."group_shift" AS receive_item_group_shift,
+     receive_item."item_id" AS receive_item_item_id,
+     receive_item."last_updated" AS receive_item_last_updated,
+     receive_item."number" AS receive_item_number,
+     receive_item."plant_id" AS receive_item_plant_id,
+     receive_item."production_date" AS receive_item_production_date,
+     receive_item."production_line" AS receive_item_production_line,
+     receive_item."received_date" AS receive_item_received_date,
+     receive_item."reff_no" AS receive_item_reff_no,
+     receive_item."remarks" AS receive_item_remarks,
+     receive_item."shift" AS receive_item_shift,
+     receive_item."start_number" AS receive_item_start_number,
+     receive_item."supplier_id" AS receive_item_supplier_id,
+     receive_item."transaction_group_id" AS receive_item_transaction_group_id,
+     receive_item."updated_by" AS receive_item_updated_by,
+     supplier."address" AS supplier_address,
+     supplier."city" AS supplier_city,
+     supplier."code" AS supplier_code,
+     supplier."contact_person" AS supplier_contact_person,
+     supplier."created_by" AS supplier_created_by,
+     supplier."date_created" AS supplier_date_created,
+     supplier."email" AS supplier_email,
+     supplier."fax" AS supplier_fax,
+     supplier."last_updated" AS supplier_last_updated,
+     supplier."mobile_no" AS supplier_mobile_no,
+     supplier."name" AS supplier_name,
+     supplier."phones" AS supplier_phones,
+     supplier."post_code" AS supplier_post_code,
+     supplier."state" AS supplier_state,
+     supplier."telex" AS supplier_telex
+FROM
+     "public"."supplier" supplier INNER JOIN "public"."receive_item" receive_item ON supplier."server_id" = receive_item."supplier_id"]]>
+	</queryString>
+	<field name="receive_item_version" class="java.lang.Long"/>
+	<field name="receive_item_created_by" class="java.lang.String"/>
+	<field name="receive_item_date_created" class="java.sql.Timestamp"/>
+	<field name="receive_item_end_number" class="java.lang.Long"/>
+	<field name="receive_item_group_shift" class="java.lang.String"/>
+	<field name="receive_item_item_id" class="java.lang.String"/>
+	<field name="receive_item_last_updated" class="java.sql.Timestamp"/>
+	<field name="receive_item_number" class="java.lang.String"/>
+	<field name="receive_item_plant_id" class="java.lang.String"/>
+	<field name="receive_item_production_date" class="java.sql.Timestamp"/>
+	<field name="receive_item_production_line" class="java.lang.Long"/>
+	<field name="receive_item_received_date" class="java.sql.Timestamp"/>
+	<field name="receive_item_reff_no" class="java.lang.String"/>
+	<field name="receive_item_remarks" class="java.lang.String"/>
+	<field name="receive_item_shift" class="java.lang.Long"/>
+	<field name="receive_item_start_number" class="java.lang.Long"/>
+	<field name="receive_item_supplier_id" class="java.lang.String"/>
+	<field name="receive_item_transaction_group_id" class="java.lang.String"/>
+	<field name="receive_item_updated_by" class="java.lang.String"/>
+	<field name="supplier_address" class="java.lang.String"/>
+	<field name="supplier_city" class="java.lang.String"/>
+	<field name="supplier_code" class="java.lang.String"/>
+	<field name="supplier_contact_person" class="java.lang.String"/>
+	<field name="supplier_created_by" class="java.lang.String"/>
+	<field name="supplier_date_created" class="java.sql.Timestamp"/>
+	<field name="supplier_email" class="java.lang.String"/>
+	<field name="supplier_fax" class="java.lang.String"/>
+	<field name="supplier_last_updated" class="java.sql.Timestamp"/>
+	<field name="supplier_mobile_no" class="java.lang.String"/>
+	<field name="supplier_name" class="java.lang.String"/>
+	<field name="supplier_phones" class="java.lang.String"/>
+	<field name="supplier_post_code" class="java.lang.String"/>
+	<field name="supplier_state" class="java.lang.String"/>
+	<field name="supplier_telex" class="java.lang.String"/>
+	<group name="batch_no">
+		<groupExpression><![CDATA[$F{receive_item_reff_no}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement x="0" y="0" width="555" height="20" uuid="74feff67-3bf9-4fc2-8358-33e1719f0de0"/>
+					<box leftPadding="5" rightPadding="2">
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{receive_item_reff_no}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="73" splitType="Stretch">
+			<staticText>
+				<reportElement x="204" y="23" width="153" height="35" uuid="ac8cb2e5-0fdf-46cb-b87d-c30f98ad9586"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[List Receiving]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="455" y="0" width="100" height="20" uuid="e27063e6-0172-412a-82b5-ef58564ec1f7"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="0" width="62" height="20" uuid="207a9929-ed52-4ced-ba70-e83e32e852c0"/>
+				<text><![CDATA[Date Strart :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="0" width="61" height="20" uuid="11ba79fc-8e55-4d9e-aac1-9efa1eef5f9a"/>
+				<text><![CDATA[Date End :]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="66" y="0" width="138" height="20" uuid="37ebaf9f-0e0e-43e7-be62-3863a488f63a"/>
+				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="394" y="0" width="130" height="20" uuid="0364c0bc-6d00-479c-ad74-d2a19e8932c2"/>
+				<textFieldExpression><![CDATA[$P{endDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="1" width="24" height="19" backcolor="#C0C0C0" uuid="cbd46e8e-25af-42bd-b0b1-14f72a0c8001"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="24" y="1" width="100" height="19" backcolor="#C0C0C0" uuid="702093d2-4336-4df1-b008-da98962aaf6c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Transaction No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="204" y="1" width="61" height="19" backcolor="#C0C0C0" uuid="61aa82aa-bfe6-4d2d-a4d2-67bbc6fffdc2"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Shift]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="265" y="1" width="62" height="19" backcolor="#C0C0C0" uuid="79cbdd6a-1360-4400-9673-fd45966cb831"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Group Shift]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="327" y="1" width="45" height="19" backcolor="#C0C0C0" uuid="d5e17176-bedd-4760-af67-6380d61894a4"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Line]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="372" y="1" width="83" height="19" backcolor="#C0C0C0" uuid="c13f1a62-2da5-489d-b990-faeb43d46662"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Production Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="455" y="1" width="100" height="19" backcolor="#C0C0C0" uuid="97d55e3c-426c-4b0e-8282-44366bd658b4"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Batch No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="124" y="1" width="80" height="19" backcolor="#C0C0C0" uuid="c9452258-a112-4c7c-9815-d467e8ff5053"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[supplier]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="204" y="0" width="61" height="20" uuid="310045cb-b102-4381-92c9-96e318b268da"/>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{receive_item_shift}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="24" height="20" uuid="8a132e23-83dc-414a-a17f-ccb5dd9583c4"/>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="24" y="0" width="100" height="20" uuid="6788e732-bfe2-45a6-bc2b-9681067f7bbf"/>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{receive_item_number}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/yyyy">
+				<reportElement x="372" y="0" width="83" height="20" uuid="81921ac7-05ea-4b53-a3c1-09a19d5c8060"/>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{receive_item_production_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="265" y="0" width="62" height="20" uuid="8459b2ee-eeb7-480c-8446-c71027acc681"/>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{receive_item_group_shift}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="4de1afb9-fffc-45b8-9bbf-278de5784c9b"/>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{receive_item_reff_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="0" width="80" height="20" uuid="6a282a35-cb9c-4d8a-8564-666be420c731"/>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{supplier_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="327" y="0" width="45" height="20" uuid="1307a7d7-d193-4447-9338-5649f11c35e3"/>
+				<box rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{receive_item_production_line}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="433" y="0" width="80" height="20" uuid="b28a11b4-ee0a-41a5-a3c1-e2b5a41bc625"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="513" y="0" width="40" height="20" uuid="52ea8618-dbbe-4c95-8a97-2a74b3d43970"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

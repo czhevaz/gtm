@@ -142,7 +142,8 @@
 	function domCheckbox(data){
 		var dom ='';
 		$.each(data.qCOptions,function(i,o){
-           dom += '<div class="checkbox"><label><input type="checkbox" name="option_'+ data.sequenceNo+'" > '+o.name+'</label></div>';
+
+           dom += '<div class="checkbox"><label><input type="checkbox"  name="option_'+ data.sequenceNo+'" value="'+ o.id+'" > '+o.name+'</label></div>';
         });
 		return dom;
 	}
@@ -171,6 +172,12 @@
             }
         });
 	});
+
+$(function() {
+    $("body").delegate(".datepicker", "focusin", function(){
+        $(this).datepicker();
+    });
+});
 
 </r:script>
 

@@ -30,7 +30,11 @@
 							
 								<g:sortableColumn property="writeOff" title="${message(code: 'gallon.writeOff.label', default: 'Write Off')}" />
 							
+								<th>Supplier</th>
+
 								<th>Production Line</th>
+
+								<th>Production Date</th>
 
 								<th>Shift</th>
 								<g:sortableColumn property="updatedBy" title="${message(code: 'gallon.updatedBy.label', default: 'Updated By')}" />
@@ -50,17 +54,23 @@
 							
 								<g:sortableColumn property="writeOff" title="${message(code: 'gallon.writeOff.label', default: 'Write Off')}" />
 							
+								<th>Supplier</th>
+
 								<th>Production Line</th>
+
+								<th>Production Date</th>
 
 								<th>Shift</th>
 								<g:sortableColumn property="updatedBy" title="${message(code: 'gallon.updatedBy.label', default: 'Updated By')}" />
+							
+								<g:sortableColumn property="lastUpdated" title="${message(code: 'gallon.lastUpdated.label', default: 'Last Updated')}" />
+							
 							
 								<g:sortableColumn property="createdBy" title="${message(code: 'gallon.createdBy.label', default: 'Created By')}" />
 							
 								<g:sortableColumn property="dateCreated" title="${message(code: 'gallon.dateCreated.label', default: 'Date Created')}" />
 							
-								<g:sortableColumn property="lastUpdated" title="${message(code: 'gallon.lastUpdated.label', default: 'Last Updated')}" />
-							
+								
 							</tr>
 						</tfoot>
 						<tbody>
@@ -69,22 +79,26 @@
 								
 								<td>${i+1}</td>
 
-								<td><g:link action="show" id="${gallonInstance.serverId}">${fieldValue(bean: gallonInstance, field: "code")}</g:link></td>
+								<td><g:link action="show" params="['serverId':gallonInstance.serverId]">${fieldValue(bean: gallonInstance, field: "code")}</g:link></td>
 							
 								<td><g:formatBoolean boolean="${gallonInstance.writeOff}" /></td>
 							
+								<td>${gallonInstance.supplier?.name}</td>
+
 								<td>${gallonInstance.receiveItem?.productionLine}</td>
+
+								<td>${gallonInstance.yearExisting} / ${gallonInstance.monthExisting} </td>
 
 								<td>${gallonInstance.receiveItem?.shift}</td>
 
 								<td>${fieldValue(bean: gallonInstance, field: "updatedBy")}</td>
+								<td><g:formatDate date="${gallonInstance.lastUpdated}" format="yyyy-MM-dd hh:mm:s"/></td>
 							
 								<td>${fieldValue(bean: gallonInstance, field: "createdBy")}</td>
 							
-								<td><g:formatDate date="${gallonInstance.dateCreated}" /></td>
+								<td><g:formatDate date="${gallonInstance.dateCreated}" format="yyyy-MM-dd hh:mm:s"/></td>
 							
-								<td><g:formatDate date="${gallonInstance.lastUpdated}" /></td>
-							
+								
 							</tr>
 						</g:each>
 						</tbody>

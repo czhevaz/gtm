@@ -19,8 +19,8 @@
 	</head>
 	<body>
 		<div id="grailsLogo" role="banner">
-			<a href="http://grails.org">
-				<img src="${resource(dir: 'images', file: 'Danone_Logo.png')}" alt="Grails"/>
+			<a href="http://smanggin.com">
+				<img src="${resource(dir: 'images', file: 'dancom-logo.png')}" alt="Grails"/>
 			</a>
 		</div>
 		<g:layoutBody/>

@@ -161,4 +161,22 @@ function checkField(){
 $("#modal-qcafkir").on("hidden.bs.modal",function(){
 	 $("#oldNumber").focus();
 });
+
+$("#modal-qcafkir").on( 'hidden.bs.modal', '.modal', function() {
+        
+    $("#oldNumber").focus();
+    
+    $(document.body).removeClass( 'modal-scrollbar' );
+});
+
+$("#modal-qcafkir").on( 'show.bs.modal', '.modal', function() {
+    // Bootstrap's .modal-open class hides any scrollbar on the body,
+    // so if there IS a scrollbar on the body at modal open time, then
+    // add a right margin to take its place.
+    if ( $(window).height() < $(document).height() ) {
+        $(document.body).addClass( 'modal-scrollbar' );
+    }
+});
+
+    
 </r:script>

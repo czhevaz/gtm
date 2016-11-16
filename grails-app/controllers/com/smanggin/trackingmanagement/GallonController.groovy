@@ -1,7 +1,23 @@
 package com.smanggin.trackingmanagement
 
 
+import com.itextpdf.text.Document
+import com.itextpdf.text.DocumentException
+import com.itextpdf.text.PageSize
+import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfWriter
+import com.itextpdf.text.Phrase
+import com.itextpdf.text.Rectangle
+import com.itextpdf.text.pdf.PdfPCell
+import com.itextpdf.text.pdf.PdfPTable
+import com.itextpdf.text.Chunk
+import com.itextpdf.text.Font
+import com.itextpdf.text.FontFactory
+import com.itextpdf.text.Element
+import com.itextpdf.text.Image
+import com.itextpdf.text.BaseColor
 
+import org.apache.commons.codec.binary.Base64;
 import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 import groovy.time.*
@@ -12,6 +28,7 @@ import groovy.time.*
 
 class GallonController {
     def globalService
+    def printService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -54,7 +71,7 @@ class GallonController {
     }
 
     def show() {
-        def gallonInstance = Gallon.get(params.id)
+        def gallonInstance = Gallon.findByServerId(params.serverId)
         if (!gallonInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'gallon.label', default: 'Gallon'), params.id])
             redirect(action: "list")
@@ -219,22 +236,17 @@ class GallonController {
             render([data: results] as JSON)
         }else if(params.supplierId){
             def c = Gallon.createCriteria()
-            def plant = Plant.findByServerId(params.plantId)
             def supplier = Supplier.findByServerId(params.supplierId)
 
             def items = c.list {
-                receiveItem{
-                    eq('plant',plant)
-                    eq('supplier',supplier)
-                }
-
+                eq('supplier',supplier)
                 eq('writeOff',false)
             }
 
             def results = []
             items.each{
                 if(params.operator == 'lt'){
-                    if(it.age < params.variable?.toLong()){
+                    if(it.age <= params.variable?.toLong()){
                         results.push(it)
                     }    
                 }else if(params.operator == 'ge'){
@@ -244,7 +256,7 @@ class GallonController {
                 }
             }
 
-            render([data: results,plantName:plant.name] as JSON)
+            render([data: results,supplierName:supplier.name] as JSON)
         }
         else
         {
@@ -269,7 +281,7 @@ class GallonController {
     }
 
     def jshow = {
-        def gallonInstance = Gallon.get(params.id)
+        def gallonInstance = Gallon.findByServerId(params.serverId)
         if (!gallonInstance) {
             render(
                 message : "gallon.not.found",
@@ -388,18 +400,39 @@ class GallonController {
                 list.push(map)
             }
 
+            def replaceCodes = ReplaceCodeHistory.createCriteria().list(){
+                eq('gallon',gallon)
+            }
+
+            replaceCodes.each{
+                def map = [:]
+                map.put('date',it.dateCreated)
+                map.put('plant',it?.plant?.name)
+                map.put('line','')
+                map.put('workcenter','')
+                map.put('transactionGroup','Code Replacement')
+                map.put('number',it.oldNumber+' -> '+it.newNumber)
+                map.put('in',0)
+                map.put('out',0)
+                def duration = TimeCategory.minus(it.dateCreated,gallon.dateCreated)
+                map.put('duration',duration.toString())
+                list.push(map)
+            }
+
+
             def mapReceived = [:]
             mapReceived.put('date',gallon.dateCreated)
-            mapReceived.put('plant',gallon.receiveItem?.plant?.name)
+            mapReceived.put('plant','')
             mapReceived.put('line','')
             mapReceived.put('workcenter','')
             mapReceived.put('transactionGroup',gallon.receiveItem?.transactionGroup?.name)
-            mapReceived.put('number',gallon.receiveItem.number?:'')
+            mapReceived.put('number',gallon.receiveItem?gallon.receiveItem.number:'')
             mapReceived.put('in',0)
             mapReceived.put('out',0)
             //def duration = TimeCategory.minus(it.dateCreated,gallon.dateCreated)
             mapReceived.put('duration',0)
             list.push(mapReceived)
+
 
             def res= list.sort { 
                 it.date
@@ -480,59 +513,68 @@ class GallonController {
     report Gallon Aging
     **/
     def gallonAging(){
-        println params
-        def supplier = Supplier.findByServerId(params.supplierId)
-        def receiveItems = ReceiveItem.createCriteria().list(){
-            eq('supplier',supplier)
-            projections{
-
-                groupProperty('plant')
+        println params.supplierId
+        def suppliers = Supplier.createCriteria().list(){
+            if(params.supplierId != ''){
+                eq('serverId',params.supplierId)
             }
-        }
+        } 
 
-        def parameter1 = params.parameter1
-        def parameter2 = params.parameter2
-        def parameter3 = params.parameter3
+        def parameter1 = params.parameter1.toLong()
+        def parameter2 = params.parameter2.toLong()
+        def parameter3 = params.parameter3.toLong()
 
         def list=[]
-        if(receiveItems){
-            receiveItems.each{
-                def map=[:]
-                map.put('plantId',it?.serverId)
-                map.put('plantName',it?.name)
-                map.put('condition1',countAge(it,supplier,parameter1,'lt'))
-                map.put('condition2',countAge(it,supplier,parameter2,'lt'))
-                map.put('condition3',countAge(it,supplier,parameter3,'ge'))
 
+        def areaChartData = []
+        if(suppliers){
+            suppliers.each{
+                def map=[:]
+                map.put('supplierId',it.serverId)
+                map.put('supplierName',it.name)
+                map.put('condition1',countAge(it,parameter1,null,'lt'))
+                map.put('condition2',countAge(it,parameter2,parameter1,'bt'))
+                map.put('condition3',countAge(it,parameter3,parameter2,'bt'))
+                map.put('condition4',countAge(it,parameter3,null,'ge'))
                 list.push(map)
             }
-
         }
 
-        println list
-
-        render([success: true ,results:list] as JSON)
-    } 
-
-    def countAge(plant,supplier,variable,operator){
-        def gallon =  Gallon.createCriteria().list(){
-            receiveItem{
-                eq('supplier',supplier)
-                eq('plant',plant)
+        //println "" + list
+        if(params.printToPdf == "true"){
+            if(params.supplierId != ''){
+                params.supplierName = suppliers[0]?.name 
+            }else{
+                params.supplierName = 'All'
             }
 
-            eq('writeOff',false)
-            //lt('age',variable)
+            printPdf(list,params)
+        }else{
+            render([success: true ,results:list] as JSON)
         }
 
+        
+    } 
+
+    def countAge(supplier,variable1,variable2,operator){
+        def gallon =  Gallon.createCriteria().list(){
+            eq('supplier',supplier)
+            eq('writeOff',false)
+        }
+        
         def count=0
         gallon.each{
             if(operator == 'lt'){
-                if(it.age < variable){
+                if(it.age <= variable1){
                     count++
-                }    
+                }
+
+            }else if(operator == 'bt'){
+                if(it.age >= variable1 && it.age <= variable2){
+                    count++
+                }
             }else if(operator == 'ge'){
-                if(it.age >= variable){
+                if(it.age >= variable1){
                     count++
                 }
             }
@@ -540,6 +582,137 @@ class GallonController {
         }
 
         return count
+    }
+
+
+    def printPdf(data,params){
+        
+        def dataUrl = params.image
+        String encodingPrefix = "base64,";
+        int contentStartIndex = dataUrl.indexOf(encodingPrefix) + encodingPrefix.length();
+        byte[] imageData = Base64.decodeBase64(dataUrl.substring(contentStartIndex));
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream()
+
+        Document document = new Document(PageSize.A4.rotate(), 20, 20, 20, 20)
+            // step 2
+            
+        PdfWriter writer = PdfWriter.getInstance(document, out)
+        writer.setPdfVersion(PdfWriter.VERSION_1_5)
+        writer.setViewerPreferences( PdfWriter.PageLayoutSinglePage)
+        // step 3
+        document.open()
+
+        // step 4
+        String date = new Date().format( 'dd/MM/yyyy HH.mm.ss' )
+
+        document.add(paragraphRight(date,"ALIGN_CENTER",8))    
+        document.add(paragraph("Report Item(s) Aging","ALIGN_CENTER",24))
+        document.add(Chunk.NEWLINE)
+        document.add(paragraphLeft("Supplier   : "+params.supplierName,"ALIGN_CENTER",12))
+        document.add(paragraphLeft("Parameter1 : "+ params.parameter1,"ALIGN_CENTER",12))
+        document.add(paragraphLeft("Parameter2 : "+ params.parameter2,"ALIGN_CENTER",12))
+        document.add(paragraphLeft("Parameter3 : "+ params.parameter3,"ALIGN_CENTER",12))
+        document.add(Chunk.NEWLINE)
+
+        PdfPTable table = createTableDetail(data,params)
+        document.add(table)
+        table.setSpacingBefore(10)
+        table.setSpacingAfter(10)
+
+        document.add(Chunk.NEWLINE)
+        document.add(Chunk.NEWLINE)
+        document.add(paragraph("Chart Item(s) Aging","ALIGN_CENTER",24))
+        document.add(Chunk.NEWLINE)
+
+        Image image = Image.getInstance(imageData);
+        image.scaleToFit(600, 600);
+        document.add(image);
+
+        // step 5
+        document.close()
+
+        /* view PDF to browser */
+        printService.responePrint(out,response)
+
+    }
+
+    /* ITEXT PDF Properties */
+
+    def cells(text,header){
+        PdfPCell cell;
+        cell = new PdfPCell(phrase(text,10));
+        
+        cell.setBackgroundColor(BaseColor.GRAY);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER); 
+        
+        return cell   
+    }
+
+    def cellsRight(text){
+        PdfPCell cell;
+        cell = new PdfPCell(phrase(text,10));
+        
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT); 
+        
+        return cell   
+    }
+
+    def paragraph(text,align,size){
+       Font font = FontFactory.getFont("Times-Roman",size, Font.NORMAL);
+       Paragraph paragraph = new Paragraph(text,font)
+       paragraph.setAlignment(Element.ALIGN_CENTER)
+       return paragraph
+    }
+
+    def paragraphLeft(text,align,size){
+       Font font = FontFactory.getFont("Times-Roman",size, Font.NORMAL);
+       Paragraph paragraph = new Paragraph(text,font)
+       paragraph.setAlignment(Element.ALIGN_LEFT)
+       paragraph.setIndentationLeft(50);
+       return paragraph
+    }
+
+    def paragraphRight(text,align,size){
+       Font font = FontFactory.getFont("Times-Roman",size, Font.ITALIC);
+       Paragraph paragraph = new Paragraph(text,font)
+       paragraph.setAlignment(Element.ALIGN_RIGHT)
+       paragraph.setIndentationLeft(75);
+       return paragraph
+    }   
+
+    def phrase(text,size){
+        Font font = FontFactory.getFont("Times-Roman",size, Font.NORMAL);
+        Phrase phrase = new Phrase(text,font)
+        return phrase
+    }
+
+    def createTableDetail(data,parameter){
+        PdfPTable table = new PdfPTable(6);
+        table.setWidthPercentage(90);
+        
+        table.setWidths(2f,20f,10f,10f,10f,10f);
+        PdfPCell cell;
+       
+        table.addCell(cells("No",true));
+        table.addCell(cells("Supplier",true));
+        table.addCell(cells('<'+params.parameter1+ 'th',true));
+        table.addCell(cells(params.parameter1+' to '+params.parameter2 + 'th',true));
+        table.addCell(cells(params.parameter2+' to '+params.parameter3 + 'th',true));
+        table.addCell(cells('>' + params.parameter3 + 'th',true));
+
+        def i=0
+        data.each{
+            i=i+1
+            table.addCell(cellsRight(i.toString()));
+            table.addCell(it.supplierName);
+            table.addCell(cellsRight(it.condition1.toString()));
+            table.addCell(cellsRight(it.condition2.toString()));
+            table.addCell(cellsRight(it.condition3.toString()));
+            table.addCell(cellsRight(it.condition4.toString()));
+        }
+        
+        return table
     }
     
 }

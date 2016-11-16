@@ -100,5 +100,58 @@ if ($('#back-to-top').length) {
     });
 }
 
+(function($) {
 
+$(document)
+    .on( 'hidden.bs.modal', '.modal', function() {
+        $(document.body).removeClass( 'modal-scrollbar' );
+    })
+    .on( 'show.bs.modal', '.modal', function() {
+        // Bootstrap's .modal-open class hides any scrollbar on the body,
+        // so if there IS a scrollbar on the body at modal open time, then
+        // add a right margin to take its place.
+        if ( $(window).height() < $(document).height() ) {
+            $(document.body).addClass( 'modal-scrollbar' );
+        }
+    });
+
+})(window.jQuery);
+
+
+var randomColor = function() {
+    return '#'+Math.floor(Math.random()*16777215).toString(16);
+};    
+
+//-------------
+//- BAR CHART -
+//-------------
+
+var barChartOptions = {
+  //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+  scaleBeginAtZero: true,
+  //Boolean - Whether grid lines are shown across the chart
+  scaleShowGridLines: true,
+  //String - Colour of the grid lines
+  scaleGridLineColor: "rgba(0,0,0,.05)",
+  //Number - Width of the grid lines
+  scaleGridLineWidth: 1,
+  //Boolean - Whether to show horizontal lines (except X axis)
+  scaleShowHorizontalLines: true,
+  //Boolean - Whether to show vertical lines (except Y axis)
+  scaleShowVerticalLines: true,
+  //Boolean - If there is a stroke on each bar
+  barShowStroke: true,
+  //Number - Pixel width of the bar stroke
+  barStrokeWidth: 2,
+  //Number - Spacing between each of the X value sets
+  barValueSpacing: 5,
+  //Number - Spacing between data sets within X values
+  barDatasetSpacing: 1,
+  //String - A legend template
+  
+  //Boolean - whether to make the chart responsive
+  responsive: true,
+  maintainAspectRatio: true,
+
+};
 

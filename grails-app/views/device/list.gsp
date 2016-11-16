@@ -40,7 +40,7 @@
 						<g:each in="${deviceInstanceList}" status="i" var="deviceInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${deviceInstance.id}">${fieldValue(bean: deviceInstance, field: "ipAddress")}</g:link></td>
+								<td><g:link action="show" id="${deviceInstance.serverId}">${fieldValue(bean: deviceInstance, field: "ipAddress")}</g:link></td>
 							
 								<td>${fieldValue(bean: deviceInstance, field: "line")}</td>
 							

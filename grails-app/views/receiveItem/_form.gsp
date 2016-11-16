@@ -111,6 +111,13 @@
         });
 	});
 
+	$(function() {
+	    $("body").delegate(".datepicker", "focusin", function(){
+	        $(this).datepicker();
+	    });
+	});
+
+
 </r:script>			
 
 

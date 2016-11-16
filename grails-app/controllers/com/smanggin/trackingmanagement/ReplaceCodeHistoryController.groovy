@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class ReplaceCodeHistoryController {
     def globalService
+    def printService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -58,7 +59,7 @@ class ReplaceCodeHistoryController {
     }
 
     def show() {
-        def replaceCodeHistoryInstance = ReplaceCodeHistory.get(params.id)
+        def replaceCodeHistoryInstance = ReplaceCodeHistory.findByServerId(params.serverId)
         if (!replaceCodeHistoryInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'replaceCodeHistory.label', default: 'ReplaceCodeHistory'), params.id])
             redirect(action: "list")
@@ -157,8 +158,11 @@ class ReplaceCodeHistoryController {
         replaceCodeHistoryInstance.updatedBy = session.user
         def gallon = Gallon.findByCode(params.oldNumber)
         
+        
         if(gallon){
+
             replaceCodeHistoryInstance.gallon = gallon
+            replaceCodeHistoryInstance.gallon.code = params.newNumber
         }else{
             println "123456"
             replaceCodeHistoryInstance.gallon = newGallon(params)
@@ -178,8 +182,9 @@ class ReplaceCodeHistoryController {
         if(params.masterField){
             def c = ReplaceCodeHistory.createCriteria()
             def results = c.list {
-                eq(params.masterField.name+'.id',params.masterField.id.toLong())    
+                eq(params.masterField.name+'.serverId',params.masterField.id)    
             }
+            println results
             render results as JSON
 
         }else if(params.replaceCode){
@@ -195,7 +200,7 @@ class ReplaceCodeHistoryController {
             render([data: results] as JSON)
         
         }else{
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+            //params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render ReplaceCodeHistory.list(params) as JSON       
         }
         
@@ -216,7 +221,7 @@ class ReplaceCodeHistoryController {
     }
 
     def jshow = {
-        def replaceCodeHistoryInstance = ReplaceCodeHistory.get(params.id)
+        def replaceCodeHistoryInstance = ReplaceCodeHistory.findByServerId(params.serverId)
         if (!replaceCodeHistoryInstance) {
             render(
                 message : "replaceCodeHistory.not.found",
@@ -260,7 +265,7 @@ class ReplaceCodeHistoryController {
                 replaceCodeHistoryInstance.gallon = gallon
                 replaceCodeHistoryInstance.createdBy = session.user
                 replaceCodeHistoryInstance.updatedBy = session.user
-
+                replaceCodeHistoryInstance.gallon.code = params.newNumber
                 if (!replaceCodeHistoryInstance.save(flush: true)) {
                     println replaceCodeHistoryInstance.errors
                     render([success: false, messages: replaceCodeHistoryInstance.errors] as JSON)
@@ -274,5 +279,28 @@ class ReplaceCodeHistoryController {
         }else{
            render([success: false] as JSON)    
         }
+    }
+
+
+    def printPdf(){
+        
+        def file = params.controller
+        def plant = Plant.findByServerId(params.plant.serverId)
+        if(params.printId){
+            def purchaseOrder = ReplaceCodeHistory.findByServerId(params.printId)
+            def filename = purchaseOrder?.number
+            file  = filename?.replace("/","")
+
+            params.put('receive_id',params.printId)
+            
+                
+        }else{
+            params.controller = params.controller+'List'
+        }
+
+        params.put('plantName',plant.name)
+        params.put('view',true)
+        
+        printService.print("PDF", request.getLocale(), response,params, params.controller,file)
     }
 }

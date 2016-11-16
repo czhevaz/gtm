@@ -134,9 +134,10 @@
                     $("#table-summary tbody").html("");
     	            
                     $.each(d.results , function(j,l) {    
+                        console.log(l);
                         var tr2 ="<tr>";
-                            tr2 += "<td>"+l.gallon.code+"</td>";
-                            tr2 += "<td colspan=9></td>";
+                            tr2 += "<td colspan=9> code: "+l.gallon.code+" &nbsp; supplier: "+l.gallon.supplierName+" &nbsp;line: "+l.gallon.receiveItemLine+" &nbsp;shift: "+l.gallon.receiveItemShift+" &nbsp;batch :"+l.gallon.receiveItemReffNo+"</td>";
+                            tr2 += "<td ></td>";
                             tr2 += "</tr>";
 
                         $("#table-summary tbody").append(tr2);      

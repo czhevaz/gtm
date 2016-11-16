@@ -21,7 +21,17 @@ class GallonMarshaller {
 				dateCreated:it.dateCreated,
 				lastUpdated:it.lastUpdated,
 			    itemName:it.item?.name,
-			    receiveItem:it.receiveItem,
+
+			    receiveItemDate:it.receiveItem?.productionDate?:"",
+			    receiveItemLine:it.receiveItem?.productionLine?:"",
+			    receiveItemShift:it.receiveItem?.shift?:"",
+			    receiveItemReffNo:it.receiveItem?.reffNo?:"",
+			    supplierName:it.supplier?.name?:"",
+
+			    year:it.yearExisting,
+			    month:it.monthExisting,
+			    groupShift:it.receiveItem?.groupShift?:"",
+
 
 			]
         }

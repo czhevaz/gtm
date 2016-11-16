@@ -20,6 +20,7 @@ class QCDetail {
     String reffDocClass
     String refDocId
 
+    String toString() { return results+" - "+qcOptions?.description }
 
 	static	belongsTo	= [QCHeader, QCMaster, QCQuestions]
 

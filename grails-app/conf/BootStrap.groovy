@@ -5,9 +5,12 @@ import org.springframework.web.context.support.WebApplicationContextUtils
 import com.grailsrocks.authentication.*
 
 class BootStrap {
-
+    def socketService
+    
     def init = { servletContext ->
-    	/* Custom marshalling */
+    	socketService.run()
+        
+        /* Custom marshalling */
         def springContext = WebApplicationContextUtils.getWebApplicationContext( servletContext )
 		
 		springContext.getBean( "customObjectMarshallers" ).register()
@@ -27,7 +30,8 @@ class BootStrap {
         /* Set Time Zone Server */
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Jakarta")) 
 
-
+        /* tcp listening*/
+        
     }
     def destroy = {
     }

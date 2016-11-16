@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class ReceiveItemController {
     def globalService
+    def printService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -248,4 +249,23 @@ class ReceiveItemController {
         return field
     }
 
+    def printPdf(){
+        
+        def file = params.controller
+        if(params.printId){
+            def purchaseOrder = ReceiveItem.findByServerId(params.printId)
+            def filename = purchaseOrder?.number
+            file  = filename?.replace("/","")
+
+            params.put('receive_id',params.printId)
+            
+                
+        }else{
+            params.controller = params.controller+'List'
+        }
+
+        params.put('view',true)
+        
+        printService.print("PDF", request.getLocale(), response,params, params.controller,file)
+    }
 }

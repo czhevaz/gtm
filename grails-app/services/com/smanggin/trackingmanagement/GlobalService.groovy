@@ -69,8 +69,8 @@ class GlobalService {
 
     static correctDateTime(String input){
     	DateFormat df = new SimpleDateFormat( 'yyyy-MM-dd HH:mm:ss' )
-        Date d = df.parse(input)
-        return d
+      Date d = df.parse(input)
+      return d
     }
 
     def findByDomainClass(triggerClass,triggerId){
@@ -118,5 +118,51 @@ class GlobalService {
         println list
         return list
           
+    }
+
+    def deleteAutomatis(){
+      println "delete() "
+      def date = new Date()
+      def findDeleted = ProductionInDetail.createCriteria().list(){
+        eq('isChecked',false)
+        projections{
+          groupProperty('number')
+        }
+      }
+
+      println "findDeleted" +findDeleted
+
+      findDeleted.each{ detail ->
+
+        println " detail "+detail
+        def findNumber = ProductionInDetail.createCriteria().list(){
+          eq('number',detail)
+          eq('isChecked',false)
+        }
+        println "findNumber" +findNumber
+        if(findNumber.size() > 1){  
+          def i=0
+          println i
+          
+          findNumber.each{no ->
+            if(i==0){
+              no.isChecked = true
+              no.save(flush:true)
+              println " update number "
+            }else{
+              println " delete number"
+              no.delete(flush:true)
+            }
+
+            i++
+          }
+        }else{
+          findNumber.each{no ->
+              no.isChecked = true
+              no.save(flush:true)
+              println " update number "
+          }
+        }
+      }
     }
 }

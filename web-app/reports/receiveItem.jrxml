@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Receive" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="69facbd5-1b00-4d4e-8c1e-fa67707434e0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="receive_id" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     receive_item."group_shift" AS receive_item_group_shift,
+     receive_item."item_id" AS receive_item_item_id,
+     receive_item."number" AS receive_item_number,
+     receive_item."production_date" AS receive_item_production_date,
+     receive_item."production_line" AS receive_item_production_line,
+     receive_item."received_date" AS receive_item_received_date,
+     receive_item."reff_no" AS receive_item_reff_no,
+     receive_item."remarks" AS receive_item_remarks,
+     receive_item."shift" AS receive_item_shift,
+     receive_item."supplier_id" AS receive_item_supplier_id,
+     receive_item."transaction_group_id" AS receive_item_transaction_group_id,
+     supplier."version" AS supplier_version,
+     supplier."address" AS supplier_address,
+     supplier."city" AS supplier_city,
+     supplier."code" AS supplier_code,
+     supplier."contact_person" AS supplier_contact_person,
+     supplier."created_by" AS supplier_created_by,
+     supplier."date_created" AS supplier_date_created,
+     supplier."email" AS supplier_email,
+     supplier."fax" AS supplier_fax,
+     supplier."last_updated" AS supplier_last_updated,
+     supplier."mobile_no" AS supplier_mobile_no,
+     supplier."name" AS supplier_name,
+     supplier."phones" AS supplier_phones,
+     supplier."post_code" AS supplier_post_code,
+     supplier."state" AS supplier_state,
+     supplier."telex" AS supplier_telex,
+     gallon."version" AS gallon_version,
+     gallon."code" AS gallon_code,
+     gallon."item_id" AS gallon_item_id,
+     gallon."month_existing" AS gallon_month_existing,
+     gallon."reason_write_off" AS gallon_reason_write_off,
+     gallon."receive_item_id" AS gallon_receive_item_id,
+     gallon."supplier_id" AS gallon_supplier_id,
+     gallon."type" AS gallon_type,
+     gallon."write_off" AS gallon_write_off,
+     gallon."year_existing" AS gallon_year_existing
+FROM
+     "public"."supplier" supplier INNER JOIN "public"."receive_item" receive_item ON supplier."server_id" = receive_item."supplier_id"
+     INNER JOIN "public"."gallon" gallon ON receive_item."server_id" = gallon."receive_item_id"
+     AND supplier."server_id" = gallon."supplier_id"
+WHERE
+      receive_item."server_id" = $P{receive_id}]]>
+	</queryString>
+	<field name="receive_item_group_shift" class="java.lang.String"/>
+	<field name="receive_item_item_id" class="java.lang.String"/>
+	<field name="receive_item_number" class="java.lang.String"/>
+	<field name="receive_item_production_date" class="java.sql.Timestamp"/>
+	<field name="receive_item_production_line" class="java.lang.Long"/>
+	<field name="receive_item_received_date" class="java.sql.Timestamp"/>
+	<field name="receive_item_reff_no" class="java.lang.String"/>
+	<field name="receive_item_remarks" class="java.lang.String"/>
+	<field name="receive_item_shift" class="java.lang.Long"/>
+	<field name="receive_item_supplier_id" class="java.lang.String"/>
+	<field name="receive_item_transaction_group_id" class="java.lang.String"/>
+	<field name="supplier_version" class="java.lang.Long"/>
+	<field name="supplier_address" class="java.lang.String"/>
+	<field name="supplier_city" class="java.lang.String"/>
+	<field name="supplier_code" class="java.lang.String"/>
+	<field name="supplier_contact_person" class="java.lang.String"/>
+	<field name="supplier_created_by" class="java.lang.String"/>
+	<field name="supplier_date_created" class="java.sql.Timestamp"/>
+	<field name="supplier_email" class="java.lang.String"/>
+	<field name="supplier_fax" class="java.lang.String"/>
+	<field name="supplier_last_updated" class="java.sql.Timestamp"/>
+	<field name="supplier_mobile_no" class="java.lang.String"/>
+	<field name="supplier_name" class="java.lang.String"/>
+	<field name="supplier_phones" class="java.lang.String"/>
+	<field name="supplier_post_code" class="java.lang.String"/>
+	<field name="supplier_state" class="java.lang.String"/>
+	<field name="supplier_telex" class="java.lang.String"/>
+	<field name="gallon_version" class="java.lang.Long"/>
+	<field name="gallon_code" class="java.lang.String"/>
+	<field name="gallon_item_id" class="java.lang.String"/>
+	<field name="gallon_month_existing" class="java.lang.String"/>
+	<field name="gallon_reason_write_off" class="java.lang.String"/>
+	<field name="gallon_receive_item_id" class="java.lang.String"/>
+	<field name="gallon_supplier_id" class="java.lang.String"/>
+	<field name="gallon_type" class="java.lang.Boolean"/>
+	<field name="gallon_write_off" class="java.lang.Boolean"/>
+	<field name="gallon_year_existing" class="java.lang.String"/>
+	<variable name="gallon_code_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{gallon_code}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="77" splitType="Stretch">
+			<staticText>
+				<reportElement x="187" y="21" width="175" height="35" uuid="84edc317-25bd-4c5b-a9e6-bc5454fbaaa0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Received]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="455" y="1" width="100" height="20" uuid="c65e7f8b-8193-4253-a402-815f649484c3"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="139" splitType="Stretch">
+			<rectangle>
+				<reportElement x="311" y="0" width="204" height="126" uuid="f723b786-e0d9-497d-a526-17feace3fe7b"/>
+			</rectangle>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="100" y="0" width="100" height="20" uuid="6e58fe98-601a-41b2-a441-a0c4074b7ad5"/>
+				<box leftPadding="2"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="20" width="100" height="20" uuid="c9f0d043-26cb-4f44-9917-c6b28227e4e6"/>
+				<box leftPadding="2"/>
+				<textFieldExpression><![CDATA[$F{receive_item_number}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="332" y="0" width="100" height="20" uuid="f49e8283-c971-4b81-be0d-5025eb6e8b14"/>
+				<text><![CDATA[Receive From :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="332" y="20" width="156" height="20" uuid="d5772c5a-ac16-4b41-8cb7-e29bdd1c606e"/>
+				<textFieldExpression><![CDATA[$F{supplier_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="40" width="183" height="58" uuid="63b52f99-bac5-4122-8389-b2bde8ad7655"/>
+				<textFieldExpression><![CDATA[$F{supplier_address}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="332" y="98" width="183" height="20" uuid="ef83eb47-857c-464c-ae07-216b01f64361"/>
+				<textFieldExpression><![CDATA[$F{supplier_phones}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="100" height="20" uuid="04475e27-0dc8-40ba-93e4-05edc08882e1"/>
+				<box leftPadding="2"/>
+				<text><![CDATA[Receive No.          :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="74f36ff7-0b77-45dd-96db-fb56fd8a5620"/>
+				<box leftPadding="2"/>
+				<text><![CDATA[Date                      :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="40" width="100" height="20" uuid="93c59a74-e082-4fda-ba3f-2d27c6591801"/>
+				<box leftPadding="2"/>
+				<textFieldExpression><![CDATA[$F{receive_item_reff_no}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="100" height="20" uuid="ebb706b2-b087-448d-9706-d8582af0bd1b"/>
+				<box leftPadding="2"/>
+				<text><![CDATA[Batch No               :]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="22" height="20" backcolor="#C0C0C0" uuid="48e440ea-7a0d-41c0-954c-eb52d2c8b586"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="22" y="0" width="101" height="20" backcolor="#C0C0C0" uuid="0b34008a-402d-487f-bd0d-c52f1cfc9ae1"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Item Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="123" y="0" width="88" height="20" backcolor="#C0C0C0" uuid="a7c32fdf-0ab3-4562-b392-60f8244e9c06"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Supplier]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="211" y="0" width="50" height="20" backcolor="#C0C0C0" uuid="d35f5194-4d3f-40de-a296-eb782f6e2a1f"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Shift]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="261" y="0" width="61" height="20" backcolor="#C0C0C0" uuid="1d405127-e99e-4001-b311-4c96d4e33288"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Group Shift]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="322" y="0" width="50" height="20" backcolor="#C0C0C0" uuid="42b50d74-5773-46a1-a233-e54316b3f2ea"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Line]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="372" y="0" width="63" height="20" backcolor="#C0C0C0" uuid="51aa7c7e-15f0-4614-bfc2-3c222d538c51"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Year Created]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="435" y="0" width="80" height="20" backcolor="#C0C0C0" uuid="5db0210a-595e-4dd1-a3cd-7ef7b44c1e84"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Month Created]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="22" y="0" width="101" height="20" uuid="1543fd9d-12bd-461f-bdc7-9e3dfa350ec4"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{gallon_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="123" y="0" width="88" height="20" uuid="e4aed67d-7e1c-4a6f-9db0-279519b4ad1c"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{supplier_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="0" width="50" height="20" uuid="a5ae2e66-cc41-483b-9a4a-a9363f5fdfd6"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{receive_item_shift}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="261" y="0" width="61" height="20" uuid="34e2fbcf-66a0-4974-bbdb-a70597b52532"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{receive_item_group_shift}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="322" y="1" width="50" height="19" uuid="4daf0d06-b9c4-45d4-91e5-2d51f9667947"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{receive_item_production_line}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="372" y="0" width="63" height="20" uuid="b47d09c1-9e2f-410d-ae59-c26b28333fe1"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{gallon_year_existing}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="435" y="0" width="80" height="20" uuid="a2078043-9eb2-4e6e-87da-e8fa627d7400"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{gallon_month_existing}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="1" width="22" height="20" uuid="08ee5471-dacc-43ce-987b-b48b0d9e927b"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="392" y="34" width="80" height="20" uuid="983f2c99-2673-4dc7-a126-c08dbf8ca99d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="475" y="34" width="40" height="20" uuid="e9dcb6ce-452b-40b9-8186-5f300295d254"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="372" y="0" width="100" height="20" uuid="23f699ec-e935-43cb-93fb-6e35c9d67452"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Scan Item:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="475" y="0" width="40" height="20" uuid="9e9d29f6-99d7-4fdc-be6c-c448d3ec9bdc"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{gallon_code_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

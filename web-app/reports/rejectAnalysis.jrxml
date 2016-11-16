@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rejectAnalysis" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bf78c3fe-404f-4b68-955b-3262c784c1a9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<subDataset name="chartData" uuid="8e95715f-705a-42d6-825c-da663238b948">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+     vrejectanalysis."qc_options_id" AS vrejectanalysis_qc_options_id,
+     vrejectanalysis."qcoptions" AS vrejectanalysis_qcoptions,
+     vrejectanalysis."qcquestions_id" AS vrejectanalysis_qcquestions_id,
+     vrejectanalysis."qcquestions" AS vrejectanalysis_qcquestions,
+     vrejectanalysis."actual_condition" AS vrejectanalysis_actual_condition,
+     vrejectanalysis."number" AS vrejectanalysis_number,
+     vrejectanalysis."item_id" AS vrejectanalysis_item_id,
+     vrejectanalysis."itemname" AS vrejectanalysis_itemname,
+     vrejectanalysis."date" AS vrejectanalysis_date,
+     vrejectanalysis."plant_id" AS vrejectanalysis_plant_id,
+     vrejectanalysis."plant" AS vrejectanalysis_plant,
+     vrejectanalysis."qtyscanned" AS vrejectanalysis_qtyscanned,
+     vrejectanalysis."transaction_type" AS vrejectanalysis_transaction_type,
+     vrejectanalysis."supplierid" AS vrejectanalysis_supplierid,
+     vrejectanalysis."suppliername" AS vrejectanalysis_suppliername
+FROM
+     "public"."vrejectanalysis" vrejectanalysis]]>
+		</queryString>
+		<field name="vrejectanalysis_suppliername" class="java.lang.String"/>
+		<field name="vrejectanalysis_qtyscanned" class="java.lang.String"/>
+		<field name="vrejectanalysis_qcoptions" class="java.lang.String"/>
+		<field name="vrejectanalysis_qcquestions" class="java.lang.String"/>
+		<group name="vrejectanalysis_qcoptions">
+			<groupExpression><![CDATA[$F{vrejectanalysis_qcoptions}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="tittle" class="java.lang.String"/>
+	<parameter name="trType" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="plantId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="itemId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="supplierId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="startDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="joinSupplier" class="java.lang.String">
+		<defaultValueExpression><![CDATA[($P{supplierId}== "" || $P{supplierId} == null)?"":" AND supplierid = '"+ $P{supplierId}+"'"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parameter1" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[new java.sql.Timestamp($P{startDate}.getTime())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parameter2" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[new java.sql.Timestamp($P{endDate}.getTime())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="plantName" class="java.lang.String"/>
+	<parameter name="supplierName" class="java.lang.String"/>
+	<parameter name="itemName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     vrejectanalysis."qc_options_id" AS vrejectanalysis_qc_options_id,
+     vrejectanalysis."qcoptions" AS vrejectanalysis_qcoptions,
+     vrejectanalysis."qcquestions_id" AS vrejectanalysis_qcquestions_id,
+     vrejectanalysis."qcquestions" AS vrejectanalysis_qcquestions,
+     vrejectanalysis."actual_condition" AS vrejectanalysis_actual_condition,
+     vrejectanalysis."number" AS vrejectanalysis_number,
+     vrejectanalysis."item_id" AS vrejectanalysis_item_id,
+     vrejectanalysis."itemname" AS vrejectanalysis_itemname,
+     vrejectanalysis."date" AS vrejectanalysis_date,
+     vrejectanalysis."plant_id" AS vrejectanalysis_plant_id,
+     vrejectanalysis."plant" AS vrejectanalysis_plant,
+     vrejectanalysis."qtyscanned" AS vrejectanalysis_qtyscanned,
+     vrejectanalysis."transaction_type" AS vrejectanalysis_transaction_type,
+     vrejectanalysis."supplierid" AS vrejectanalysis_supplierid,
+     vrejectanalysis."suppliername" AS vrejectanalysis_suppliername
+FROM
+     "public"."vrejectanalysis" vrejectanalysis
+WHERE
+     vrejectanalysis."transaction_type" = $P{trType}
+AND
+     vrejectanalysis."item_id" = $P{itemId}
+AND
+     vrejectanalysis."plant_id" = $P{plantId}
+
+$P!{joinSupplier}
+AND
+    vrejectanalysis."date" BETWEEN $P{parameter1} AND $P{parameter2}]]>
+	</queryString>
+	<field name="vrejectanalysis_qc_options_id" class="java.lang.String"/>
+	<field name="vrejectanalysis_qcoptions" class="java.lang.String"/>
+	<field name="vrejectanalysis_qcquestions_id" class="java.lang.String"/>
+	<field name="vrejectanalysis_qcquestions" class="java.lang.String"/>
+	<field name="vrejectanalysis_actual_condition" class="java.lang.String"/>
+	<field name="vrejectanalysis_number" class="java.lang.String"/>
+	<field name="vrejectanalysis_item_id" class="java.lang.String"/>
+	<field name="vrejectanalysis_itemname" class="java.lang.String"/>
+	<field name="vrejectanalysis_date" class="java.sql.Timestamp"/>
+	<field name="vrejectanalysis_plant_id" class="java.lang.String"/>
+	<field name="vrejectanalysis_plant" class="java.lang.String"/>
+	<field name="vrejectanalysis_qtyscanned" class="java.lang.String"/>
+	<field name="vrejectanalysis_transaction_type" class="java.lang.String"/>
+	<field name="vrejectanalysis_supplierid" class="java.lang.String"/>
+	<field name="vrejectanalysis_suppliername" class="java.lang.String"/>
+	<variable name="joinSupplier" class="java.lang.String">
+		<variableExpression><![CDATA[($P{supplierId}== "" || $P{supplierId} == null)?"":" AND vrejectanalysis.supplierid ="+ $P{supplierId}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="85" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="455" y="0" width="100" height="20" uuid="6f3918c1-d816-4db4-848e-b820bdff292c"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-2" y="20" width="557" height="46" uuid="db771158-8eff-4671-ae8e-55f112b9cf00"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tittle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="65" y="0" width="202" height="20" uuid="cca7af22-5ad6-4378-8aa7-76b0c0192094"/>
+				<textFieldExpression><![CDATA[$P{plantName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="0" width="191" height="20" uuid="a85a834c-baa0-4945-9cdb-2d0c548d0e6a"/>
+				<textFieldExpression><![CDATA[$P{itemName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="65" y="40" width="202" height="20" uuid="98b93949-ca76-4409-bb8d-9d5406e6d8a8"/>
+				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="362" y="40" width="191" height="20" uuid="929df6ea-98bf-4e27-b65f-9408b460cc3a"/>
+				<textFieldExpression><![CDATA[$P{endDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="20" width="202" height="20" uuid="398ce6b7-ea1a-4aef-aebb-be64f7de26ad"/>
+				<textFieldExpression><![CDATA[$P{supplierName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="65" height="20" uuid="ff14bdc2-56c6-40f4-8406-85a703c3c3cb"/>
+				<text><![CDATA[Plant          :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="65" height="20" uuid="7300e440-d025-45e9-b2e7-11469e23b7e2"/>
+				<text><![CDATA[Supplier     :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="65" height="20" uuid="9e3e809e-3a91-402d-87c3-f8bd62196ca1"/>
+				<text><![CDATA[Start Date   :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="307" y="0" width="55" height="20" uuid="0661f6ee-ae5b-420f-9796-19010d541eae"/>
+				<text><![CDATA[Item        :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="307" y="40" width="55" height="20" uuid="ea064fdb-d4b9-42a3-8f11-2d94923dc9f8"/>
+				<text><![CDATA[End Date :]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="50">
+			<textField>
+				<reportElement x="433" y="30" width="80" height="20" uuid="f79c5d7d-ca1a-4071-a53f-d8cffd3ff293"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="513" y="30" width="40" height="20" uuid="cdb7da19-f439-4423-ad06-64a770f76454"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="261" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="553" height="101" uuid="34ee99e7-6501-47c8-98bf-09be02e9c343"/>
+				<crosstabHeaderCell>
+					<cellContents>
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="115" height="30" uuid="cea04dc9-1349-4272-9658-3ccb8ace91d7"/>
+							<box>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font size="10" isBold="true"/>
+							</textElement>
+							<text><![CDATA[Supplier Name]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="vrejectanalysis_suppliername" width="115" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{vrejectanalysis_suppliername}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#D9D9C3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="115" height="25" uuid="5b48d4a9-2376-49e9-b178-bbec46d9a655"/>
+								<textElement verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{vrejectanalysis_suppliername}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#FFFFE6" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="115" height="25" uuid="a4b52f32-66ac-4205-8bd7-db37f745db93"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total vrejectanalysis_suppliername]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="vrejectanalysis_actual_condition" height="31" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{vrejectanalysis_actual_condition}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#D9D9C3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="95" height="30" uuid="f4c0f3f2-4132-4068-b907-5a99bfdc5daa"/>
+								<box leftPadding="2" rightPadding="2"/>
+								<textElement verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{vrejectanalysis_actual_condition}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#FFFFE6" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="143fba5a-a6b5-49e9-b98b-6e2036900abe"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="vrejectanalysis_qtyscannedMeasure" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{vrejectanalysis_qtyscanned}]]></measureExpression>
+				</measure>
+				<crosstabCell width="95" height="25">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="27" y="0" width="68" height="25" uuid="7b027e57-a02e-49b3-a08d-b17fbef5333f"/>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression><![CDATA[$V{vrejectanalysis_qtyscannedMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="95" height="25" rowTotalGroup="vrejectanalysis_suppliername">
+					<cellContents backcolor="#FFFFE6" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="27" y="0" width="68" height="25" uuid="78916cf4-e666-4775-adb6-f139a1d8bfc8"/>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression><![CDATA[$V{vrejectanalysis_qtyscannedMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="51" height="25" columnTotalGroup="vrejectanalysis_actual_condition">
+					<cellContents backcolor="#FFFFE6" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="c760635a-fbce-4f12-9a65-5995dd641193"/>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression><![CDATA[$V{vrejectanalysis_qtyscannedMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="51" height="25" rowTotalGroup="vrejectanalysis_suppliername" columnTotalGroup="vrejectanalysis_actual_condition">
+					<cellContents backcolor="#FFFFE6" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="ac566736-833b-4840-8f2d-a791edeae4bc"/>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression><![CDATA[$V{vrejectanalysis_qtyscannedMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

@@ -6,7 +6,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'qcAfkir.label', default: 'QcAfkir')}" />
+	<g:set var="entityName" value="${message(code: session.trType=='1'?'qcRejected.label':'qcAfkir.label', default: 'QcAfkir')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
 </head>
 
@@ -80,26 +80,19 @@
 								<td valign="top" class="value"><g:link controller="QCQuestions" action="show" id="${qcAfkirInstance?.qCQuestions?.id}">${qcAfkirInstance?.qCQuestions?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
-						
-						
+							
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="qcAfkir.createdBy.label" default="Created By" /></td>
+								<td valign="top" class="name">Actual Condition</td>
 								
-								<td valign="top" class="value">${fieldValue(bean: qcAfkirInstance, field: "createdBy")}</td>
+								<td valign="top" class="value">${qcvalJoin}</td>
 								
 							</tr>
 						
+							
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="qcAfkir.date.label" default="Date" /></td>
 								
 								<td valign="top" class="value"><g:formatDate date="${qcAfkirInstance?.date}" /></td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="qcAfkir.dateCreated.label" default="Date Created" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${qcAfkirInstance?.dateCreated}" /></td>
 								
 							</tr>
 						
@@ -119,6 +112,23 @@
 								
 							</tr>
 						
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="qcAfkir.dateCreated.label" default="Date Created" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${qcAfkirInstance?.dateCreated}" /></td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="qcAfkir.createdBy.label" default="Created By" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: qcAfkirInstance, field: "createdBy")}</td>
+								
+							</tr>
+						
+						
+							
 						</tbody>
 					</table>
 				</div><!--/.row -->

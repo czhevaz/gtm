@@ -2,13 +2,13 @@ dataSource {
     pooled = true
     driverClassName = 'org.postgresql.Driver'
     dialect = org.hibernate.dialect.PostgreSQLDialect
-    url = 'jdbc:postgresql://localhost:5432/gtm'
+    url = 'jdbc:postgresql://localhost:5432/gtm2'
     username = 'postgres'
-    password = '123456'
+    password = 'amatra20130916'
 }
 
 hibernate {
-    cache.use_second_level_cache = true
+    cache.use_second_level_cache = false
     cache.use_query_cache = false
     cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory'
 }
@@ -18,10 +18,10 @@ environments {
         dataSource {
             dbCreate = "update"
             //dbCreate = "create-drop"
-            url = "jdbc:postgresql://localhost:5432/gtm"
+            url = "jdbc:postgresql://localhost:5432/gtm2"
             driverClassName = 'org.postgresql.Driver'
             username = 'postgres'
-            password = '123456'
+            password = 'amatra20130916'
             dialect = org.hibernate.dialect.PostgreSQLDialect
         }
     }
@@ -41,7 +41,7 @@ environments {
             url = "jdbc:postgresql://localhost:5432/gtm"
             driverClassName = 'org.postgresql.Driver'
             username = 'postgres'
-            password = '123456'
+            password = 'amatra20130916'
             dialect = org.hibernate.dialect.PostgreSQLDialect
             pooled = true
             properties {

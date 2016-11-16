@@ -290,6 +290,8 @@ class QcAfkirDetailController {
         gallonInstance.yearExisting = params.year
         gallonInstance.monthExisting =params.month
         gallonInstance.writeOff= false
+        gallonInstance.supplier = Supplier.findByServerId(params?.supplierId)
+
 
         if (!gallonInstance.save(flush: true)) {
             println gallonInstance.errors

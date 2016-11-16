@@ -67,7 +67,7 @@ class Gallon {
 
     Long getAge(){
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        def age = year - this.year
+        def age = year - yearExisting.toInteger()
         return age
     }
 

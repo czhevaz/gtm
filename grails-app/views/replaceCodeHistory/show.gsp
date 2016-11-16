@@ -26,7 +26,7 @@
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="replaceCodeHistory.gallon.label" default="Gallon" /></td>
 								
-								<td valign="top" class="value"><g:link controller="gallon" action="show" id="${replaceCodeHistoryInstance?.gallon?.id}">${replaceCodeHistoryInstance?.gallon?.encodeAsHTML()}</g:link></td>
+								<td valign="top" class="value"><g:link controller="gallon" action="show" params="['serverId':replaceCodeHistoryInstance.gallon.serverId]">${replaceCodeHistoryInstance?.gallon?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
 						

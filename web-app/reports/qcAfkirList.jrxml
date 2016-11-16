@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reject" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1064fef7-c6d0-46e8-9f56-9e4f40818af0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="29"/>
+	<parameter name="startDate" class="java.util.Date"/>
+	<parameter name="endDate" class="java.util.Date"/>
+	<parameter name="tittle" class="java.lang.String"/>
+	<parameter name="trType" class="java.lang.String"/>
+	<parameter name="plantName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     ( SELECT results FROM "qcdetail" WHERE qc_afkir.server_id = qcdetail.ref_doc_id ),
+     ( SELECT COUNT(*) FROM "qc_afkir_dtl" WHERE qc_afkir.server_id = qc_afkir_dtl.qc_afkir_id ),
+     qc_afkir."server_id" AS qc_afkir_server_id,
+     qc_afkir."version" AS qc_afkir_version,
+     qc_afkir."created_by" AS qc_afkir_created_by,
+     qc_afkir."date" AS qc_afkir_date,
+     qc_afkir."date_created" AS qc_afkir_date_created,
+     qc_afkir."description" AS qc_afkir_description,
+     qc_afkir."item_id" AS qc_afkir_item_id,
+     qc_afkir."last_updated" AS qc_afkir_last_updated,
+     qc_afkir."number" AS qc_afkir_number,
+     qc_afkir."plant_id" AS qc_afkir_plant_id,
+     qc_afkir."qcquestions_id" AS qc_afkir_qcquestions_id,
+     qc_afkir."shift_id" AS qc_afkir_shift_id,
+     qc_afkir."transaction_group_id" AS qc_afkir_transaction_group_id,
+     qc_afkir."updated_by" AS qc_afkir_updated_by,
+     qc_afkir."work_center_id" AS qc_afkir_work_center_id,
+     item."server_id" AS item_server_id,
+     item."version" AS item_version,
+     item."date_created" AS item_date_created,
+     item."description" AS item_description,
+     item."last_updated" AS item_last_updated,
+     item."name" AS item_name,
+     plant."address" AS plant_address,
+     plant."city" AS plant_city,
+     plant."code" AS plant_code,
+     plant."country" AS plant_country,
+     plant."created_by" AS plant_created_by,
+     plant."date_created" AS plant_date_created,
+     plant."email" AS plant_email,
+     plant."last_updated" AS plant_last_updated,
+     plant."name" AS plant_name,
+     plant."phone1" AS plant_phone1,
+     plant."phone2" AS plant_phone2,
+     plant."postal_code" AS plant_postal_code,
+     plant."updated_by" AS plant_updated_by,
+     qcquestions."parameter_desc" AS qcquestions_parameter_desc,
+     qcquestions."parameter_type" AS qcquestions_parameter_type,
+     shift."server_id" AS shift_server_id,
+     shift."date_created" AS shift_date_created,
+     shift."description" AS shift_description,
+     shift."end_date" AS shift_end_date,
+     shift."last_updated" AS shift_last_updated,
+     shift."name" AS shift_name,
+     shift."plant_id" AS shift_plant_id,
+     shift."start_date" AS shift_start_date,
+     transaction_group."name" AS transaction_group_name,
+     transaction_group."numbering_method" AS transaction_group_numbering_method,
+     transaction_group."plant_id" AS transaction_group_plant_id,
+     transaction_group."transaction_type" AS transaction_group_transaction_type,
+     (SELECT COUNT(*) FROM qc_afkir_dtl where qc_afkir.server_id = qc_afkir_dtl.qc_afkir_id) as total,
+    (SELECT results FROM qcdetail where qc_afkir.server_id = qcdetail.ref_doc_id) as awnser
+FROM
+     "public"."item" item LEFT OUTER JOIN "public"."qc_afkir" qc_afkir ON item."server_id" = qc_afkir."item_id"
+     INNER JOIN "public"."plant" plant ON qc_afkir."plant_id" = plant."server_id"
+     INNER JOIN "public"."qcquestions" qcquestions ON qc_afkir."qcquestions_id" = qcquestions."server_id"
+     LEFT OUTER JOIN "public"."shift" shift ON qc_afkir."shift_id" = shift."server_id"
+     LEFT OUTER JOIN "public"."transaction_group" transaction_group ON qc_afkir."transaction_group_id" = transaction_group."server_id"
+WHERE
+     plant."name" IN ($P{plantName}) AND transaction_group."transaction_type" = $P{trType} AND
+     qc_afkir."date" BETWEEN $P{startDate} AND $P{endDate}]]>
+	</queryString>
+	<field name="results" class="java.lang.String"/>
+	<field name="count" class="java.lang.Long"/>
+	<field name="qc_afkir_server_id" class="java.lang.String"/>
+	<field name="qc_afkir_version" class="java.lang.Long"/>
+	<field name="qc_afkir_created_by" class="java.lang.String"/>
+	<field name="qc_afkir_date" class="java.sql.Timestamp"/>
+	<field name="qc_afkir_date_created" class="java.sql.Timestamp"/>
+	<field name="qc_afkir_description" class="java.lang.String"/>
+	<field name="qc_afkir_item_id" class="java.lang.String"/>
+	<field name="qc_afkir_last_updated" class="java.sql.Timestamp"/>
+	<field name="qc_afkir_number" class="java.lang.String"/>
+	<field name="qc_afkir_plant_id" class="java.lang.String"/>
+	<field name="qc_afkir_qcquestions_id" class="java.lang.String"/>
+	<field name="qc_afkir_shift_id" class="java.lang.String"/>
+	<field name="qc_afkir_transaction_group_id" class="java.lang.String"/>
+	<field name="qc_afkir_updated_by" class="java.lang.String"/>
+	<field name="qc_afkir_work_center_id" class="java.lang.String"/>
+	<field name="item_server_id" class="java.lang.String"/>
+	<field name="item_version" class="java.lang.Long"/>
+	<field name="item_date_created" class="java.sql.Timestamp"/>
+	<field name="item_description" class="java.lang.String"/>
+	<field name="item_last_updated" class="java.sql.Timestamp"/>
+	<field name="item_name" class="java.lang.String"/>
+	<field name="plant_address" class="java.lang.String"/>
+	<field name="plant_city" class="java.lang.String"/>
+	<field name="plant_code" class="java.lang.String"/>
+	<field name="plant_country" class="java.lang.String"/>
+	<field name="plant_created_by" class="java.lang.String"/>
+	<field name="plant_date_created" class="java.sql.Timestamp"/>
+	<field name="plant_email" class="java.lang.String"/>
+	<field name="plant_last_updated" class="java.sql.Timestamp"/>
+	<field name="plant_name" class="java.lang.String"/>
+	<field name="plant_phone1" class="java.lang.String"/>
+	<field name="plant_phone2" class="java.lang.String"/>
+	<field name="plant_postal_code" class="java.lang.String"/>
+	<field name="plant_updated_by" class="java.lang.String"/>
+	<field name="qcquestions_parameter_desc" class="java.lang.String"/>
+	<field name="qcquestions_parameter_type" class="java.lang.Long"/>
+	<field name="shift_server_id" class="java.lang.String"/>
+	<field name="shift_date_created" class="java.sql.Timestamp"/>
+	<field name="shift_description" class="java.lang.String"/>
+	<field name="shift_end_date" class="java.sql.Time"/>
+	<field name="shift_last_updated" class="java.sql.Timestamp"/>
+	<field name="shift_name" class="java.lang.String"/>
+	<field name="shift_plant_id" class="java.lang.String"/>
+	<field name="shift_start_date" class="java.sql.Time"/>
+	<field name="transaction_group_name" class="java.lang.String"/>
+	<field name="transaction_group_numbering_method" class="java.lang.String"/>
+	<field name="transaction_group_plant_id" class="java.lang.String"/>
+	<field name="transaction_group_transaction_type" class="java.lang.String"/>
+	<field name="total" class="java.lang.Long"/>
+	<field name="awnser" class="java.lang.String"/>
+	<variable name="total_1" class="java.lang.Long" resetType="Group" resetGroup="Plant Name" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="total_2" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<group name="Plant Name">
+		<groupExpression><![CDATA[$F{plant_name}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement x="0" y="0" width="555" height="20" uuid="cbdaf640-cda3-46a1-827c-f37ea55e8f69"/>
+					<box leftPadding="2">
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{plant_name}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<textField>
+					<reportElement x="495" y="0" width="60" height="20" uuid="38291a84-e900-45b6-816e-1338c781d3df"/>
+					<box rightPadding="2">
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{total_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="409" y="1" width="86" height="20" backcolor="#CCCCCC" uuid="066eab59-9eca-4c06-8095-82754b475e6b"/>
+					<box leftPadding="2" rightPadding="2">
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Sub Total]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="486" y="0" width="69" height="20" uuid="2bf92351-90d6-4105-bac9-6663f7399e93"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="20" width="529" height="41" uuid="ac9110c8-d732-4124-9931-999e15575fda"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tittle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="339" y="30" width="58" height="20" uuid="49005815-bcc6-4177-bd9d-8f72aaba079c"/>
+				<text><![CDATA[Date End :]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="83" y="30" width="100" height="20" uuid="a97bbe6e-f485-4d66-bca9-1aef61af8f98"/>
+				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="30" width="73" height="20" uuid="2bf03091-e303-4b87-9932-f8249d8ac0ed"/>
+				<text><![CDATA[Date Strart   :]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="397" y="30" width="100" height="20" uuid="cc2e05ad-9377-495a-920e-d275343cc250"/>
+				<textFieldExpression><![CDATA[$P{endDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="10" width="100" height="20" uuid="6dc4a6c6-506e-401f-abd4-a0680e5dc88c"/>
+				<textFieldExpression><![CDATA[$P{plantName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="10" width="73" height="20" uuid="e5b2d90d-ad58-46d9-99ef-d1f99d218617"/>
+				<text><![CDATA[Plant Name :]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="24" height="20" backcolor="#C0C0C0" uuid="131ab5ce-5d28-4294-acd6-e8801ef29d71"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="24" y="0" width="100" height="20" backcolor="#CCCCCC" uuid="47ac1cd2-f054-4e46-a641-40f8fb5c61ea"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="199" y="0" width="81" height="20" backcolor="#CCCCCC" uuid="9d19fbcf-df96-4313-a56b-da31ee100267"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Plant Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="124" y="0" width="75" height="20" backcolor="#CCCCCC" uuid="c965e9f4-0c7a-4ba0-b568-0a701844a8ef"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Rejected Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="320" y="0" width="88" height="20" backcolor="#CCCCCC" uuid="82b788f5-07e8-4d93-a5d7-5a04b84de555"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[QC Parameters]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="280" y="0" width="40" height="20" backcolor="#CCCCCC" uuid="66ba08d2-2cff-47f3-90b4-716520ba868c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Shift]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="408" y="0" width="87" height="20" backcolor="#CCCCCC" uuid="d0027511-d613-47c3-a5e7-4199a357bd56"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Actual Condition]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="495" y="0" width="60" height="20" backcolor="#CCCCCC" uuid="72fd68ef-e853-4379-bca3-6fd074ecb183"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Total Item]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="24" y="0" width="100" height="20" uuid="33165e21-27c1-4fc9-bd59-cbb2f68ac8f4"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{qc_afkir_number}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="124" y="0" width="75" height="20" uuid="50a4bde3-6553-43fe-9366-2185eee94039"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{qc_afkir_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="0" width="88" height="20" uuid="c2805222-51a6-4d32-9aed-f3db2fedc4f8"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{qcquestions_parameter_desc}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="0" width="40" height="20" uuid="7681495d-43b4-4ab5-9648-6abc398c2a5e"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{shift_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="0" width="81" height="20" uuid="4e3b82a9-e376-4e23-b6de-cd9df3ec1233"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{plant_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="24" height="20" uuid="0d56ac90-97c5-4a39-9db6-22979fecab7a"/>
+				<box leftPadding="2" rightPadding="2">
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="495" y="0" width="60" height="20" uuid="46b4a7a9-ac36-46d3-a1c3-0760b8809c16"/>
+				<box rightPadding="2">
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="409" y="0" width="86" height="20" uuid="2418125d-0f92-4069-9701-0414383ea70d"/>
+				<box leftPadding="2">
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{awnser}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="429" y="0" width="80" height="20" uuid="bf96a454-9c43-4956-a5f2-86147521cf6b"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="509" y="0" width="40" height="20" uuid="78468670-d268-4101-ab19-5bd8d0f62387"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#CCCCCC" uuid="c3c1787d-5888-429d-970e-8a5fe2661fe2"/>
+			</rectangle>
+			<textField>
+				<reportElement mode="Opaque" x="495" y="0" width="60" height="20" backcolor="#CCCCCC" uuid="067d3c0c-4d18-4ada-85f2-34f00936cc26"/>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{total_2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="409" y="0" width="86" height="20" backcolor="#CCCCCC" uuid="48d18e3e-dfde-488a-a0ce-c909e5df9d49"/>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

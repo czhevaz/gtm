@@ -138,7 +138,7 @@ class ProductionInDetailController {
                 } else {
                     
 **/
-                    def device = Device.findByServerId('41c9fdd7-9cd5-458e-97b6-4dfeee1206c5')
+                    def device = Device.findByServerId('f618c437-90bf-4f2b-8e32-e4f3005b529f')
 
                     productionInDetailInstance.productionInHeader = ProductionInHeader.get(params.serverId)
                     if(gallonInstance){
@@ -152,8 +152,9 @@ class ProductionInDetailController {
                     productionInDetailInstance.updatedBy = session.user
                     productionInDetailInstance.line = device.line
                     productionInDetailInstance.plant = device.plant
-                    productionInDetailInstance.item = device.item
-                    productionInDetailInstance.transactionGroup = Plant.findByServerId('ae1f131e-179a-44b6-b5a9-6a3960090dbe')
+                    productionInDetailInstance.item = device?.item
+                    productionInDetailInstance.transactionGroup = TransactionGroup.findByTransactionType('1')
+                    productionInDetailInstance.isChecked = false
                     
                     if (!productionInDetailInstance.save(flush: true)) {
                         println "errors " +productionInDetailInstance.errors
@@ -165,6 +166,7 @@ class ProductionInDetailController {
                         eq('productionInHeader',productionInHeader)
                     
                     }   
+                    
                     def count =pdi?.size()
                     render([success: true,count:count] as JSON)
 /**                }
@@ -193,7 +195,10 @@ class ProductionInDetailController {
             }
             render([data: results] as JSON)
         } else {
-            pid = ProductionInDetail.list()
+            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+            pid = ProductionInDetail.createCriteria().list(params){
+                order('dateCreated','desc')
+            }
             pid.each {
                 results << [it.number, it.dateCreated]
             }
@@ -283,6 +288,10 @@ class ProductionInDetailController {
             return gallonInstance
         }
 
+    }
+
+    def isNumberExist(){
+        //def exist =    
     }
 
 }

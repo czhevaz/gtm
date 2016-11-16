@@ -17,6 +17,8 @@
 							<tr>
 								<th>No </th>
 
+								<th>Code</th>
+								
 								<th>batch No</th>
 
 								<th >Receive Date</th>
@@ -53,10 +55,9 @@
 
 </style>
 <r:script>
-	function showModal(plantId,supplierId,variable,operator){
+	function showModal(supplierId,variable,operator){
 		$('#modalAging').modal('show');
 		var data = {
-			plantId:plantId,
 			supplierId:supplierId,
 			variable:variable,
 			operator:operator
@@ -70,16 +71,17 @@
               
                 console.log(d);
                 $("#itemsContent tbody").html("");
-                $("#plantName").text(d.plantName);
+                $("#plantName").text(d.supplierName);
                 $.each(d.data , function(i,k) {
                     var tr ="<tr>";
                         tr += "<td > "+ (i*1+1) +" </td>";
                         tr += "<td > "+ k.code +" </td>";
-                        tr += "<td > "+ k.receiveItem.receivedDate +" </td>";
-                        tr += "<td > "+ k.receiveItem.productionDate +" </td>";
-                        tr += "<td > "+ k.receiveItem.productionLine +" </td>";
-                        tr += "<td > "+ k.receiveItem.shift +" </td>";
-                        tr += "<td > "+ k.receiveItem.groupShift+" </td>";
+                        tr += "<td > "+ k.receiveItemReffNo +" </td>";
+                        tr += "<td > "+ k.receiveItemDate +" </td>";
+                        tr += "<td > "+ k.year+" / "+k.month+" </td>";
+                        tr += "<td > "+ k.receiveItemLine +" </td>";
+                        tr += "<td > "+ k.receiveItemShift+" </td>";
+                        tr += "<td > "+ k.groupShift+" </td>";
                         tr += "</tr>";
 
                     $("#itemsContent tbody").append(tr);        

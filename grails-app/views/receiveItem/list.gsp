@@ -86,7 +86,7 @@
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->			
-
+	<g:render template="searchModal"/> 
 </section>
 
 </body>

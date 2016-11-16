@@ -5,7 +5,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="kickstart" />
     <g:set var="entityName" value="${message(code: 'QCHeader.label', default: 'QCHeader')}" />
-    <title>Rejected Analysis</title>
+    <title><g:if test="${params.trType=='1'}">
+    Rejection 
+    </g:if>
+    <g:if test="${params.trType=='4'}">
+    Write Off
+    </g:if> Analysis</title>
 </head>
 
 <body>
@@ -58,7 +63,7 @@
         <div class="col-sm-6">
              <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'purchaseOrderDate', 'error')} required">
             <label for="purchaseOrderDate" class="col-sm-3 control-label"><g:message code="purchaseOrder.purchaseOrderDate.label" default="end Date" /><span class="required-indicator">*</span></label>
-            
+                    
                <g:jqDatePicker name="endDate" precision="day"  value="${params.starDate}" data-date-format="yyyy-mm-dd" />
             
         </div>
@@ -82,7 +87,15 @@
         
     </div>
 
+    <div class="row">
+        <div class="col-sm-8"> 
+        <div class="chart">
+            <canvas id="barChart" style="height:230px"></canvas>
+        </div>
+        </div>
+    </div>
 
+    <g:render template="modalReportRejected"/>    
     <r:script>
         $("#processButton").on('click', function() {
             
@@ -100,7 +113,10 @@
                 plantServerId:plantServerId,
                 line1ServerId:lineServerId,
                 line2ServerId:line2ServerId,
+                trType:"${params.trType}"
             }
+
+
 
             $.ajax({
                 url: "/${meta(name:'app.name')}/QcAfkir/rejectedAnalysis",
@@ -109,6 +125,7 @@
                 success: function (data) {
                     console.log(data);  
                     $("#div-summary").empty();        
+                    var valData=[]
                     $.each(data.results , function(i,k) {
                         console.log(k);
                         var tabel = '<div class="row"><div class="col-lg-12"><div class="box box-primary"><table id="table-summary" class="table table-bordered margin-top-medium">';
@@ -137,19 +154,54 @@
                         tabel += '<tbody>'
                         tabel += '<tr class="odd">';
                             $.each(k.listValQs, function(j,val) {
-                                tabel += '<td>'+val+'</td>';
+                                tabel += "<td onclick=showModal(\'"+k.supplierId+"\',\'"+val.optionId+"\',\'"+val.questioId+"\');>"+val.val+"</td>";
+                                valData.push(val.val)
                             });
                         tabel += '</tr>';
                         tabel +='</tbody></table></div></div></div>';
                         $("#div-summary").append(tabel);        
 
                      });   
+
+                    //chart
+                    console.log(data.dataSet.listValQs);
+                    var areaChartData = {
+                        labels: data.dataSet.labelname,
+                        datasets:[
+                            {
+                              label: 'qty',
+                              fillColor: ["rgba(220,220,220,0.5)", "navy", "red", "orange"],
+                              strokeColor: "rgba(210, 214, 222, 1)",
+                              pointColor: "rgba(210, 214, 222, 1)",
+                              pointStrokeColor: "#c1c7d1",
+                              pointHighlightFill: "#fff",
+                              pointHighlightStroke: "rgba(220,220,220,1)",
+                              data: valData
+                            }
+                        ]
+                    }
+
+                    $("#barChart").remove();
+                    $('.chart').append('<canvas id="barChart"><canvas>');
+                    var barChartCanvas = $("#barChart").get(0).getContext("2d");
+                    var barChart = new Chart(barChartCanvas);
+                    var barChartData = areaChartData;
+                    barChartOptions.datasetFill = false;
+                    barChart.Bar(barChartData, barChartOptions);
                 },
                 error: function (xhr, status, error) {
                     alert("fail");
                 }
             });
         });
+    
+    $(function() {
+        $("body").delegate(".datepicker", "focusin", function(){
+            $(this).datepicker();
+        });
+    });
+
+   
     </r:script> 
 </section>
 

@@ -153,11 +153,26 @@
         } catch (e) { 
             console.log('tesssdsdsdsdsd')
         }
+    
+    $("#modal-qcafkir").on( 'hidden.bs.modal', '.modal', function() {
+        
+        $("#text").focus();
+        $("#totalScan").text(d.totalScan);
+        $(document.body).removeClass( 'modal-scrollbar' );
+    });
 
-            $("#modal-qcafkir").on("hidden.bs.modal",function(){
-                $("#text").focus();
-                $("#totalScan").text(d.totalScan)
-            });
+    $("#modal-qcafkir").on( 'show.bs.modal', '.modal', function() {
+        // Bootstrap's .modal-open class hides any scrollbar on the body,
+        // so if there IS a scrollbar on the body at modal open time, then
+        // add a right margin to take its place.
+        if ( $(window).height() < $(document).height() ) {
+            $(document.body).addClass( 'modal-scrollbar' );
+        }
+    });
+    
+    $("#modal-qcafkir").on("hidden.bs.modal",function(){
+        $("#text").focus();
+    });
 
     });
 

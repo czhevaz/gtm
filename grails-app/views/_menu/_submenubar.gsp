@@ -3,6 +3,8 @@ This menu is used to show function that can be triggered on the content (an obje
 -->
 
 <%-- Only show the "Pills" navigation menu if a controller exists (but not for home) --%>
+<div class ="row">
+<div class="col-lg-6">
 <g:if test="${	params.controller != null
 			&&	params.controller != ''
 			&&	params.controller != 'home'
@@ -31,3 +33,35 @@ This menu is used to show function that can be triggered on the content (an obje
 		
 	</ul>
 </g:if>
+</div >
+<div class="col-lg-6">
+	<ul id="Menu" class="nav nav-pills pull-right">
+		<g:if test="${ (params.action == 'show' || params.action == 'edit') && params.controller == 'receiveItem' }">
+		<li class="">
+			<g:form method="post"  controller="${params.controller}" action="printPdf" target="_blank" class="form-horizontal" >
+				<g:hiddenField name="printId"  value="${params.serverId}" />
+				<button type="submit" class="btn btn-danger" id="printPdf" style="display:block;">
+					<img src="${resource(dir: 'images/icon', file: 'pdf.png')}" width="20" /> Print To PDF
+				</button>
+			</g:form>
+		</li>
+		
+		</g:if>
+		<g:if test="${params.action == 'list'}">
+			<button class="btn btn-danger" id="printPdf" ><img src="${resource(dir: 'images/icon', file: 'pdf.png')}" width="20" /> Print To PDF</button>
+			
+		</g:if>
+
+		
+	</ul>	
+	
+</div>
+</div>
+<r:script>
+	$("#printPdf").on('click', function() {
+		$("#searchModal").modal('show');
+	});
+	$("#printed").on('click', function() {
+		$("#searchModal").modal('hide');
+	});
+</r:script>

@@ -13,6 +13,9 @@ class Device {
 	Line line
 	Plant plant
 	Item item
+	TransactionGroup transactionGroup
+	Boolean status // 0 = not connect server ,1 = connect server
+	Boolean active // 0 = not active , 1 = active
 
 	/* Default (injected) attributes of GORM */
 //	Long	id
@@ -36,7 +39,7 @@ class Device {
     }
     
 	static	constraints = {
-
+		transactionGroup nullable:true
     }
 
     def beforeValidate(){

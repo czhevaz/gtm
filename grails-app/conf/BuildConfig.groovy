@@ -28,6 +28,8 @@ grails.project.dependency.resolution = {
         mavenRepo "http://repo1.maven.org/maven2"
         mavenRepo "https://github.com/slorber/gcm-server-repository/raw/master/releases/"
         mavenRepo "https://oss.sonatype.org/content/repositories/snapshots/"
+        mavenRepo "https://github.com/basejump/grails-executor"
+        
     }
 
     dependencies {
